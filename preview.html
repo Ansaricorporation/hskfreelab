@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSK Free Lab — Interactive Website Preview</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    body {
+      background-color: #1c1917;
+      color: #f5f5f4;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    header {
+      background-color: #292524;
+      border-bottom: 1px solid #44403c;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      z-index: 10;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-badge {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #e11d48, #b91c1c);
+      color: white;
+      font-family: "KaiTi", "STKaiti", serif;
+      font-size: 18px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(225, 29, 72, 0.4);
+    }
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fafaf9;
+      letter-spacing: -0.3px;
+    }
+    .nav-shortcuts {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      background-color: #44403c;
+      color: #e7e5e4;
+      border: 1px solid #57534e;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .btn:hover {
+      background-color: #57534e;
+      color: white;
+      border-color: #78716c;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: white;
+      border-color: #e11d48;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+    }
+    .device-switchers {
+      display: flex;
+      align-items: center;
+      background-color: #1c1917;
+      border-radius: 6px;
+      padding: 2px;
+      border: 1px solid #44403c;
+    }
+    .device-btn {
+      background: none;
+      border: none;
+      color: #a8a29e;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .device-btn.active {
+      background-color: #44403c;
+      color: white;
+    }
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #a8a29e;
+      margin-left: 8px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #10b981;
+      box-shadow: 0 0 6px #10b981;
+    }
+    .preview-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #0c0a09;
+      padding: 10px;
+      position: relative;
+    }
+    iframe {
+      border: 1px solid #292524;
+      background-color: #fdfbf7;
+      transition: width 0.25s ease, height 0.25s ease;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .desktop {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      border: none;
+    }
+    .tablet {
+      width: 768px;
+      height: 100%;
+    }
+    .mobile {
+      width: 375px;
+      height: 667px;
+    }
+    .offline-banner {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background-color: #1c1917;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+    .offline-box {
+      background-color: #292524;
+      border: 1px solid #44403c;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 480px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+    .code-box {
+      background-color: #1c1917;
+      border: 1px solid #44403c;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 13px;
+      color: #34d399;
+      margin: 15px 0;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo-badge">汉</div>
+      <div>
+        <div class="brand-title">HSK Free Lab Previewer</div>
+      </div>
+      <div class="status-indicator">
+        <span class="dot" id="serverDot"></span>
+        <span id="serverStatusText">Server: http://localhost:4173</span>
+      </div>
+    </div>
+
+    <!-- Quick Navigation to Core Features -->
+    <div class="nav-shortcuts">
+      <button class="btn" onclick="navigateFrame('#/')">🏠 Home</button>
+      <button class="btn" onclick="navigateFrame('#/hsk-1')">HSK 1 (150w)</button>
+      <button class="btn" onclick="navigateFrame('#/hsk-2')">HSK 2 (150w)</button>
+      <button class="btn" onclick="navigateFrame('#/hsk-3')">HSK 3 (300w)</button>
+      <button class="btn" onclick="navigateFrame('#/mock-test')">🏆 30 Test Gates</button>
+      <button class="btn" onclick="navigateFrame('#/mock-test/hsk1/listening-1')">⚡ Timed Gate Test</button>
+      <button class="btn" onclick="navigateFrame('#/lessons')">📖 30 Lessons</button>
+      <button class="btn" onclick="navigateFrame('#/blog')">📚 18 Blog Guides (1k+ w)</button>
+      <button class="btn" onclick="navigateFrame('#/stroke-order')">✍️ Stroke Studio</button>
+      <button class="btn" onclick="navigateFrame('#/hsk-score-calculator')">🧮 Calculator</button>
+      <button class="btn" onclick="navigateFrame('#/pronunciation')">🔊 Pinyin</button>
+    </div>
+
+    <!-- Device switcher & external open -->
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div class="device-switchers">
+        <button class="device-btn active" onclick="setDevice('desktop', this)">Desktop</button>
+        <button class="device-btn" onclick="setDevice('tablet', this)">Tablet</button>
+        <button class="device-btn" onclick="setDevice('mobile', this)">Mobile</button>
+      </div>
+
+      <a id="externalLink" href="http://localhost:4173" target="_blank" class="btn btn-primary">
+        Open Full Browser ↗
+      </a>
+    </div>
+  </header>
+
+  <div class="preview-container">
+    <iframe id="previewFrame" src="http://localhost:4173" class="desktop"></iframe>
+
+    <div id="offlineOverlay" class="offline-banner">
+      <div class="offline-box">
+        <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 8px; color: #f87171;">Preview Server Not Running</h2>
+        <p style="font-size: 13px; color: #a8a29e; line-height: 1.5;">
+          To preview the compiled site locally, simply double-click <strong>preview.bat</strong> in this folder, or run:
+        </p>
+        <div class="code-box">node preview.js</div>
+        <p style="font-size: 12px; color: #78716c;">
+          The server will start at <strong>http://localhost:4173</strong> serving the compiled <strong>dist/</strong> directory.
+        </p>
+        <button class="btn btn-primary" style="margin-top: 15px; width: 100%; justify-content: center;" onclick="checkServer()">
+          🔄 Retry Connection
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const baseUrl = 'http://localhost:4173';
+    const iframe = document.getElementById('previewFrame');
+    const externalLink = document.getElementById('externalLink');
+    const offlineOverlay = document.getElementById('offlineOverlay');
+    const serverDot = document.getElementById('serverDot');
+    const serverStatusText = document.getElementById('serverStatusText');
+
+    function navigateFrame(hash) {
+      iframe.src = baseUrl + '/' + hash;
+      externalLink.href = baseUrl + '/' + hash;
+    }
+
+    function setDevice(device, btn) {
+      iframe.className = device;
+      document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function checkServer() {
+      fetch(baseUrl, { mode: 'no-cors' })
+        .then(() => {
+          offlineOverlay.style.display = 'none';
+          serverDot.style.backgroundColor = '#10b981';
+          serverDot.style.boxShadow = '0 0 6px #10b981';
+          serverStatusText.textContent = 'Server Online: ' + baseUrl;
+        })
+        .catch(() => {
+          offlineOverlay.style.display = 'flex';
+          serverDot.style.backgroundColor = '#ef4444';
+          serverDot.style.boxShadow = '0 0 6px #ef4444';
+          serverStatusText.textContent = 'Server Offline';
+        });
+    }
+
+    checkServer();
+    setInterval(checkServer, 5000);
+  </script>
+</body>
+</html>
