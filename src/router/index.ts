@@ -24,7 +24,8 @@ const routes: RouteRecordRaw[] = [
     component: HomeView,
     meta: {
       title: 'HSK Free Lab - 100% Free HSK Prep, Mock Tests & Pinyin Tools',
-      description: 'Prepare for HSK 1, 2, and 3 with zero paywalls. Free timed mock exams, interactive pinyin tone trainer, and score calculator.'
+      description: 'Free online Chinese test preparation. Practice timed mock exams, master pronunciation with the interactive pinyin soundboard, and calculate passing scores.',
+      canonical: 'https://mybwn.com/'
     }
   },
   { 
@@ -32,8 +33,9 @@ const routes: RouteRecordRaw[] = [
     name: 'hsk-1', 
     component: LevelHubView,
     meta: {
-      title: 'HSK 1 Complete Prep Hub - 150 Words, Exam Format & Passing Rules',
-      description: 'Master the 150 official HSK 1 vocabulary words. Includes audio pronunciation, stroke order, grammar patterns, and practice tests.'
+      title: 'HSK 1 Preparation Hub - 150 Words, Exam Format & Passing Rules | HSK Free Lab',
+      description: 'Master all 150 official HSK 1 vocabulary words. Includes tone audio, stroke breakdown, daily grammar patterns, and practice tests.',
+      canonical: 'https://mybwn.com/hsk-1'
     }
   },
   { 
@@ -41,8 +43,9 @@ const routes: RouteRecordRaw[] = [
     name: 'hsk-2', 
     component: LevelHubView,
     meta: {
-      title: 'HSK 2 Complete Prep Hub - 300 Words, Grammar & Exam Strategies',
-      description: 'Master the 300 official HSK 2 vocabulary words. Native audio pronunciations, grammar breakdown, and full-length practice tests.'
+      title: 'HSK 2 Preparation Hub - 300 Words & Listening Practice | HSK Free Lab',
+      description: 'Transition from beginner to elementary Mandarin. Comprehensive HSK 2 vocabulary lists, listening drills, and passing score guides.',
+      canonical: 'https://mybwn.com/hsk-2'
     }
   },
   { 
@@ -50,8 +53,93 @@ const routes: RouteRecordRaw[] = [
     name: 'hsk-3', 
     component: LevelHubView,
     meta: {
-      title: 'HSK 3 Complete Prep Hub - 600 Words, Writing & Reading Mastery',
-      description: 'Conquer HSK 3 with 600 essential vocabulary terms, sentence structure guides, writing section practice, and mock exams.'
+      title: 'HSK 3 Preparation Hub - 600 Words & Reading Drills | HSK Free Lab',
+      description: 'Intermediate Mandarin test preparation. Master 300 additional HSK 3 characters, reading comprehension drills, and full exam prep.',
+      canonical: 'https://mybwn.com/hsk-3'
+    }
+  },
+  { 
+    path: '/calculator', 
+    alias: '/hsk-score-calculator',
+    name: 'score-calculator', 
+    component: ScoreCalculatorView,
+    meta: {
+      title: 'Free HSK Score Calculator - Check Passing Thresholds & Scaled Marks',
+      description: 'Instant HSK exam score calculator. Check your exact passing margin, scaled listening and reading scores, and official test thresholds.',
+      canonical: 'https://mybwn.com/calculator'
+    }
+  },
+  { 
+    path: '/pinyin-trainer', 
+    alias: '/pronunciation',
+    name: 'pronunciation', 
+    component: PronunciationView,
+    meta: {
+      title: 'Interactive Pinyin Tone Trainer & Audio Soundboard - Free Practice',
+      description: 'Master Mandarin pronunciation. Practice distinguishing 1st, 2nd, 3rd, and 4th tones with native audio examples and interactive tests.',
+      canonical: 'https://mybwn.com/pinyin-trainer'
+    }
+  },
+  { 
+    path: '/mock-tests', 
+    alias: '/mock-test',
+    name: 'mock-test', 
+    component: MockTestView,
+    meta: {
+      title: 'Free Timed HSK Mock Tests - Real Exam Simulation with Explanations',
+      description: 'Practice real-time timed HSK 1, 2, and 3 mock tests featuring instant grading, answer breakdowns, and readiness reports.',
+      canonical: 'https://mybwn.com/mock-tests'
+    }
+  },
+  { 
+    path: '/mock-tests/:level', 
+    alias: '/mock-test/:level',
+    name: 'mock-test-level', 
+    component: MockTestView,
+    meta: {
+      title: 'Free Timed HSK Mock Tests - Real Exam Simulation with Explanations',
+      description: 'Practice real-time timed HSK 1, 2, and 3 mock tests featuring instant grading, answer breakdowns, and readiness reports.'
+    }
+  },
+  { 
+    path: '/mock-tests/:level/:id', 
+    alias: '/mock-test/:level/:id',
+    name: 'mock-test-item', 
+    component: MockTestView,
+    meta: {
+      title: 'Free Timed HSK Mock Tests - Real Exam Simulation with Explanations',
+      description: 'Practice real-time timed HSK 1, 2, and 3 mock tests featuring instant grading, answer breakdowns, and readiness reports.'
+    }
+  },
+  { 
+    path: '/lessons', 
+    name: 'lessons', 
+    component: LessonsView,
+    meta: {
+      title: 'Free Mandarin Grammar & Vocabulary Lessons | HSK Free Lab',
+      description: 'Bite-sized Chinese grammar lessons, sentence structure formulas, and daily practical conversation drills.',
+      canonical: 'https://mybwn.com/lessons'
+    }
+  },
+  { 
+    path: '/guides', 
+    alias: '/blog',
+    name: 'blog', 
+    component: BlogListView,
+    meta: {
+      title: 'HSK Study Guides & 30-Day Passing Roadmaps | HSK Free Lab',
+      description: 'Step-by-step revision strategies, test-day preparation tips, and structured study plans to pass your HSK exams on your first attempt.',
+      canonical: 'https://mybwn.com/guides'
+    }
+  },
+  { 
+    path: '/guides/:slug', 
+    alias: '/blog/:slug',
+    name: 'blog-post', 
+    component: BlogPostView,
+    meta: {
+      title: 'HSK Study Guides & 30-Day Passing Roadmaps | HSK Free Lab',
+      description: 'Step-by-step revision strategies, test-day preparation tips, and structured study plans to pass your HSK exams on your first attempt.'
     }
   },
   { 
@@ -60,7 +148,8 @@ const routes: RouteRecordRaw[] = [
     component: StrokeOrderView,
     meta: {
       title: 'Chinese Character Stroke Order Animator & Radical Breakdown',
-      description: 'Animate and practice writing any Chinese character stroke-by-stroke with official direction, radical decomposition, and stroke count.'
+      description: 'Animate and practice writing any Chinese character stroke-by-stroke with official direction, radical decomposition, and stroke count.',
+      canonical: 'https://mybwn.com/stroke-order'
     }
   },
   { 
@@ -73,88 +162,13 @@ const routes: RouteRecordRaw[] = [
     }
   },
   { 
-    path: '/hsk-score-calculator', 
-    name: 'score-calculator', 
-    component: ScoreCalculatorView,
-    meta: {
-      title: 'HSK Score Calculator - Check Passing Thresholds & Scaled Scores',
-      description: 'Calculate your HSK passing score instantly. Accurate scoring thresholds for HSK 1, HSK 2, and HSK 3 exam sections.'
-    }
-  },
-  { path: '/calculator', redirect: '/hsk-score-calculator' },
-  { 
-    path: '/pronunciation', 
-    name: 'pronunciation', 
-    component: PronunciationView,
-    meta: {
-      title: 'Interactive Pinyin Tone Trainer & Audio Soundboard - Free Practice',
-      description: 'Train your Mandarin ear. Practice distinguishing 1st, 2nd, 3rd, and 4th tones with native audio and interactive tests.'
-    }
-  },
-  { path: '/pinyin-trainer', redirect: '/pronunciation' },
-  { 
-    path: '/mock-test', 
-    name: 'mock-test', 
-    component: MockTestView,
-    meta: {
-      title: 'Free Timed HSK Mock Tests - Real Exam Simulation',
-      description: 'Take official-style timed HSK 1, 2, and 3 mock tests with automated scoring and answer explanations.'
-    }
-  },
-  { path: '/mock-tests', redirect: '/mock-test' },
-  { 
-    path: '/mock-test/:level', 
-    name: 'mock-test-level', 
-    component: MockTestView,
-    meta: {
-      title: 'Free Timed HSK Mock Tests - Real Exam Simulation',
-      description: 'Take official-style timed HSK 1, 2, and 3 mock tests with automated scoring and answer explanations.'
-    }
-  },
-  { 
-    path: '/mock-test/:level/:id', 
-    name: 'mock-test-item', 
-    component: MockTestView,
-    meta: {
-      title: 'Free Timed HSK Mock Tests - Real Exam Simulation',
-      description: 'Take official-style timed HSK 1, 2, and 3 mock tests with automated scoring and answer explanations.'
-    }
-  },
-  { 
-    path: '/lessons', 
-    name: 'lessons', 
-    component: LessonsView,
-    meta: {
-      title: '30 Interactive HSK Lessons - Structured Chinese Curriculum',
-      description: 'Step-by-step interactive Mandarin lessons covering HSK 1, 2, and 3 with real dialogs, native audio, and comprehension drills.'
-    }
-  },
-  { 
     path: '/grammar', 
     name: 'grammar', 
     component: GrammarView,
     meta: {
       title: 'Essential HSK 1-3 Grammar Compendium - Sentence Structures & Rules',
-      description: 'Comprehensive grammar reference for HSK 1, 2, and 3 with sentence patterns, particle explanations, and clear English examples.'
-    }
-  },
-  { 
-    path: '/blog', 
-    name: 'blog', 
-    component: BlogListView,
-    meta: {
-      title: 'HSK Guides & Masterclasses - Free Chinese Exam Strategies',
-      description: 'Authoritative guides on passing HSK exams, master stroke order, 30-day blueprints, and vocabulary acquisition strategies.'
-    }
-  },
-  { path: '/guides', redirect: '/blog' },
-  { 
-    path: '/blog/:slug', 
-    name: 'blog-post', 
-    component: BlogPostView,
-    meta: {
-      title: 'HSK Guides & Masterclasses - Free Chinese Exam Strategies',
-      description: 'Authoritative guides on passing HSK exams, master stroke order, 30-day blueprints, and vocabulary acquisition strategies.'
+      description: 'Comprehensive grammar reference for HSK 1, 2, and 3 with sentence patterns, particle explanations, and clear English examples.',
+      canonical: 'https://mybwn.com/grammar'
     }
   },
   { 
@@ -163,7 +177,8 @@ const routes: RouteRecordRaw[] = [
     component: AboutView,
     meta: {
       title: 'About HSK Free Lab - 100% Free Open Chinese Learning Platform',
-      description: 'Learn about HSK Free Lab mission to provide world-class, 100% free Chinese language study resources without paywalls or subscriptions.'
+      description: 'Learn about HSK Free Lab mission to provide world-class, 100% free Chinese language study resources without paywalls or subscriptions.',
+      canonical: 'https://mybwn.com/about'
     }
   },
   { 
@@ -172,7 +187,8 @@ const routes: RouteRecordRaw[] = [
     component: HskHistoryView,
     meta: {
       title: 'History of the HSK Exam: HSK 1.0, 2.0 vs HSK 3.0 Standard',
-      description: 'Discover the comprehensive history of the Chinese Proficiency Test, from its 1984 origins to the new 9-level 3.0 standard.'
+      description: 'Discover the comprehensive history of the Chinese Proficiency Test, from its 1984 origins to the new 9-level 3.0 standard.',
+      canonical: 'https://mybwn.com/hsk-history'
     }
   },
   { 
@@ -181,7 +197,8 @@ const routes: RouteRecordRaw[] = [
     component: LegalView,
     meta: {
       title: 'Privacy Policy - HSK Free Lab',
-      description: 'Privacy policy for HSK Free Lab. We respect your privacy and do not track or store personal data on remote servers.'
+      description: 'Privacy policy for HSK Free Lab. We respect your privacy and do not track or store personal data on remote servers.',
+      canonical: 'https://mybwn.com/privacy-policy'
     }
   },
   { 
@@ -190,7 +207,8 @@ const routes: RouteRecordRaw[] = [
     component: LegalView,
     meta: {
       title: 'Terms of Service - HSK Free Lab',
-      description: 'Terms of service governing the use of HSK Free Lab free learning platform and tools.'
+      description: 'Terms of service governing the use of HSK Free Lab free learning platform and tools.',
+      canonical: 'https://mybwn.com/terms'
     }
   },
   { 
@@ -199,7 +217,8 @@ const routes: RouteRecordRaw[] = [
     component: LegalView,
     meta: {
       title: 'Disclaimer - HSK Free Lab',
-      description: 'Educational disclaimer and official trademarks note for HSK Free Lab.'
+      description: 'Educational disclaimer and official trademarks note for HSK Free Lab.',
+      canonical: 'https://mybwn.com/disclaimer'
     }
   },
   { 
@@ -208,7 +227,8 @@ const routes: RouteRecordRaw[] = [
     component: LegalView,
     meta: {
       title: 'Data Sources & Open Source Licenses - HSK Free Lab',
-      description: 'Official data sources, vocab lists, and open source licenses powering HSK Free Lab.'
+      description: 'Official data sources, vocab lists, and open source licenses powering HSK Free Lab.',
+      canonical: 'https://mybwn.com/data-sources'
     }
   },
   { path: '/:pathMatch(.*)*', redirect: '/' }
@@ -228,8 +248,9 @@ const router = createRouter({
 
 router.afterEach((to) => {
   let title = (to.meta?.title as string) || 'HSK Free Lab - 100% Free HSK Prep, Mock Tests & Pinyin Tools';
-  let description = (to.meta?.description as string) || 'Prepare for HSK 1, 2, and 3 with zero paywalls. Free timed mock exams, interactive pinyin tone trainer, and score calculator.';
+  let description = (to.meta?.description as string) || 'Free online Chinese test preparation. Practice timed mock exams, master pronunciation with the interactive pinyin soundboard, and calculate passing scores.';
   let ogType = 'website';
+  let canonical = (to.meta?.canonical as string) || undefined;
 
   if (to.name === 'blog-post' && to.params.slug) {
     const post = getBlogPostBySlug(to.params.slug as string);
@@ -237,13 +258,15 @@ router.afterEach((to) => {
       title = `${post.title} | HSK Free Lab`;
       description = post.summary;
       ogType = 'article';
+      canonical = `https://mybwn.com/guides/${post.slug}`;
     }
   } else if (to.name === 'stroke-order-char' && to.params.character) {
     title = `Write ${to.params.character} - Chinese Character Stroke Order & Animation | HSK Free Lab`;
     description = `Animate stroke order, radical decomposition, and stroke count for Chinese character ${to.params.character}.`;
+    canonical = `https://mybwn.com/stroke-order/${encodeURIComponent(to.params.character as string)}`;
   }
 
-  updateSeoMeta({ title, description, type: ogType }, to.path);
+  updateSeoMeta({ title, description, canonical, type: ogType }, to.path);
 });
 
 export default router;

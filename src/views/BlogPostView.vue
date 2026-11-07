@@ -34,6 +34,7 @@ watch(post, (currentPost) => {
     updateSeoMeta({
       title: `${currentPost.title} | HSK Free Lab`,
       description: currentPost.summary,
+      canonical: `https://mybwn.com/guides/${currentPost.slug}`,
       type: 'article'
     }, route.path);
   }

@@ -11,7 +11,7 @@ export const DEFAULT_OG_IMAGE = `${SITE_DOMAIN}/og-preview.png`;
 
 export function updateSeoMeta(meta: Partial<SeoMeta>, path = window.location.pathname) {
   const title = meta.title || 'HSK Free Lab - 100% Free HSK Prep, Mock Tests & Pinyin Tools';
-  const description = meta.description || 'Prepare for HSK 1, 2, and 3 with zero paywalls. Free timed mock exams, interactive pinyin tone trainer, and score calculator.';
+  const description = meta.description || 'Free online Chinese test preparation. Practice timed mock exams, master pronunciation with the interactive pinyin soundboard, and calculate passing scores.';
   const canonicalUrl = meta.canonical || `${SITE_DOMAIN}${path === '/' ? '' : path}`;
   const imageUrl = meta.image || DEFAULT_OG_IMAGE;
   const ogType = meta.type || 'website';
