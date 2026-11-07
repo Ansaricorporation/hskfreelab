@@ -10,7 +10,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  base: './', // enables easy local viewing of dist/index.html and any static serverless host
+  base: '/', // HTML5 History mode with custom domain mybwn.com
   build: {
     target: 'es2020',
     cssMinify: true,

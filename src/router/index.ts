@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
 // Lazy-loaded route components for optimal initial paint & code-splitting
 const HomeView = () => import('../views/HomeView.vue');
@@ -23,8 +23,11 @@ const routes: RouteRecordRaw[] = [
   { path: '/stroke-order', name: 'stroke-order', component: StrokeOrderView },
   { path: '/stroke-order/:character', name: 'stroke-order-char', component: StrokeOrderView },
   { path: '/hsk-score-calculator', name: 'score-calculator', component: ScoreCalculatorView },
+  { path: '/calculator', redirect: '/hsk-score-calculator' },
   { path: '/pronunciation', name: 'pronunciation', component: PronunciationView },
+  { path: '/pinyin-trainer', redirect: '/pronunciation' },
   { path: '/mock-test', name: 'mock-test', component: MockTestView },
+  { path: '/mock-tests', redirect: '/mock-test' },
   { path: '/mock-test/:level', name: 'mock-test-level', component: MockTestView },
   { path: '/mock-test/:level/:id', name: 'mock-test-item', component: MockTestView },
   { path: '/lessons', name: 'lessons', component: LessonsView },
@@ -41,7 +44,7 @@ const routes: RouteRecordRaw[] = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
   scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {
