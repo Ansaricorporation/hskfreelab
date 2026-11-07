@@ -33,6 +33,7 @@ const routes: RouteRecordRaw[] = [
   { path: '/lessons', name: 'lessons', component: LessonsView },
   { path: '/grammar', name: 'grammar', component: GrammarView },
   { path: '/blog', name: 'blog', component: BlogListView },
+  { path: '/guides', redirect: '/blog' },
   { path: '/blog/:slug', name: 'blog-post', component: BlogPostView },
   { path: '/about', name: 'about', component: AboutView },
   { path: '/hsk-history', name: 'hsk-history', component: HskHistoryView },
