@@ -155,7 +155,7 @@ function handleConfirmReset() {
       <div class="space-y-3">
         <button 
           @click="handleManualSave"
-          class="w-full py-3 px-4 rounded-xl bg-linear-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all active:scale-98"
+          class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all active:scale-98"
         >
           <Save class="w-4 h-4" />
           <span>Save Progress to Browser Now</span>

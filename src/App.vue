@@ -8,10 +8,10 @@ import { isToneGuideOpen, closeToneGuide } from './stores/auth';
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-[#fdfbf7] dark:bg-stone-950 text-stone-900 dark:text-stone-100 selection:bg-rose-200 dark:selection:bg-rose-900 selection:text-rose-900 dark:selection:text-rose-100 font-sans transition-colors duration-200">
+  <div class="min-h-screen w-full flex flex-col bg-[#fdfbf7] dark:bg-stone-950 text-stone-900 dark:text-stone-100 selection:bg-rose-200 dark:selection:bg-rose-900 selection:text-rose-900 dark:selection:text-rose-100 font-sans transition-colors duration-200 overflow-x-hidden">
     <Header />
-    <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-8">
-      <router-view />
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-8 flex flex-col items-center">
+      <router-view class="w-full" />
     </main>
     <Footer />
 

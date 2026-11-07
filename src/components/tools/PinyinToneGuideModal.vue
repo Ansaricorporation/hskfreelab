@@ -167,7 +167,7 @@ function playWord(zh: string, slow = false) {
         <div class="overflow-y-auto p-4 sm:p-6 space-y-5 flex-1 overscroll-contain">
           
           <!-- Classic "Ma" Comparison Callout -->
-          <div class="p-4 rounded-2xl bg-linear-to-r from-rose-50/80 via-amber-50/50 to-emerald-50/80 dark:from-stone-800 dark:to-stone-800/80 border border-stone-200/90 dark:border-stone-700 space-y-3">
+          <div class="p-4 rounded-2xl bg-gradient-to-r from-rose-50/80 via-amber-50/50 to-emerald-50/80 dark:from-stone-800 dark:to-stone-800/80 border border-stone-200/90 dark:border-stone-700 space-y-3">
             <div class="text-xs font-bold text-stone-900 dark:text-stone-100 flex items-center gap-1.5">
               <Sparkles class="w-4 h-4 text-amber-500" />
               <span>The Famous "Ma" Example (Listen to the Pitch Difference!)</span>
@@ -335,7 +335,7 @@ function playWord(zh: string, slow = false) {
           </span>
           <button 
             @click="emit('close')"
-            class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-linear-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 transition-all active:scale-98 ml-auto"
+            class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 transition-all active:scale-98 ml-auto"
           >
             <span>I'm Ready! Let's Learn Chinese Words</span>
             <ArrowRight class="w-4 h-4" />

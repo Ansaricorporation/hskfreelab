@@ -168,7 +168,7 @@ const levelMeta = computed(() => {
     </div>
 
     <!-- Beginner Welcome & Orientation Banner for HSK 1 -->
-    <div v-if="currentLevel === 1" class="p-6 sm:p-8 rounded-3xl bg-linear-to-r from-emerald-500/10 via-amber-500/5 to-teal-500/10 dark:from-stone-900 dark:to-stone-900 border-2 border-emerald-300 dark:border-emerald-800 space-y-4 shadow-sm animate-in fade-in">
+    <div v-if="currentLevel === 1" class="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-500/10 via-amber-500/5 to-teal-500/10 dark:from-stone-900 dark:to-stone-900 border-2 border-emerald-300 dark:border-emerald-800 space-y-4 shadow-sm animate-in fade-in">
       <div class="flex items-center gap-2 text-xs font-black text-emerald-800 dark:text-emerald-300 uppercase tracking-wider">
         <Sparkles class="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
         <span>Beginner Roadmap · 150 Words Only!</span>

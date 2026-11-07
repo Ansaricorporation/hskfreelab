@@ -167,7 +167,7 @@ function scrollToSection(sectionId: string) {
     <!-- Sticky Reading Progress Bar -->
     <div class="fixed top-0 left-0 right-0 h-1 z-50 bg-stone-100 dark:bg-stone-800">
       <div 
-        class="h-full bg-linear-to-r from-rose-500 via-rose-600 to-amber-500 transition-all duration-150"
+        class="h-full bg-gradient-to-r from-rose-500 via-rose-600 to-amber-500 transition-all duration-150"
         :style="{ width: `${scrollProgress}%` }"
       ></div>
     </div>
@@ -186,7 +186,7 @@ function scrollToSection(sectionId: string) {
 
         <button 
           @click="copyArticleLink" 
-          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 font-semibold transition-all shadow-2xs"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 font-semibold transition-all shadow-xs"
         >
           <Check v-if="copied" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
           <Share2 v-else class="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" />
@@ -287,7 +287,7 @@ function scrollToSection(sectionId: string) {
                       </div>
                       <button 
                         @click="playChineseAudio(p)" 
-                        class="p-2 rounded-lg bg-white dark:bg-stone-700 border border-stone-200 dark:border-stone-600 hover:bg-rose-50 dark:hover:bg-stone-600 hover:border-rose-300 text-rose-600 dark:text-rose-400 shrink-0 transition-colors shadow-2xs"
+                        class="p-2 rounded-lg bg-white dark:bg-stone-700 border border-stone-200 dark:border-stone-600 hover:bg-rose-50 dark:hover:bg-stone-600 hover:border-rose-300 text-rose-600 dark:text-rose-400 shrink-0 transition-colors shadow-xs"
                         title="Listen to native audio"
                       >
                         <Volume2 class="w-4 h-4" />
@@ -399,7 +399,7 @@ function scrollToSection(sectionId: string) {
           </div>
 
           <!-- Quick Test Gate Callout Card -->
-          <div class="bg-linear-to-br from-rose-700 to-rose-900 rounded-3xl p-6 text-white space-y-4 shadow-md">
+          <div class="bg-gradient-to-br from-rose-700 to-rose-900 rounded-3xl p-6 text-white space-y-4 shadow-md">
             <div class="flex items-center gap-2 text-rose-200 text-xs font-bold uppercase tracking-wider">
               <Sparkles class="w-4 h-4 text-amber-300" />
               <span>Apply Your Knowledge</span>
@@ -412,7 +412,7 @@ function scrollToSection(sectionId: string) {
             </p>
             <router-link 
               to="/mock-test"
-              class="block w-full py-2.5 text-center text-xs font-bold rounded-xl bg-white text-rose-900 hover:bg-rose-50 transition-colors shadow-2xs"
+              class="block w-full py-2.5 text-center text-xs font-bold rounded-xl bg-white text-rose-900 hover:bg-rose-50 transition-colors shadow-xs"
             >
               Start Free Timed Mock Test
             </router-link>

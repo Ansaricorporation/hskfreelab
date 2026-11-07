@@ -116,7 +116,7 @@ function exitGate() {
         </p>
 
         <!-- Friendly user tip banner -->
-        <div class="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-amber-500/10 dark:bg-amber-950/40 border border-amber-500/30 dark:border-amber-800/60 text-amber-950 dark:text-amber-200 text-xs max-w-xl mx-auto shadow-2xs text-left">
+        <div class="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-amber-500/10 dark:bg-amber-950/40 border border-amber-500/30 dark:border-amber-800/60 text-amber-950 dark:text-amber-200 text-xs max-w-xl mx-auto shadow-xs text-left">
           <Sparkles class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
           <span><strong>One-Page Experience:</strong> Tap Play on any gate to begin. All questions display on a single page with live timer and audio dialogue controls.</span>
         </div>

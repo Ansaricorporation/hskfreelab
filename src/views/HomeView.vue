@@ -60,161 +60,159 @@ const selectedDaily = ref(dailyWords[0]);
 </script>
 
 <template>
-  <div class="space-y-12 sm:space-y-16 pb-12">
+  <div class="w-full max-w-7xl mx-auto flex flex-col items-center space-y-12 sm:space-y-16 pb-12">
     
     <!-- Hero Banner (Contained in a Modern Boxed Card) -->
-    <section class="relative overflow-hidden pt-2 sm:pt-4">
-      <div class="max-w-7xl mx-auto">
-        <div class="bg-white/80 dark:bg-stone-900/85 backdrop-blur-md rounded-3xl border border-stone-200/90 dark:border-stone-800 p-5 sm:p-10 lg:p-12 shadow-sm space-y-6 sm:space-y-8 relative overflow-hidden">
+    <section class="relative overflow-hidden pt-2 sm:pt-4 w-full max-w-7xl mx-auto">
+      <div class="bg-white/80 dark:bg-stone-900/85 backdrop-blur-md rounded-3xl border border-stone-200/90 dark:border-stone-800 p-5 sm:p-10 lg:p-12 shadow-sm space-y-6 sm:space-y-8 relative overflow-hidden w-full mx-auto">
+        
+        <!-- Subtle background glow -->
+        <div class="absolute -top-24 -right-24 w-72 h-72 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Trust Badge Pill -->
+        <div class="text-center">
+          <div class="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300 text-[11px] sm:text-xs font-bold shadow-xs max-w-full">
+            <Sparkles class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0" />
+            <span class="whitespace-nowrap">100% Free Platform</span>
+            <span class="text-rose-300 dark:text-rose-700 hidden xs:inline">·</span>
+            <span class="whitespace-nowrap">Zero Paywalls</span>
+            <span class="text-rose-300 dark:text-rose-700 hidden xs:inline">·</span>
+            <span class="whitespace-nowrap">No Login Required</span>
+          </div>
+        </div>
+
+        <!-- Main Heading -->
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+          <h1 class="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-black text-stone-900 dark:text-stone-100 tracking-tight leading-[1.2]">
+            Master <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-red-600 to-amber-600 whitespace-nowrap">HSK&nbsp;1,&nbsp;2&nbsp;&amp;&nbsp;3</span> With Complete Confidence.
+          </h1>
+
+          <!-- Descriptive Text Box -->
+          <div class="p-4 sm:p-5 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200/80 dark:border-stone-700/60 text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed text-center max-w-2xl mx-auto shadow-xs">
+            Everything you need to pass official Chinese proficiency exams: interactive stroke order animator, real-time score calculator, Pinyin tone trainer, and verified vocabulary decks.
+          </div>
+        </div>
+
+        <!-- CTA Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto sm:max-w-none">
+          <router-link 
+            to="/hsk-1" 
+            class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-neutral-900 dark:text-white dark:border dark:border-neutral-700 dark:hover:bg-neutral-800 font-bold text-sm sm:text-base transition-all shadow-md flex items-center justify-center gap-2 active:scale-98"
+          >
+            <span>Start HSK 1 Free</span>
+            <ArrowRight class="w-4 h-4" />
+          </router-link>
+
+          <router-link 
+            to="/stroke-order" 
+            class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-700 text-stone-900 dark:text-stone-100 border border-stone-300 dark:border-stone-700 font-bold text-sm sm:text-base transition-all shadow-sm flex items-center justify-center gap-2"
+          >
+            <PenTool class="w-4 h-4 text-rose-600 dark:text-rose-400" />
+            <span>Animate Any Character</span>
+          </router-link>
+
+          <router-link 
+            to="/mock-tests" 
+            class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 text-purple-900 dark:text-purple-200 border border-purple-300 dark:border-purple-800 font-bold text-sm sm:text-base transition-all shadow-sm flex items-center justify-center gap-2"
+          >
+            <Award class="w-4 h-4 text-purple-700 dark:text-purple-400" />
+            <span>30 Mock Gates</span>
+          </router-link>
+        </div>
+
+        <!-- 4 Core Modular Feature Boxes ("Text in boxes") -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-2">
           
-          <!-- Subtle background glow -->
-          <div class="absolute -top-24 -right-24 w-72 h-72 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
-          <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-          <!-- Trust Badge Pill -->
-          <div class="text-center">
-            <div class="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300 text-[11px] sm:text-xs font-bold shadow-2xs max-w-full">
-              <Sparkles class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0" />
-              <span class="whitespace-nowrap">100% Free Platform</span>
-              <span class="text-rose-300 dark:text-rose-700 hidden xs:inline">·</span>
-              <span class="whitespace-nowrap">Zero Paywalls</span>
-              <span class="text-rose-300 dark:text-rose-700 hidden xs:inline">·</span>
-              <span class="whitespace-nowrap">No Login Required</span>
+          <!-- Box 1: Vocab -->
+          <router-link 
+            to="/hsk-1" 
+            class="p-4 rounded-2xl bg-stone-50/80 dark:bg-stone-800/50 border border-stone-200/80 dark:border-stone-700/60 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all group block shadow-xs"
+          >
+            <div class="flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-400 mb-1.5">
+              <BookOpen class="w-4 h-4" />
+              <span>603 Syllabus Words</span>
             </div>
-          </div>
+            <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+              HSK 1 (150), HSK 2 (150), and HSK 3 (300) cards with audio, Pinyin, and example sentences.
+            </p>
+          </router-link>
 
-          <!-- Main Heading -->
-          <div class="text-center max-w-3xl mx-auto space-y-4">
-            <h1 class="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-black text-stone-900 dark:text-stone-100 tracking-tight leading-[1.2]">
-              Master <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-red-600 to-amber-600 whitespace-nowrap">HSK&nbsp;1,&nbsp;2&nbsp;&amp;&nbsp;3</span> With Complete Confidence.
-            </h1>
-
-            <!-- Descriptive Text Box -->
-            <div class="p-4 sm:p-5 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200/80 dark:border-stone-700/60 text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed text-center max-w-2xl mx-auto shadow-2xs">
-              Everything you need to pass official Chinese proficiency exams: interactive stroke order animator, real-time score calculator, Pinyin tone trainer, and verified vocabulary decks.
+          <!-- Box 2: Stroke Animator -->
+          <router-link 
+            to="/stroke-order" 
+            class="p-4 rounded-2xl bg-stone-50/80 dark:bg-stone-800/50 border border-stone-200/80 dark:border-stone-700/60 hover:border-rose-300 dark:hover:border-rose-700 transition-all group block shadow-xs"
+          >
+            <div class="flex items-center gap-2 text-xs font-bold text-rose-700 dark:text-rose-400 mb-1.5">
+              <PenTool class="w-4 h-4" />
+              <span>Stroke Animator & Quiz</span>
             </div>
-          </div>
+            <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+              Step-by-step Hanzi Writer stroke animations, handwriting quiz mode, and 7 Golden Rules.
+            </p>
+          </router-link>
 
-          <!-- CTA Action Buttons -->
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto sm:max-w-none">
-            <router-link 
-              to="/hsk-1" 
-              class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-linear-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold text-sm sm:text-base transition-all shadow-md shadow-rose-600/25 flex items-center justify-center gap-2 active:scale-98"
-            >
-              <span>Start HSK 1 Free</span>
-              <ArrowRight class="w-4 h-4" />
-            </router-link>
+          <!-- Box 3: Mock Tests -->
+          <router-link 
+            to="/mock-tests" 
+            class="p-4 rounded-2xl bg-stone-50/80 dark:bg-stone-800/50 border border-stone-200/80 dark:border-stone-700/60 hover:border-purple-300 dark:hover:border-purple-700 transition-all group block shadow-xs"
+          >
+            <div class="flex items-center gap-2 text-xs font-bold text-purple-700 dark:text-purple-400 mb-1.5">
+              <Award class="w-4 h-4" />
+              <span>30 Timed Mock Tests</span>
+            </div>
+            <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+              10 test gates per level with listening audio dialogue player, reading questions, and countdown timers.
+            </p>
+          </router-link>
 
-            <router-link 
-              to="/stroke-order" 
-              class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-700 text-stone-900 dark:text-stone-100 border border-stone-200 dark:border-stone-700 font-bold text-sm sm:text-base transition-all shadow-2xs flex items-center justify-center gap-2"
-            >
-              <PenTool class="w-4 h-4 text-rose-600 dark:text-rose-400" />
-              <span>Animate Any Character</span>
-            </router-link>
-
-            <router-link 
-              to="/mock-test" 
-              class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800 font-bold text-sm sm:text-base transition-all shadow-2xs flex items-center justify-center gap-2"
-            >
-              <Award class="w-4 h-4 text-purple-600 dark:text-purple-400" />
-              <span>30 Mock Gates</span>
-            </router-link>
-          </div>
-
-          <!-- 4 Core Modular Feature Boxes ("Text in boxes") -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-2">
-            
-            <!-- Box 1: Vocab -->
-            <router-link 
-              to="/hsk-1" 
-              class="p-4 rounded-2xl bg-stone-50/80 dark:bg-stone-800/50 border border-stone-200/80 dark:border-stone-700/60 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all group block shadow-2xs"
-            >
-              <div class="flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-400 mb-1.5">
-                <BookOpen class="w-4 h-4" />
-                <span>603 Syllabus Words</span>
-              </div>
-              <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                HSK 1 (150), HSK 2 (150), and HSK 3 (300) cards with audio, Pinyin, and example sentences.
-              </p>
-            </router-link>
-
-            <!-- Box 2: Stroke Animator -->
-            <router-link 
-              to="/stroke-order" 
-              class="p-4 rounded-2xl bg-stone-50/80 dark:bg-stone-800/50 border border-stone-200/80 dark:border-stone-700/60 hover:border-rose-300 dark:hover:border-rose-700 transition-all group block shadow-2xs"
-            >
-              <div class="flex items-center gap-2 text-xs font-bold text-rose-700 dark:text-rose-400 mb-1.5">
-                <PenTool class="w-4 h-4" />
-                <span>Stroke Animator & Quiz</span>
-              </div>
-              <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                Step-by-step Hanzi Writer stroke animations, handwriting quiz mode, and 7 Golden Rules.
-              </p>
-            </router-link>
-
-            <!-- Box 3: Mock Tests -->
-            <router-link 
-              to="/mock-test" 
-              class="p-4 rounded-2xl bg-stone-50/80 dark:bg-stone-800/50 border border-stone-200/80 dark:border-stone-700/60 hover:border-purple-300 dark:hover:border-purple-700 transition-all group block shadow-2xs"
-            >
-              <div class="flex items-center gap-2 text-xs font-bold text-purple-700 dark:text-purple-400 mb-1.5">
-                <Award class="w-4 h-4" />
-                <span>30 Timed Mock Tests</span>
-              </div>
-              <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                10 test gates per level with listening audio dialogue player, reading questions, and countdown timers.
-              </p>
-            </router-link>
-
-            <!-- Box 4: Tone Trainer -->
-            <router-link 
-              to="/pronunciation" 
-              class="p-4 rounded-2xl bg-stone-50/80 dark:bg-stone-800/50 border border-stone-200/80 dark:border-stone-700/60 hover:border-blue-300 dark:hover:border-blue-700 transition-all group block shadow-2xs"
-            >
-              <div class="flex items-center gap-2 text-xs font-bold text-blue-700 dark:text-blue-400 mb-1.5">
-                <Volume2 class="w-4 h-4" />
-                <span>Pinyin & Tone Soundboard</span>
-              </div>
-              <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                Master the 4 Mandarin tones, 23 initials, 24 finals, and test pitch recognition with the ear trainer.
-              </p>
-            </router-link>
-
-          </div>
-
-          <!-- Trust Badges in Clean Boxed Pills -->
-          <div class="pt-2 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs text-stone-600 dark:text-stone-400 font-medium">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-100/70 dark:bg-stone-800/60 border border-stone-200/80 dark:border-stone-700 text-[11px] sm:text-xs">
-              <CheckCircle2 class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-              <span>CLEC Official Syllabus Aligned</span>
-            </span>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-100/70 dark:bg-stone-800/60 border border-stone-200/80 dark:border-stone-700 text-[11px] sm:text-xs">
-              <CheckCircle2 class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-              <span>Native Web Speech Audio (TTS)</span>
-            </span>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-100/70 dark:bg-stone-800/60 border border-stone-200/80 dark:border-stone-700 text-[11px] sm:text-xs">
-              <ShieldCheck class="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-              <span>Client-Side Browser Storage</span>
-            </span>
-          </div>
+          <!-- Box 4: Tone Trainer -->
+          <router-link 
+            to="/pinyin-trainer" 
+            class="p-4 rounded-2xl bg-stone-50/80 dark:bg-stone-800/50 border border-stone-200/80 dark:border-stone-700/60 hover:border-blue-300 dark:hover:border-blue-700 transition-all group block shadow-xs"
+          >
+            <div class="flex items-center gap-2 text-xs font-bold text-blue-700 dark:text-blue-400 mb-1.5">
+              <Volume2 class="w-4 h-4" />
+              <span>Pinyin & Tone Soundboard</span>
+            </div>
+            <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+              Master the 4 Mandarin tones, 23 initials, 24 finals, and test pitch recognition with the ear trainer.
+            </p>
+          </router-link>
 
         </div>
+
+        <!-- Trust Badges in Clean Boxed Pills -->
+        <div class="pt-2 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs text-stone-600 dark:text-stone-400 font-medium">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-100/70 dark:bg-stone-800/60 border border-stone-200/80 dark:border-stone-700 text-[11px] sm:text-xs">
+            <CheckCircle2 class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+            <span>CLEC Official Syllabus Aligned</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-100/70 dark:bg-stone-800/60 border border-stone-200/80 dark:border-stone-700 text-[11px] sm:text-xs">
+            <CheckCircle2 class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+            <span>Native Web Speech Audio (TTS)</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-100/70 dark:bg-stone-800/60 border border-stone-200/80 dark:border-stone-700 text-[11px] sm:text-xs">
+            <ShieldCheck class="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
+            <span>Client-Side Browser Storage</span>
+          </span>
+        </div>
+
       </div>
     </section>
 
     <!-- Beginner QuickStart Roadmap -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="w-full max-w-7xl mx-auto">
       <BeginnerQuickStart />
     </section>
 
     <!-- Learning Progress Dashboard -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="w-full max-w-7xl mx-auto">
       <ProgressDashboard />
     </section>
 
     <!-- Three Level Hubs Grid -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="w-full max-w-7xl mx-auto">
       <div class="text-center max-w-xl mx-auto mb-10">
         <h2 class="text-2xl sm:text-3xl font-black text-stone-900 dark:text-stone-100">Choose Your HSK Level</h2>
         <p class="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1">Structured vocabulary, lessons, and mock tests for every stage of your journey.</p>
@@ -325,7 +323,7 @@ const selectedDaily = ref(dailyWords[0]);
     </section>
 
     <!-- Interactive Tool Showcase Section -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="w-full max-w-7xl mx-auto">
       <div class="bg-gradient-to-b from-stone-50 to-white dark:from-stone-900 dark:to-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 p-8 sm:p-12 shadow-sm">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           
@@ -374,7 +372,7 @@ const selectedDaily = ref(dailyWords[0]);
     </section>
 
     <!-- Quick Tools Grid -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="w-full max-w-7xl mx-auto">
       <div class="text-center max-w-xl mx-auto mb-10">
         <h2 class="text-2xl sm:text-3xl font-black text-stone-900 dark:text-stone-100">Diagnostic & Study Tools</h2>
         <p class="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1">Accelerate your progress with zero setup or logins.</p>
@@ -384,7 +382,7 @@ const selectedDaily = ref(dailyWords[0]);
         
         <!-- Score Calculator -->
         <router-link 
-          to="/hsk-score-calculator" 
+          to="/calculator" 
           class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-6 shadow-sm hover:shadow-md transition-all group block"
         >
           <div class="p-3 rounded-2xl bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 w-fit mb-4 group-hover:scale-105 transition-transform">
@@ -403,7 +401,7 @@ const selectedDaily = ref(dailyWords[0]);
 
         <!-- Pronunciation Trainer -->
         <router-link 
-          to="/pronunciation" 
+          to="/pinyin-trainer" 
           class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-6 shadow-sm hover:shadow-md transition-all group block"
         >
           <div class="p-3 rounded-2xl bg-blue-100 dark:bg-blue-950/70 text-blue-800 dark:text-blue-300 w-fit mb-4 group-hover:scale-105 transition-transform">
@@ -422,7 +420,7 @@ const selectedDaily = ref(dailyWords[0]);
 
         <!-- Timed Mock Tests -->
         <router-link 
-          to="/mock-test" 
+          to="/mock-tests" 
           class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-6 shadow-sm hover:shadow-md transition-all group block"
         >
           <div class="p-3 rounded-2xl bg-purple-100 dark:bg-purple-950/70 text-purple-800 dark:text-purple-300 w-fit mb-4 group-hover:scale-105 transition-transform">
@@ -443,7 +441,7 @@ const selectedDaily = ref(dailyWords[0]);
     </section>
 
     <!-- Academic Guides & Masterclasses Section -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="w-full max-w-7xl mx-auto">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
         <div>
           <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300 text-xs font-semibold mb-2">
@@ -455,7 +453,7 @@ const selectedDaily = ref(dailyWords[0]);
         </div>
 
         <router-link 
-          to="/blog" 
+          to="/guides" 
           class="text-xs font-bold text-rose-600 hover:text-rose-800 dark:text-rose-400 dark:hover:text-rose-300 flex items-center gap-1 shrink-0"
         >
           <span>View All 18 Masterclasses</span>

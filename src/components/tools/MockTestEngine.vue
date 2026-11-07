@@ -247,7 +247,7 @@ onUnmounted(() => {
       </div>
 
       <!-- Friendly Preparation Advice & Audio Test -->
-      <div class="p-5 sm:p-6 rounded-2xl bg-linear-to-r from-stone-50 to-stone-100/70 dark:from-stone-800/80 dark:to-stone-800/40 border border-stone-200/80 dark:border-stone-700 space-y-4">
+      <div class="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-stone-50 to-stone-100/70 dark:from-stone-800/80 dark:to-stone-800/40 border border-stone-200/80 dark:border-stone-700 space-y-4">
         <h3 class="text-sm font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
           <Headphones class="w-4 h-4 text-rose-600 dark:text-rose-400" />
           <span>Before You Press Play</span>
@@ -290,7 +290,7 @@ onUnmounted(() => {
       <div class="text-center pt-2 space-y-3">
         <button 
           @click="startExam"
-          class="w-full sm:w-auto sm:min-w-80 px-8 py-4.5 rounded-2xl bg-linear-to-r from-rose-600 via-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-base sm:text-lg shadow-xl shadow-rose-600/30 inline-flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98]"
+          class="w-full sm:w-auto sm:min-w-80 px-8 py-4.5 rounded-2xl bg-gradient-to-r from-rose-600 via-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-base sm:text-lg shadow-xl shadow-rose-600/30 inline-flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98]"
         >
           <Play class="w-6 h-6 fill-current text-white shrink-0" />
           <span>START MOCK TEST NOW (PLAY)</span>
@@ -386,7 +386,7 @@ onUnmounted(() => {
       <div 
         v-if="isSubmitted" 
         class="rounded-3xl border shadow-lg p-6 sm:p-8 transition-all space-y-6"
-        :class="isPassed ? 'bg-linear-to-br from-emerald-50 via-white to-emerald-50/50 dark:from-emerald-950/40 dark:via-stone-900 dark:to-emerald-950/30 border-emerald-300 dark:border-emerald-800' : 'bg-linear-to-br from-rose-50 via-white to-rose-50/50 dark:from-rose-950/40 dark:via-stone-900 dark:to-rose-950/30 border-rose-300 dark:border-rose-800'"
+        :class="isPassed ? 'bg-gradient-to-br from-emerald-50 via-white to-emerald-50/50 dark:from-emerald-950/40 dark:via-stone-900 dark:to-emerald-950/30 border-emerald-300 dark:border-emerald-800' : 'bg-gradient-to-br from-rose-50 via-white to-rose-50/50 dark:from-rose-950/40 dark:via-stone-900 dark:to-rose-950/30 border-rose-300 dark:border-rose-800'"
       >
         <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
           <div class="flex items-center gap-4">
@@ -505,7 +505,7 @@ onUnmounted(() => {
           <!-- LISTENING AUDIO PLAYER BOX (If question has audio prompt) -->
           <div 
             v-if="q.section === 'listening' && q.audioPrompt"
-            class="p-4 rounded-2xl bg-linear-to-r from-rose-50/80 to-amber-50/60 dark:from-rose-950/40 dark:to-stone-850 border border-rose-200/90 dark:border-rose-900/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs"
+            class="p-4 rounded-2xl bg-gradient-to-r from-rose-50/80 to-amber-50/60 dark:from-rose-950/40 dark:to-stone-850 border border-rose-200/90 dark:border-rose-900/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs"
           >
             <div class="flex items-center gap-3">
               <button 

@@ -14,9 +14,7 @@ import {
   Sun, 
   Moon, 
   Coffee, 
-  HardDrive,
-  Save,
-  ShieldCheck 
+  HardDrive
 } from 'lucide-vue-next';
 import { currentTheme, toggleTheme } from '../../stores/theme';
 import { 
@@ -37,212 +35,210 @@ function closeMenus() {
 </script>
 
 <template>
-  <header class="sticky top-0 z-40 bg-white/95 dark:bg-stone-900/95 backdrop-blur-md border-b border-stone-200/80 dark:border-stone-800 shadow-2xs transition-colors duration-200">
-    <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 gap-1.5 sm:gap-2">
+  <header class="sticky top-0 z-40 w-full bg-white/95 dark:bg-stone-900/95 backdrop-blur-md border-b border-stone-200/80 dark:border-stone-800 shadow-xs transition-colors duration-200">
+    <div class="w-full max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 flex items-center justify-between h-16 gap-2 xl:gap-3">
         
-        <!-- Logo -->
-        <router-link to="/" @click="closeMenus" class="flex items-center gap-1.5 sm:gap-2.5 group shrink-0">
-          <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-linear-to-br from-rose-600 to-red-700 text-white flex items-center justify-center font-serif text-base sm:text-xl font-black shadow-md shadow-rose-600/20 group-hover:scale-105 transition-transform shrink-0">
-            汉
+      <!-- Logo -->
+      <router-link to="/" @click="closeMenus" class="flex items-center gap-1.5 sm:gap-2 group shrink-0">
+        <div class="w-8 h-8 sm:w-9 sm:h-9 xl:w-10 xl:h-10 rounded-xl bg-neutral-900 text-white dark:bg-neutral-800 dark:text-white border border-neutral-900 dark:border-neutral-700 flex items-center justify-center font-serif text-base sm:text-xl font-black shadow-sm group-hover:scale-105 transition-transform shrink-0">
+          汉
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <span class="font-bold text-sm sm:text-base xl:text-lg text-stone-900 dark:text-stone-100 tracking-tight whitespace-nowrap">HSK Free Lab</span>
+            <span class="hidden 2xl:inline-flex items-center gap-1 text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 rounded whitespace-nowrap">
+              <Sparkles class="w-2.5 h-2.5" /> 100% Free
+            </span>
           </div>
-          <div>
-            <div class="flex items-center gap-1.5 sm:gap-2">
-              <span class="font-bold text-sm sm:text-lg text-stone-900 dark:text-stone-100 tracking-tight whitespace-nowrap">HSK Free Lab</span>
-              <span class="hidden md:inline-flex items-center gap-1 text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 rounded whitespace-nowrap">
-                <Sparkles class="w-2.5 h-2.5" /> 100% Free
-              </span>
-            </div>
-            <p class="text-[10px] sm:text-[11px] text-stone-500 dark:text-stone-400 hidden sm:block whitespace-nowrap">Zero Paywalls · Track Progress</p>
-          </div>
+          <p class="text-[10px] text-stone-500 dark:text-stone-400 hidden 2xl:block whitespace-nowrap">Zero Paywalls · Track Progress</p>
+        </div>
+      </router-link>
+
+      <!-- Desktop Navigation Links (Responsive, Compact, Never Wraps) -->
+      <nav class="hidden lg:flex items-center gap-0.5 xl:gap-1.5 shrink-0">
+        <!-- Level Hubs with Non-breaking Spaces & Shrink-0 -->
+        <router-link 
+          to="/hsk-1" 
+          class="px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 rounded-lg transition-colors whitespace-nowrap shrink-0"
+          active-class="text-emerald-700 dark:text-emerald-400 bg-emerald-50/80 dark:bg-emerald-950/60 font-bold"
+        >
+          <span class="whitespace-nowrap">HSK&nbsp;1</span>
+        </router-link>
+        <router-link 
+          to="/hsk-2" 
+          class="px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-300 hover:text-sky-700 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/40 rounded-lg transition-colors whitespace-nowrap shrink-0"
+          active-class="text-sky-700 dark:text-sky-400 bg-sky-50/80 dark:bg-sky-950/60 font-bold"
+        >
+          <span class="whitespace-nowrap">HSK&nbsp;2</span>
+        </router-link>
+        <router-link 
+          to="/hsk-3" 
+          class="px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-300 hover:text-rose-700 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition-colors whitespace-nowrap shrink-0"
+          active-class="text-rose-700 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/60 font-bold"
+        >
+          <span class="whitespace-nowrap">HSK&nbsp;3</span>
         </router-link>
 
-        <!-- Desktop Navigation Links (Responsive, Shrink-Proof, Never Wraps) -->
-        <nav class="hidden lg:flex items-center gap-0.5 xl:gap-1 shrink-0">
-          <!-- Level Hubs with Non-breaking Spaces & Shrink-0 -->
-          <router-link 
-            to="/hsk-1" 
-            class="px-2 xl:px-2.5 py-1.5 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 rounded-lg transition-colors whitespace-nowrap shrink-0"
-            active-class="text-emerald-700 dark:text-emerald-400 bg-emerald-50/80 dark:bg-emerald-950/60 font-bold"
-          >
-            <span class="whitespace-nowrap">HSK&nbsp;1</span>
-          </router-link>
-          <router-link 
-            to="/hsk-2" 
-            class="px-2 xl:px-2.5 py-1.5 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:text-sky-700 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/40 rounded-lg transition-colors whitespace-nowrap shrink-0"
-            active-class="text-sky-700 dark:text-sky-400 bg-sky-50/80 dark:bg-sky-950/60 font-bold"
-          >
-            <span class="whitespace-nowrap">HSK&nbsp;2</span>
-          </router-link>
-          <router-link 
-            to="/hsk-3" 
-            class="px-2 xl:px-2.5 py-1.5 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:text-rose-700 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition-colors whitespace-nowrap shrink-0"
-            active-class="text-rose-700 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/60 font-bold"
-          >
-            <span class="whitespace-nowrap">HSK&nbsp;3</span>
-          </router-link>
+        <div class="h-4 w-px bg-stone-200 dark:bg-stone-700 mx-0.5 shrink-0"></div>
 
-          <div class="h-4 w-px bg-stone-200 dark:bg-stone-700 mx-1 shrink-0"></div>
-
-          <!-- Tools Dropdown -->
-          <div class="relative shrink-0">
-            <button 
-              @click="isToolsDropdownOpen = !isToolsDropdownOpen" 
-              class="px-2 xl:px-2.5 py-1.5 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-lg inline-flex items-center gap-1 transition-colors whitespace-nowrap shrink-0"
-            >
-              <span>Tools</span>
-              <ChevronDown class="w-3.5 h-3.5 text-stone-400 shrink-0" />
-            </button>
-
-            <!-- Dropdown Menu -->
-            <div 
-              v-if="isToolsDropdownOpen" 
-              @mouseleave="isToolsDropdownOpen = false"
-              class="absolute left-0 mt-1 w-64 bg-white dark:bg-stone-900 rounded-2xl shadow-xl border border-stone-200 dark:border-stone-800 py-2 z-50 animate-in fade-in"
-            >
-              <router-link 
-                to="/stroke-order" 
-                @click="closeMenus" 
-                class="flex items-center gap-3 px-4 py-2.5 text-xs text-stone-700 dark:text-stone-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-700 dark:hover:text-rose-400"
-              >
-                <div class="p-2 rounded-lg bg-rose-100/70 dark:bg-rose-950 text-rose-700 dark:text-rose-400">
-                  <PenTool class="w-4 h-4" />
-                </div>
-                <div>
-                  <div class="font-bold text-stone-900 dark:text-stone-100">Stroke Animator</div>
-                  <div class="text-[11px] text-stone-400">Hanzi stroke directions & quiz</div>
-                </div>
-              </router-link>
-
-              <router-link 
-                to="/hsk-score-calculator" 
-                @click="closeMenus" 
-                class="flex items-center gap-3 px-4 py-2.5 text-xs text-stone-700 dark:text-stone-300 hover:bg-amber-50 dark:hover:bg-amber-950/40 hover:text-amber-700 dark:hover:text-amber-400"
-              >
-                <div class="p-2 rounded-lg bg-amber-100/70 dark:bg-amber-950 text-amber-700 dark:text-amber-400">
-                  <Calculator class="w-4 h-4" />
-                </div>
-                <div>
-                  <div class="font-bold text-stone-900 dark:text-stone-100">Score Calculator</div>
-                  <div class="text-[11px] text-stone-400">Official pass/fail scoring formulas</div>
-                </div>
-              </router-link>
-
-              <router-link 
-                to="/pronunciation" 
-                @click="closeMenus" 
-                class="flex items-center gap-3 px-4 py-2.5 text-xs text-stone-700 dark:text-stone-300 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:text-blue-700 dark:hover:text-blue-400"
-              >
-                <div class="p-2 rounded-lg bg-blue-100/70 dark:bg-blue-950 text-blue-700 dark:text-blue-400">
-                  <Volume2 class="w-4 h-4" />
-                </div>
-                <div>
-                  <div class="font-bold text-stone-900 dark:text-stone-100">Pinyin Tone Trainer</div>
-                  <div class="text-[11px] text-stone-400">Initial, final & tone soundboard</div>
-                </div>
-              </router-link>
-
-              <button 
-                @click="openToneGuide(); closeMenus()" 
-                class="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-stone-700 dark:text-stone-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:text-emerald-700 dark:hover:text-emerald-400 text-left transition-colors"
-              >
-                <div class="p-2 rounded-lg bg-emerald-100/70 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400">
-                  <Sparkles class="w-4 h-4" />
-                </div>
-                <div>
-                  <div class="font-bold text-stone-900 dark:text-stone-100">Pinyin &amp; 5 Tones Guide</div>
-                  <div class="text-[11px] text-stone-400">Interactive soundboard &amp; tone sandhi</div>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          <!-- Mock Tests -->
-          <router-link 
-            to="/mock-test" 
-            class="px-2 xl:px-2.5 py-1.5 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:text-purple-700 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40 rounded-lg inline-flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0"
-            active-class="text-purple-700 dark:text-purple-400 bg-purple-50/80 dark:bg-purple-950/60 font-bold"
-          >
-            <Award class="w-3.5 h-3.5 text-purple-600 shrink-0" />
-            <span class="whitespace-nowrap">Mock Tests</span>
-          </router-link>
-
-          <!-- Lessons -->
-          <router-link 
-            to="/lessons" 
-            class="px-2 xl:px-2.5 py-1.5 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 rounded-lg inline-flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0"
-            active-class="text-emerald-700 dark:text-emerald-400 bg-emerald-50/80 dark:bg-emerald-950/60 font-bold"
-          >
-            <BookOpen class="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-            <span class="whitespace-nowrap">Lessons</span>
-          </router-link>
-
-          <!-- Blog -->
-          <router-link 
-            to="/blog" 
-            class="px-2 xl:px-2.5 py-1.5 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition-colors whitespace-nowrap shrink-0"
-            active-class="text-rose-600 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/60 font-bold"
-          >
-            <span class="whitespace-nowrap">Guides</span>
-          </router-link>
-
-          <!-- Beginner Tones Guide Button -->
+        <!-- Tools Dropdown -->
+        <div class="relative shrink-0">
           <button 
-            @click="openToneGuide"
-            class="hidden xl:inline-flex px-2.5 py-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 rounded-lg items-center gap-1.5 transition-colors shadow-2xs whitespace-nowrap shrink-0"
-            title="Learn how Chinese Pinyin and the 4 Tones work"
+            @click="isToolsDropdownOpen = !isToolsDropdownOpen" 
+            class="px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-300 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-lg inline-flex items-center gap-1 transition-colors whitespace-nowrap shrink-0"
           >
-            <span>🌱 Tones Guide</span>
-          </button>
-        </nav>
-
-        <!-- Right Side: Learning Progress Bar + Theme Toggle + User Account -->
-        <div class="flex items-center gap-1 sm:gap-2 shrink-0">
-          
-          <!-- Learning Progress Bar Component -->
-          <div class="shrink-0">
-            <LearningProgressBar />
-          </div>
-
-          <!-- Theme Switcher Button -->
-          <div class="relative shrink-0">
-            <button 
-              @click="toggleTheme"
-              class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-700 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors shadow-2xs shrink-0 flex items-center justify-center"
-              :title="`Theme: ${currentTheme} (Click to switch Light / Dark / Sepia)`"
-              aria-label="Toggle Color Theme"
-            >
-              <Sun v-if="currentTheme === 'light'" class="w-4 h-4 text-amber-500 shrink-0" />
-              <Moon v-else-if="currentTheme === 'dark'" class="w-4 h-4 text-sky-400 shrink-0" />
-              <Coffee v-else class="w-4 h-4 text-amber-700 shrink-0" />
-            </button>
-          </div>
-
-          <!-- Browser Storage & Backup Button (Desktop / Tablet: md+) -->
-          <div class="relative hidden md:block shrink-0">
-            <button 
-              @click="openBackupModal"
-              class="px-3 py-1.5 rounded-xl border border-stone-200/90 dark:border-stone-700 bg-stone-50/80 dark:bg-stone-800/80 hover:bg-stone-100 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 text-xs font-bold flex items-center gap-1.5 transition-all shadow-2xs hover:border-emerald-300 dark:hover:border-emerald-600 shrink-0"
-              title="Study progress is saved automatically in this browser. Click to backup or export."
-            >
-              <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></div>
-              <span class="whitespace-nowrap">Browser Saved</span>
-            </button>
-          </div>
-
-          <!-- Mobile Menu Button -->
-          <button 
-            @click="isMobileMenuOpen = !isMobileMenuOpen"
-            class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 lg:hidden shrink-0 border border-stone-200 dark:border-stone-800 flex items-center justify-center"
-            aria-label="Toggle Navigation Menu"
-          >
-            <Menu v-if="!isMobileMenuOpen" class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
-            <X v-else class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+            <span>Tools</span>
+            <ChevronDown class="w-3.5 h-3.5 text-stone-400 shrink-0" />
           </button>
 
+          <!-- Dropdown Menu -->
+          <div 
+            v-if="isToolsDropdownOpen" 
+            @mouseleave="isToolsDropdownOpen = false"
+            class="absolute left-0 mt-1 w-64 bg-white dark:bg-stone-900 rounded-2xl shadow-xl border border-stone-200 dark:border-stone-800 py-2 z-50 animate-in fade-in"
+          >
+            <router-link 
+              to="/stroke-order" 
+              @click="closeMenus" 
+              class="flex items-center gap-3 px-4 py-2.5 text-xs text-stone-700 dark:text-stone-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-700 dark:hover:text-rose-400"
+            >
+              <div class="p-2 rounded-lg bg-rose-100/70 dark:bg-rose-950 text-rose-700 dark:text-rose-400">
+                <PenTool class="w-4 h-4" />
+              </div>
+              <div>
+                <div class="font-bold text-stone-900 dark:text-stone-100">Stroke Animator</div>
+                <div class="text-[11px] text-stone-400">Hanzi stroke directions & quiz</div>
+              </div>
+            </router-link>
+
+            <router-link 
+              to="/calculator" 
+              @click="closeMenus" 
+              class="flex items-center gap-3 px-4 py-2.5 text-xs text-stone-700 dark:text-stone-300 hover:bg-amber-50 dark:hover:bg-amber-950/40 hover:text-amber-700 dark:hover:text-amber-400"
+            >
+              <div class="p-2 rounded-lg bg-amber-100/70 dark:bg-amber-950 text-amber-700 dark:text-amber-400">
+                <Calculator class="w-4 h-4" />
+              </div>
+              <div>
+                <div class="font-bold text-stone-900 dark:text-stone-100">Score Calculator</div>
+                <div class="text-[11px] text-stone-400">Official pass/fail scoring formulas</div>
+              </div>
+            </router-link>
+
+            <router-link 
+              to="/pinyin-trainer" 
+              @click="closeMenus" 
+              class="flex items-center gap-3 px-4 py-2.5 text-xs text-stone-700 dark:text-stone-300 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:text-blue-700 dark:hover:text-blue-400"
+            >
+              <div class="p-2 rounded-lg bg-blue-100/70 dark:bg-blue-950 text-blue-700 dark:text-blue-400">
+                <Volume2 class="w-4 h-4" />
+              </div>
+              <div>
+                <div class="font-bold text-stone-900 dark:text-stone-100">Pinyin Tone Trainer</div>
+                <div class="text-[11px] text-stone-400">Initial, final & tone soundboard</div>
+              </div>
+            </router-link>
+
+            <button 
+              @click="openToneGuide(); closeMenus()" 
+              class="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-stone-700 dark:text-stone-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:text-emerald-700 dark:hover:text-emerald-400 text-left transition-colors"
+            >
+              <div class="p-2 rounded-lg bg-emerald-100/70 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400">
+                <Sparkles class="w-4 h-4" />
+              </div>
+              <div>
+                <div class="font-bold text-stone-900 dark:text-stone-100">Pinyin &amp; 5 Tones Guide</div>
+                <div class="text-[11px] text-stone-400">Interactive soundboard &amp; tone sandhi</div>
+              </div>
+            </button>
+          </div>
         </div>
 
+        <!-- Mock Tests -->
+        <router-link 
+          to="/mock-tests" 
+          class="px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-300 hover:text-purple-700 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40 rounded-lg inline-flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0"
+          active-class="text-purple-700 dark:text-purple-400 bg-purple-50/80 dark:bg-purple-950/60 font-bold"
+        >
+          <Award class="w-3.5 h-3.5 text-purple-600 shrink-0" />
+          <span class="whitespace-nowrap">Mock Tests</span>
+        </router-link>
+
+        <!-- Lessons -->
+        <router-link 
+          to="/lessons" 
+          class="px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 rounded-lg inline-flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0"
+          active-class="text-emerald-700 dark:text-emerald-400 bg-emerald-50/80 dark:bg-emerald-950/60 font-bold"
+        >
+          <BookOpen class="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+          <span class="whitespace-nowrap">Lessons</span>
+        </router-link>
+
+        <!-- Guides -->
+        <router-link 
+          to="/guides" 
+          class="px-2 xl:px-2.5 py-1.5 text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-300 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition-colors whitespace-nowrap shrink-0"
+          active-class="text-rose-600 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/60 font-bold"
+        >
+          <span class="whitespace-nowrap">Guides</span>
+        </router-link>
+
+        <!-- Beginner Tones Guide Button -->
+        <button 
+          @click="openToneGuide"
+          class="hidden xl:inline-flex px-2 xl:px-2.5 py-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 rounded-lg items-center gap-1.5 transition-colors shadow-xs whitespace-nowrap shrink-0"
+          title="Learn how Chinese Pinyin and the 4 Tones work"
+        >
+          <span>🌱 Tones Guide</span>
+        </button>
+      </nav>
+
+      <!-- Right Side: Learning Progress Bar + Theme Toggle + User Account -->
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        
+        <!-- Learning Progress Bar Component -->
+        <div class="shrink-0">
+          <LearningProgressBar />
+        </div>
+
+        <!-- Theme Switcher Button -->
+        <div class="relative shrink-0">
+          <button 
+            @click="toggleTheme"
+            class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-700 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors shadow-xs shrink-0 flex items-center justify-center"
+            :title="`Theme: ${currentTheme} (Click to switch Light / Dark / Sepia)`"
+            aria-label="Toggle Color Theme"
+          >
+            <Sun v-if="currentTheme === 'light'" class="w-4 h-4 text-amber-500 shrink-0" />
+            <Moon v-else-if="currentTheme === 'dark'" class="w-4 h-4 text-sky-400 shrink-0" />
+            <Coffee v-else class="w-4 h-4 text-amber-700 shrink-0" />
+          </button>
+        </div>
+
+        <!-- Browser Storage & Backup Button (Always fits comfortably on md+) -->
+        <div class="relative hidden md:block shrink-0">
+          <button 
+            @click="openBackupModal"
+            class="px-2.5 sm:px-3 py-1.5 rounded-xl border border-stone-200/90 dark:border-stone-700 bg-stone-50/80 dark:bg-stone-800/80 hover:bg-stone-100 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs hover:border-emerald-300 dark:hover:border-emerald-600 shrink-0"
+            title="Study progress is saved automatically in this browser. Click to backup or export."
+          >
+            <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></div>
+            <span class="whitespace-nowrap">Browser Saved</span>
+          </button>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button 
+          @click="isMobileMenuOpen = !isMobileMenuOpen"
+          class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 lg:hidden shrink-0 border border-stone-200 dark:border-stone-800 flex items-center justify-center"
+          aria-label="Toggle Navigation Menu"
+        >
+          <Menu v-if="!isMobileMenuOpen" class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+          <X v-else class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+        </button>
+
       </div>
+
     </div>
 
     <!-- Mobile Slideout Menu (Scrollable on all phones) -->
@@ -293,7 +289,7 @@ function closeMenus() {
       <!-- Main Navigation Links -->
       <div class="space-y-1 pt-1">
         <router-link 
-          to="/mock-test" 
+          to="/mock-tests" 
           @click="closeMenus" 
           class="flex items-center gap-3 px-3 py-2 rounded-xl text-stone-800 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800 font-semibold"
         >
@@ -320,7 +316,7 @@ function closeMenus() {
         </router-link>
 
         <router-link 
-          to="/hsk-score-calculator" 
+          to="/calculator" 
           @click="closeMenus" 
           class="flex items-center gap-3 px-3 py-2 rounded-xl text-stone-800 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800 font-semibold"
         >
@@ -329,7 +325,7 @@ function closeMenus() {
         </router-link>
 
         <router-link 
-          to="/pronunciation" 
+          to="/pinyin-trainer" 
           @click="closeMenus" 
           class="flex items-center gap-3 px-3 py-2 rounded-xl text-stone-800 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800 font-semibold"
         >
@@ -338,7 +334,7 @@ function closeMenus() {
         </router-link>
 
         <router-link 
-          to="/blog" 
+          to="/guides" 
           @click="closeMenus" 
           class="flex items-center gap-3 px-3 py-2 rounded-xl text-stone-800 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800 font-semibold"
         >

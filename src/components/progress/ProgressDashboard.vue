@@ -68,7 +68,7 @@ import {
 
       <div class="w-full h-3.5 rounded-full bg-stone-100 dark:bg-stone-800 overflow-hidden p-0.5">
         <div 
-          class="h-full bg-linear-to-r from-rose-600 via-rose-500 to-amber-500 rounded-full transition-all duration-500 shadow-xs"
+          class="h-full bg-gradient-to-r from-rose-600 via-rose-500 to-amber-500 rounded-full transition-all duration-500 shadow-xs"
           :style="{ width: `${overallProgressPercent}%` }"
         ></div>
       </div>

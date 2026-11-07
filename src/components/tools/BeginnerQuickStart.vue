@@ -89,7 +89,7 @@ function resetQuiz() {
 </script>
 
 <template>
-  <div class="bg-linear-to-br from-amber-500/5 via-rose-500/5 to-emerald-500/5 dark:from-stone-900 dark:to-stone-900 border-2 border-amber-300/80 dark:border-amber-700/60 rounded-3xl p-4 sm:p-8 lg:p-10 shadow-lg space-y-6 sm:space-y-8 relative overflow-hidden transition-all">
+  <div class="bg-gradient-to-br from-amber-500/5 via-rose-500/5 to-emerald-500/5 dark:from-stone-900 dark:to-stone-900 border-2 border-amber-300/80 dark:border-amber-700/60 rounded-3xl p-4 sm:p-8 lg:p-10 shadow-lg space-y-6 sm:space-y-8 relative overflow-hidden transition-all">
     
     <!-- Top Badge & Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 sm:pb-6 border-b border-stone-200/80 dark:border-stone-800">
@@ -367,7 +367,7 @@ function resetQuiz() {
         <button 
           @click="submitQuiz"
           :disabled="Object.keys(quizAnswers).length === 0"
-          class="px-8 py-3.5 rounded-xl bg-linear-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 disabled:opacity-50 text-white font-black text-xs sm:text-sm shadow-md transition-all active:scale-98"
+          class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 disabled:opacity-50 text-white font-black text-xs sm:text-sm shadow-md transition-all active:scale-98"
         >
           Check My Answers!
         </button>
@@ -376,7 +376,7 @@ function resetQuiz() {
       <!-- Post-Quiz Congratulations Card -->
       <div 
         v-else
-        class="p-6 rounded-2xl bg-linear-to-r from-emerald-500/10 via-amber-500/10 to-emerald-500/10 border border-emerald-400 dark:border-emerald-700 space-y-4 animate-in fade-in"
+        class="p-6 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-amber-500/10 to-emerald-500/10 border border-emerald-400 dark:border-emerald-700 space-y-4 animate-in fade-in"
       >
         <div class="flex items-center gap-3">
           <Star class="w-8 h-8 text-amber-500 fill-current shrink-0" />

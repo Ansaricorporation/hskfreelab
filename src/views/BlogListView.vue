@@ -132,7 +132,7 @@ const gridPosts = computed(() => {
     <router-link 
       v-if="featuredPost"
       :to="`/blog/${featuredPost.slug}`"
-      class="block bg-linear-to-br from-stone-900 via-stone-850 to-stone-900 rounded-3xl p-6 sm:p-10 text-white border border-stone-800 shadow-md hover:shadow-xl transition-all group relative overflow-hidden"
+      class="block bg-gradient-to-br from-stone-900 via-stone-850 to-stone-900 rounded-3xl p-6 sm:p-10 text-white border border-stone-800 shadow-md hover:shadow-xl transition-all group relative overflow-hidden"
     >
       <div class="relative z-10 space-y-4 max-w-3xl">
         <div class="flex items-center gap-2 flex-wrap">

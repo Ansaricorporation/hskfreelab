@@ -31,20 +31,20 @@ const isDropdownOpen = ref(false);
     <!-- Compact Header Progress Pill -->
     <button 
       @click="isDropdownOpen = !isDropdownOpen"
-      class="px-2 sm:px-3 py-1.5 rounded-full border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 hover:border-rose-300 dark:hover:border-rose-700 transition-all flex items-center gap-1 sm:gap-2 shadow-2xs group shrink-0"
+      class="px-2 sm:px-2.5 py-1.5 rounded-full border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 hover:border-rose-300 dark:hover:border-rose-700 transition-all flex items-center gap-1 sm:gap-1.5 shadow-xs group shrink-0"
       title="View Learning Progress"
     >
-      <div class="flex items-center gap-1 sm:gap-1.5 text-xs font-bold text-stone-800 dark:text-stone-200 shrink-0">
+      <div class="flex items-center gap-1 text-xs font-bold text-stone-800 dark:text-stone-200 shrink-0">
         <TrendingUp class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0" />
-        <span class="hidden sm:inline whitespace-nowrap">Progress:</span>
-        <span class="text-rose-600 dark:text-rose-400 hidden sm:inline whitespace-nowrap">{{ totalLearnedWordsCount }}</span>
-        <span class="text-[10px] text-stone-400 hidden sm:inline whitespace-nowrap">/ 603</span>
+        <span class="hidden 2xl:inline whitespace-nowrap">Progress:</span>
+        <span class="text-rose-600 dark:text-rose-400 whitespace-nowrap">{{ totalLearnedWordsCount }}</span>
+        <span class="text-[10px] text-stone-400 whitespace-nowrap">/ 603</span>
       </div>
 
-      <!-- Mini visual progress line (hidden on mobile to prevent navbar crowding) -->
-      <div class="hidden sm:block w-12 sm:w-16 h-1.5 rounded-full bg-stone-100 dark:bg-stone-800 overflow-hidden shrink-0">
+      <!-- Mini visual progress line -->
+      <div class="hidden sm:block w-8 lg:w-10 xl:w-12 h-1.5 rounded-full bg-stone-100 dark:bg-stone-800 overflow-hidden shrink-0">
         <div 
-          class="h-full bg-linear-to-r from-rose-500 to-amber-500 rounded-full transition-all duration-300"
+          class="h-full bg-gradient-to-r from-rose-500 to-amber-500 rounded-full transition-all duration-300"
           :style="{ width: `${overallProgressPercent}%` }"
         ></div>
       </div>
