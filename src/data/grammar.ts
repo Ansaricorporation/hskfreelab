@@ -1,4 +1,4 @@
-import { GrammarPoint } from '../types';
+import type { GrammarPoint } from '../types';
 
 export const grammarData: GrammarPoint[] = [
   {

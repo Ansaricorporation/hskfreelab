@@ -3,6 +3,7 @@ import Header from './components/layout/Header.vue';
 import Footer from './components/layout/Footer.vue';
 import BrowserBackupModal from './components/progress/BrowserBackupModal.vue';
 import PinyinToneGuideModal from './components/tools/PinyinToneGuideModal.vue';
+import CookieConsent from './components/layout/CookieConsent.vue';
 import ToastBanner from './components/ui/ToastBanner.vue';
 import { isToneGuideOpen, closeToneGuide } from './stores/auth';
 </script>
@@ -18,6 +19,7 @@ import { isToneGuideOpen, closeToneGuide } from './stores/auth';
     <!-- Global Modals & Notifications -->
     <BrowserBackupModal />
     <PinyinToneGuideModal :isOpen="isToneGuideOpen" @close="closeToneGuide" />
+    <CookieConsent />
     <ToastBanner />
   </div>
 </template>

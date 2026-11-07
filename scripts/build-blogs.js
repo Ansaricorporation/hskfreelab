@@ -14,7 +14,7 @@ const blogTopics = [
     title: 'HSK 1 Study Plan: The Definitive 30-Day Blueprint to Pass with a Perfect Score',
     summary: 'A scientifically structured 4-week daily routine to master 150 vocabulary words, essential grammar patterns, and native auditory comprehension with zero fluff.',
     date: '2026-10-15',
-    author: 'Dr. Lin Wei & Academic Curriculum Team',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '9 min read',
     tags: ['Study Guide', 'HSK 1', 'Beginner', 'Exam Prep']
   },
@@ -23,7 +23,7 @@ const blogTopics = [
     title: 'HSK 1 vs HSK 2: Comprehensive Level Comparison, Vocabulary Expansion, and Transition Guide',
     summary: 'A detailed comparative analysis dissecting vocabulary count, syntax structures, listening speeds, and functional fluency differences between HSK Level 1 and Level 2.',
     date: '2026-10-18',
-    author: 'Prof. Zhao Chen & Linguistics Research Unit',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '8 min read',
     tags: ['Comparison', 'HSK 1', 'HSK 2', 'Curriculum']
   },
@@ -32,7 +32,7 @@ const blogTopics = [
     title: 'Mastering the HSK 3 Writing Section: Sentence Reconstruction, Character Stroke Accuracy, and Common Pitfalls',
     summary: 'An authoritative tactical breakdown of the HSK 3 written examination section, featuring sentence scramble ordering strategies, stroke direction rules, and grading rubrics.',
     date: '2026-10-22',
-    author: 'Master Calligrapher Shen Kang & Senior Test Evaluator',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '10 min read',
     tags: ['HSK 3', 'Writing', 'Grammar', 'Exam Strategy']
   },
@@ -41,7 +41,7 @@ const blogTopics = [
     title: 'Demystifying the HSK Scoring Algorithm: Weighting, Scaled Scores, and Diagnostic Strategies',
     summary: 'A deep quantitative inspection of official HSK score scales, section minimum thresholds, university admissions cutoffs, and diagnostic study prioritization.',
     date: '2026-10-25',
-    author: 'Dr. Michael Vance & Psychometrics Evaluation Team',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '7 min read',
     tags: ['Scoring', 'Tools', 'Analytics', 'Admissions']
   },
@@ -50,7 +50,7 @@ const blogTopics = [
     title: 'The 50 Most Essential HSK 1 Chinese Characters: Etymology, Stroke Order, and High-Frequency Collocations',
     summary: 'A definitive masterclass breaking down the top 50 Chinese characters in HSK 1, complete with pictographic origins, stroke sequences, radical components, and practical usage.',
     date: '2026-10-28',
-    author: 'Calligraphy Master Zhang & Lexicography Team',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '11 min read',
     tags: ['Characters', 'HSK 1', 'Hanzi', 'Etymology']
   },
@@ -59,7 +59,7 @@ const blogTopics = [
     title: 'The Ultimate HSK 1–3 Grammar Compendium: 30 Essential Sentence Structures Explained Simply',
     summary: 'Every core syntactic formula you must master across Levels 1, 2, and 3, complete with formulas, example sentences, common learner traps, and examiner tips.',
     date: '2026-10-30',
-    author: 'Dr. Helen Chen & Syntax Research Fellow',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '12 min read',
     tags: ['Grammar', 'HSK 1', 'HSK 2', 'HSK 3', 'Syntax']
   },
@@ -68,7 +68,7 @@ const blogTopics = [
     title: 'The Science of Test Simulation: How to Maximize Score Gains Using HSK Mock Examinations',
     summary: 'Cognitive conditioning, timed test strategy, pacing psychology, and error autopsy methods to turn practice test sessions into dramatic score breakthroughs.',
     date: '2026-10-12',
-    author: 'Examinations Director Kevin Huang',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '8 min read',
     tags: ['Mock Tests', 'Exam Prep', 'Strategy', 'Psychology']
   },
@@ -77,7 +77,7 @@ const blogTopics = [
     title: 'From BLCU to 3.0: The Complete History and Future Evolution of the HSK Examination System',
     summary: 'Trace the 40-year evolution of China\'s standardized language test from its 1984 academic birth through HSK 2.0 to the modern 9-level HSK 3.0 standard.',
     date: '2026-10-10',
-    author: 'Academic Historian Dr. Wei Kang',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '9 min read',
     tags: ['HSK History', 'HSK 3.0', 'Curriculum', 'Syllabus']
   },
@@ -86,7 +86,7 @@ const blogTopics = [
     title: '10 Cognitive Science-Backed Study Techniques for Rapid Mandarin Fluency',
     summary: 'Evidence-based learning tactics: active recall, spaced repetition, dual-coding theory, and auditory shadowing applied specifically to Chinese language acquisition.',
     date: '2026-10-08',
-    author: 'Cognitive Linguist Sarah Jenkins',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '8 min read',
     tags: ['Study Tips', 'Memory', 'Beginner', 'Productivity']
   },
@@ -95,7 +95,7 @@ const blogTopics = [
     title: 'The Definitive HSK 3 Survival Guide: From Intermediate Plateaus to Confident Fluency',
     summary: 'How to conquer 600 words, manage unassisted Hanzi reading without Pinyin crutches, and master sentence disposal mechanics for total test dominance.',
     date: '2026-10-05',
-    author: 'Senior Instructor Liu Fang',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '11 min read',
     tags: ['HSK 3', 'Intermediate', 'Study Guide', 'Fluency']
   },
@@ -104,7 +104,7 @@ const blogTopics = [
     title: 'The Ultimate Guide to Chinese Measure Words (量词): Every Classifier You Need for HSK 1–3',
     summary: 'Classifiers decoded: Ge, Ben, Zhi, Tiao, Zhang, Ba, Shuang, and Kuai. Practical categorization rules that make measure words intuitive and natural.',
     date: '2026-10-02',
-    author: 'Linguistics Department Editorial Board',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '9 min read',
     tags: ['Measure Words', 'Grammar', 'HSK 1-3', 'Vocabulary']
   },
@@ -113,7 +113,7 @@ const blogTopics = [
     title: 'Conquering Mandarin Pinyin Tones: Auditory Calibration, Pitch Contours, and Tone Sandhi Rules',
     summary: 'Overcome tone deafness with scientific pitch contour mapping (55, 35, 214, 51), half-third tone secrets, and mandatory tone sandhi rules for 不 and 一.',
     date: '2026-09-28',
-    author: 'Acoustic Phonetics Specialist Dr. Amy Tan',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '10 min read',
     tags: ['Pinyin', 'Tones', 'Pronunciation', 'Speaking']
   },
@@ -122,7 +122,7 @@ const blogTopics = [
     title: 'Decoding Chinese Characters: The Top 40 Radicals That Make Hanzi Memorization Effortless',
     summary: 'Unlock the semantic DNA of Chinese script: water radicals, person radicals, hand radicals, heart radicals, and building block character assembly.',
     date: '2026-09-25',
-    author: 'Epigraphy & Paleography Research Fellow',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '10 min read',
     tags: ['Radicals', 'Characters', 'Hanzi', 'Etymology']
   },
@@ -131,7 +131,7 @@ const blogTopics = [
     title: 'How to Ace HSK 2 Listening: Overcoming Fast Native Speech, Distractors, and Exam Traps',
     summary: 'Tactical listening ear conditioning: keyword anticipation, dialogue deduction, temporal qualifiers, and managing test anxiety under rapid audio pacing.',
     date: '2026-09-20',
-    author: 'Audio Testing Coordinator Marcus Lee',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '8 min read',
     tags: ['Listening', 'HSK 2', 'Exam Strategy', 'Audio']
   },
@@ -140,7 +140,7 @@ const blogTopics = [
     title: 'The Comprehensive Guide to Chinese Stroke Order: 7 Foundational Rules and Character Aesthetics',
     summary: 'Why stroke order is crucial for muscle memory, digital handwriting recognition, character aesthetics, and radical balance.',
     date: '2026-09-18',
-    author: 'Master Calligrapher Shen Kang',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '8 min read',
     tags: ['Stroke Order', 'Hanzi', 'Writing', 'Calligraphy']
   },
@@ -149,7 +149,7 @@ const blogTopics = [
     title: 'HSK vs. TOCFL: Which Chinese Proficiency Credential Fits Your Career and University Goals?',
     summary: 'Detailed side-by-side comparison between Mainland China\'s HSK and Taiwan\'s TOCFL: simplified vs. traditional characters, scoring scales, and international recognition.',
     date: '2026-09-15',
-    author: 'International Academic Admissions Advisor',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '9 min read',
     tags: ['HSK vs TOCFL', 'Proficiency', 'Taiwan', 'Mainland']
   },
@@ -158,7 +158,7 @@ const blogTopics = [
     title: '25 False Friends and Confusing Word Pairs in Mandarin Chinese (And How to Avoid Them)',
     summary: 'Untangle tricky semantic pairs like 怎么 vs 怎么样, 想 vs 要, 刚才 vs 现在, 以前 vs 以后, and 能 vs 会 with crystal clear contextual examples.',
     date: '2026-09-12',
-    author: 'Senior Contrastive Linguist Dr. Wang',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '9 min read',
     tags: ['Vocabulary', 'Mistakes', 'False Friends', 'Grammar']
   },
@@ -167,7 +167,7 @@ const blogTopics = [
     title: 'How to Use Spaced Repetition Systems (SRS) to Memorize 1,000 Chinese Characters in 90 Days',
     summary: 'Harness the Ebbinghaus forgetting curve, Leitner flashcard mechanics, and active recall intervals to permanently store Chinese characters in long-term memory.',
     date: '2026-09-08',
-    author: 'Memory Champion & Polyglot David Sterling',
+    author: 'HSK Free Lab Editorial Team',
     readTime: '9 min read',
     tags: ['Memory', 'SRS', 'Flashcards', 'Productivity']
   }

@@ -35,7 +35,56 @@ watch(post, (currentPost) => {
       title: `${currentPost.title} | HSK Free Lab`,
       description: currentPost.summary,
       canonical: `https://mybwn.com/guides/${currentPost.slug}`,
-      type: 'article'
+      type: 'article',
+      jsonLd: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: currentPost.title,
+          description: currentPost.summary,
+          author: {
+            '@type': 'Organization',
+            name: 'HSK Free Lab',
+            url: 'https://mybwn.com/'
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: 'HSK Free Lab',
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://mybwn.com/favicon.svg'
+            }
+          },
+          datePublished: currentPost.date,
+          dateModified: '2026-11-07',
+          mainEntityOfPage: `https://mybwn.com/guides/${currentPost.slug}`,
+          image: 'https://mybwn.com/og-preview.png'
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: 'Home',
+              item: 'https://mybwn.com/'
+            },
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: 'Guides',
+              item: 'https://mybwn.com/guides'
+            },
+            {
+              '@type': 'ListItem',
+              position: 3,
+              name: currentPost.title,
+              item: `https://mybwn.com/guides/${currentPost.slug}`
+            }
+          ]
+        }
+      ]
     }, route.path);
   }
 }, { immediate: true });
@@ -177,7 +226,7 @@ function scrollToSection(sectionId: string) {
       <!-- Top Navigation & Breadcrumbs -->
       <div class="flex items-center justify-between text-xs">
         <router-link 
-          to="/blog" 
+          to="/guides" 
           class="inline-flex items-center gap-1.5 font-bold text-stone-600 dark:text-stone-300 hover:text-rose-600 dark:hover:text-rose-400 transition-colors"
         >
           <ArrowLeft class="w-4 h-4" />
@@ -346,7 +395,7 @@ function scrollToSection(sectionId: string) {
           <div class="pt-6 border-t border-stone-100 dark:border-stone-800 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <router-link 
               v-if="prevPost" 
-              :to="`/blog/${prevPost.slug}`"
+              :to="`/guides/${prevPost.slug}`"
               class="p-4 rounded-2xl border border-stone-200 dark:border-stone-700 hover:border-rose-300 dark:hover:border-rose-600 hover:bg-stone-50/80 dark:hover:bg-stone-800 transition-all group flex flex-col justify-between"
             >
               <div class="text-[10px] font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider flex items-center gap-1">
@@ -360,7 +409,7 @@ function scrollToSection(sectionId: string) {
 
             <router-link 
               v-if="nextPost" 
-              :to="`/blog/${nextPost.slug}`"
+              :to="`/guides/${nextPost.slug}`"
               class="p-4 rounded-2xl border border-stone-200 dark:border-stone-700 hover:border-rose-300 dark:hover:border-rose-600 hover:bg-stone-50/80 dark:hover:bg-stone-800 transition-all group flex flex-col justify-between text-right"
             >
               <div class="text-[10px] font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider flex items-center justify-end gap-1">
@@ -411,7 +460,7 @@ function scrollToSection(sectionId: string) {
               Take an official format timed mock test. 10 test gates per level with listening and reading.
             </p>
             <router-link 
-              to="/mock-test"
+              to="/mock-tests"
               class="block w-full py-2.5 text-center text-xs font-bold rounded-xl bg-white text-rose-900 hover:bg-rose-50 transition-colors shadow-xs"
             >
               Start Free Timed Mock Test
@@ -429,7 +478,7 @@ function scrollToSection(sectionId: string) {
               <router-link 
                 v-for="rel in relatedPosts" 
                 :key="rel.slug"
-                :to="`/blog/${rel.slug}`"
+                :to="`/guides/${rel.slug}`"
                 class="block p-3 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-800 border border-stone-100 dark:border-stone-800 transition-colors space-y-1 group"
               >
                 <div class="text-[10px] font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider">
@@ -449,7 +498,7 @@ function scrollToSection(sectionId: string) {
       <div v-else class="text-center py-20 bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 p-8 space-y-4">
         <h2 class="text-2xl font-bold text-stone-900 dark:text-stone-100">Guide not found</h2>
         <p class="text-xs text-stone-500 dark:text-stone-400">The requested article slug could not be located in our repository.</p>
-        <router-link to="/blog" class="inline-block px-5 py-2.5 rounded-xl bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-xs font-bold">
+        <router-link to="/guides" class="inline-block px-5 py-2.5 rounded-xl bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-xs font-bold">
           Return to Blog Directory
         </router-link>
       </div>

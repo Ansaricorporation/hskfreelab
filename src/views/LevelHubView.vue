@@ -118,7 +118,7 @@ const levelMeta = computed(() => {
           </router-link>
 
           <router-link 
-            to="/hsk-score-calculator" 
+            to="/calculator" 
             class="px-5 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
           >
             <span>Score Calculator</span>

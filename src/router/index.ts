@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { updateSeoMeta } from '../utils/seo';
-import { getBlogPostBySlug } from '../data';
+import { getBlogPostBySlug } from '../data/blogs';
 
 // Lazy-loaded route components for optimal initial paint & code-splitting
 const HomeView = () => import('../views/HomeView.vue');
@@ -14,6 +14,7 @@ const GrammarView = () => import('../views/GrammarView.vue');
 const BlogListView = () => import('../views/BlogListView.vue');
 const BlogPostView = () => import('../views/BlogPostView.vue');
 const AboutView = () => import('../views/AboutView.vue');
+const ContactView = () => import('../views/ContactView.vue');
 const HskHistoryView = () => import('../views/HskHistoryView.vue');
 const LegalView = () => import('../views/LegalView.vue');
 
@@ -179,6 +180,16 @@ const routes: RouteRecordRaw[] = [
       title: 'About HSK Free Lab - 100% Free Open Chinese Learning Platform',
       description: 'Learn about HSK Free Lab mission to provide world-class, 100% free Chinese language study resources without paywalls or subscriptions.',
       canonical: 'https://mybwn.com/about'
+    }
+  },
+  { 
+    path: '/contact', 
+    name: 'contact', 
+    component: ContactView,
+    meta: {
+      title: 'Contact HSK Free Lab - Support, Feedback & Inquiries',
+      description: 'Get in touch with the HSK Free Lab editorial and technical team. Send bug reports, vocabulary corrections, syllabus feedback, or general questions.',
+      canonical: 'https://mybwn.com/contact'
     }
   },
   { 

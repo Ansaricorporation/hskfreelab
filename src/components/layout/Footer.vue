@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { Sparkles, ShieldCheck, Heart } from 'lucide-vue-next';
-import { openToneGuide } from '../../stores/auth';
 </script>
 
 <template>
-  <footer class="bg-stone-900 text-stone-300 mt-20 border-t border-stone-800">
+  <footer class="bg-stone-900 text-stone-300 mt-20 border-t border-stone-800 w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
         
@@ -36,7 +35,6 @@ import { openToneGuide } from '../../stores/auth';
             <li><router-link to="/hsk-1" class="hover:text-white transition-colors">HSK 1 (A1 · 150 Vocab)</router-link></li>
             <li><router-link to="/hsk-2" class="hover:text-white transition-colors">HSK 2 (A2 · 300 Vocab)</router-link></li>
             <li><router-link to="/hsk-3" class="hover:text-white transition-colors">HSK 3 (B1 · 600 Vocab)</router-link></li>
-            <li><router-link to="/hsk-1" class="text-xs text-stone-500 hover:text-stone-400">Exam Structure Breakdown</router-link></li>
             <li><router-link to="/lessons" class="hover:text-white transition-colors">Interactive Lessons</router-link></li>
             <li><router-link to="/grammar" class="hover:text-white transition-colors">Grammar Compendium</router-link></li>
           </ul>
@@ -46,12 +44,12 @@ import { openToneGuide } from '../../stores/auth';
         <div>
           <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Interactive Tools</h4>
           <ul class="space-y-2.5 text-sm">
-            <li><button @click="openToneGuide" class="hover:text-white transition-colors text-left">Pinyin &amp; 5 Tones Guide</button></li>
+            <li><router-link to="/pinyin-trainer#tone-guide" class="hover:text-white transition-colors">Pinyin &amp; 5 Tones Guide</router-link></li>
             <li><router-link to="/stroke-order" class="hover:text-white transition-colors">Stroke Animator &amp; Quiz</router-link></li>
-            <li><router-link to="/hsk-score-calculator" class="hover:text-white transition-colors">HSK Score Calculator</router-link></li>
-            <li><router-link to="/pronunciation" class="hover:text-white transition-colors">Pinyin Tone Trainer</router-link></li>
-            <li><router-link to="/mock-test" class="hover:text-white transition-colors">Timed Mock Exams</router-link></li>
-            <li><router-link to="/blog/hsk-1-study-plan" class="hover:text-white transition-colors">30-Day Study Plan</router-link></li>
+            <li><router-link to="/calculator" class="hover:text-white transition-colors">HSK Score Calculator</router-link></li>
+            <li><router-link to="/pinyin-trainer" class="hover:text-white transition-colors">Pinyin Tone Trainer</router-link></li>
+            <li><router-link to="/mock-tests" class="hover:text-white transition-colors">Timed Mock Exams</router-link></li>
+            <li><router-link to="/guides/hsk-1-study-plan" class="hover:text-white transition-colors">30-Day Study Plan</router-link></li>
           </ul>
         </div>
 
@@ -60,6 +58,7 @@ import { openToneGuide } from '../../stores/auth';
           <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Trust & Legal</h4>
           <ul class="space-y-2.5 text-sm">
             <li><router-link to="/about" class="hover:text-white transition-colors">About Us</router-link></li>
+            <li><router-link to="/contact" class="hover:text-white transition-colors">Contact Us</router-link></li>
             <li><router-link to="/hsk-history" class="hover:text-white transition-colors">HSK History & 3.0</router-link></li>
             <li><router-link to="/data-sources" class="hover:text-white transition-colors">Data Sources & Licenses</router-link></li>
             <li><router-link to="/privacy-policy" class="hover:text-white transition-colors">Privacy Policy</router-link></li>

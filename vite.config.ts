@@ -15,6 +15,24 @@ export default defineConfig({
     target: 'es2020',
     cssMinify: true,
     chunkSizeWarningLimit: 1200,
+    modulePreload: {
+      polyfill: false,
+      resolveDependencies(_filename: string, deps: string[], { hostType }: { hostId: string; hostType: 'html' | 'js' }) {
+        if (hostType === 'html') {
+          return deps.filter((dep) => {
+            const normalized = dep.replace(/\\/g, '/');
+            return !(
+              normalized.includes('data-') ||
+              normalized.includes('pinyin-pro') ||
+              normalized.includes('hanzi-writer') ||
+              normalized.includes('View-') ||
+              normalized.includes('views/')
+            );
+          });
+        }
+        return deps;
+      },
+    },
     rollupOptions: {
       output: {
         manualChunks(id) {

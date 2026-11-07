@@ -1,4 +1,4 @@
-import { VocabItem } from '../types';
+import type { VocabItem } from '../types';
 
 export const hsk3Vocab: VocabItem[] = [
   {

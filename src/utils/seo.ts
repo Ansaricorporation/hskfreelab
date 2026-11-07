@@ -4,6 +4,7 @@ export interface SeoMeta {
   canonical?: string;
   image?: string;
   type?: string;
+  jsonLd?: object | object[];
 }
 
 export const SITE_DOMAIN = 'https://mybwn.com';
@@ -57,4 +58,15 @@ export function updateSeoMeta(meta: Partial<SeoMeta>, path = window.location.pat
   setMeta('name', 'twitter:title', title);
   setMeta('name', 'twitter:description', description);
   setMeta('name', 'twitter:image', imageUrl);
+
+  // JSON-LD Structured Data
+  if (meta.jsonLd) {
+    let jsonLdEl = document.querySelector('script[type="application/ld+json"]');
+    if (!jsonLdEl) {
+      jsonLdEl = document.createElement('script');
+      jsonLdEl.setAttribute('type', 'application/ld+json');
+      document.head.appendChild(jsonLdEl);
+    }
+    jsonLdEl.textContent = JSON.stringify(meta.jsonLd);
+  }
 }
