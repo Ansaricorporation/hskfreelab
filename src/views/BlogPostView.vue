@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getAllBlogPosts, getBlogPostBySlug } from '../data';
+import { updateSeoMeta } from '../utils/seo';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -27,6 +28,16 @@ const router = useRouter();
 const slug = computed(() => route.params.slug as string);
 const post = computed(() => getBlogPostBySlug(slug.value));
 const allPosts = getAllBlogPosts();
+
+watch(post, (currentPost) => {
+  if (currentPost) {
+    updateSeoMeta({
+      title: `${currentPost.title} | HSK Free Lab`,
+      description: currentPost.summary,
+      type: 'article'
+    }, route.path);
+  }
+}, { immediate: true });
 
 // Scroll progress bar
 const scrollProgress = ref(0);
