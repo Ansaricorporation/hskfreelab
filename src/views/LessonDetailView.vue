@@ -26,6 +26,7 @@ import {
   type EnrichedVocabItem 
 } from '../data/lesson-helpers.ts';
 import { getWordByHanzi } from '../data/vocab-helpers.ts';
+import { all88GrammarRules } from '../data/grammar-helpers.ts';
 import { playAudio } from '../utils/speech';
 import { updateSeoMeta } from '../utils/seo';
 import { markLessonCompleted, activeProgress } from '../stores/auth';
@@ -47,6 +48,10 @@ const enrichedVocab = computed<EnrichedVocabItem[]>(() => {
 const { prevLesson, nextLesson } = computed(() => getAdjacentLessons(slug.value)).value;
 const adjacent = computed(() => getAdjacentLessons(slug.value));
 const relatedGuides = computed(() => lesson.value ? getRelatedGuidesForLesson(lesson.value) : []);
+const lessonGrammarRules = computed(() => {
+  if (!lesson.value) return [];
+  return all88GrammarRules.filter(r => r.parentLessonSlug === lesson.value?.slug);
+});
 
 // Quiz state
 const quizAnswers = ref<Record<number, number>>({});
@@ -387,6 +392,15 @@ watch(lesson, (cur) => {
           <div class="p-3 bg-white dark:bg-stone-800 rounded-xl border border-stone-200/60 dark:border-stone-700 text-xs text-stone-700 dark:text-stone-300">
             <strong>Example in Context:</strong> {{ lesson.dialogue[idx % lesson.dialogue.length]?.zh }} 
             <span class="text-rose-600 dark:text-rose-400">({{ lesson.dialogue[idx % lesson.dialogue.length]?.py }})</span>
+          </div>
+
+          <div v-if="lessonGrammarRules[idx]" class="pt-1">
+            <router-link 
+              :to="`/grammar/${lessonGrammarRules[idx].slug}`"
+              class="inline-flex items-center gap-1.5 text-xs font-bold text-sky-700 dark:text-sky-300 hover:underline"
+            >
+              <span>Dedicated Guide: {{ lessonGrammarRules[idx].title }} &rarr;</span>
+            </router-link>
           </div>
         </div>
       </div>

@@ -11,14 +11,14 @@ import {
   BookOpen,
   CheckCircle2
 } from 'lucide-vue-next';
-import { getAll88GrammarPoints, type CompendiumGrammarPoint } from '../data/lesson-helpers.ts';
+import { all88GrammarRules, type EnrichedGrammarRule } from '../data/grammar-helpers.ts';
 import { playAudio } from '../utils/speech';
 import LevelBadge from '../components/ui/LevelBadge.vue';
 
 const selectedLevel = ref<number | 'all'>('all');
 const searchQuery = ref('');
 
-const allGrammar = getAll88GrammarPoints();
+const allGrammar = all88GrammarRules;
 
 const counts = computed(() => {
   return {
@@ -139,7 +139,9 @@ const filteredGrammar = computed(() => {
               <span class="text-xs text-stone-400 dark:text-stone-500 font-mono">{{ item.id }}</span>
             </div>
             <h2 class="text-lg sm:text-2xl font-black text-stone-900 dark:text-stone-100">
-              {{ item.title }}
+              <router-link :to="`/grammar/${item.slug}`" class="hover:text-rose-600 dark:hover:text-rose-400 transition-colors">
+                {{ item.title }}
+              </router-link>
             </h2>
           </div>
         </div>
@@ -180,31 +182,29 @@ const filteredGrammar = computed(() => {
         </div>
 
         <!-- Common Mistake Warning -->
-        <div v-if="item.commonMistake" class="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/60 flex items-start gap-2.5 text-xs text-amber-900 dark:text-amber-200">
+        <div v-if="item.commonMistakes && item.commonMistakes.length > 0" class="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/60 flex items-start gap-2.5 text-xs text-amber-900 dark:text-amber-200">
           <AlertTriangle class="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
           <div>
-            <strong>Common Pitfall:</strong> {{ item.commonMistake }}
+            <strong>Common Pitfall:</strong> {{ item.commonMistakes[0] }}
           </div>
         </div>
 
-        <!-- Card Footer: Internal Link to Lesson or Guide -->
-        <div class="pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs">
+        <!-- Card Footer: Internal Link to Full Rule and Parent Lesson -->
+        <div class="pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between flex-wrap gap-2 text-xs">
           <router-link 
-            v-if="item.lessonSlug"
-            :to="`/lessons/${item.lessonSlug}`" 
-            class="font-bold text-sky-700 dark:text-sky-400 hover:underline flex items-center gap-1 group"
+            :to="`/grammar/${item.slug}`" 
+            class="font-black text-rose-600 dark:text-rose-400 hover:underline flex items-center gap-1 group"
           >
-            <span>Practice in {{ item.lessonTitle }}</span>
+            <span>Full Grammar Guide & Quiz</span>
             <ArrowRight class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
           </router-link>
 
           <router-link 
-            v-else
-            to="/guides/hsk-1-3-grammar-points" 
-            class="font-bold text-rose-700 dark:text-rose-400 hover:underline flex items-center gap-1 group"
+            v-if="item.parentLessonSlug"
+            :to="`/lessons/${item.parentLessonSlug}`" 
+            class="font-semibold text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:underline flex items-center gap-1"
           >
-            <span>Read Complete 30-Rule Compendium Guide</span>
-            <ArrowRight class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            <span>Lesson Context: {{ item.parentLessonTitle }} &rarr;</span>
           </router-link>
         </div>
       </div>

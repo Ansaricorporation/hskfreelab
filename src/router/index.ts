@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { updateSeoMeta } from '../utils/seo';
 import { getBlogPostBySlug } from '../data/blogs';
 import { getWordBySlug } from '../data/vocab-helpers';
+import { getGrammarRuleBySlug } from '../data/grammar-helpers';
 
 // Lazy-loaded route components for optimal initial paint & code-splitting
 const HomeView = () => import('../views/HomeView.vue');
@@ -15,6 +16,7 @@ const MockTestView = () => import('../views/MockTestView.vue');
 const LessonsView = () => import('../views/LessonsView.vue');
 const LessonDetailView = () => import('../views/LessonDetailView.vue');
 const GrammarView = () => import('../views/GrammarView.vue');
+const GrammarDetailView = () => import('../views/GrammarDetailView.vue');
 const BlogListView = () => import('../views/BlogListView.vue');
 const BlogPostView = () => import('../views/BlogPostView.vue');
 const AboutView = () => import('../views/AboutView.vue');
@@ -206,6 +208,15 @@ const routes: RouteRecordRaw[] = [
     }
   },
   { 
+    path: '/grammar/:slug', 
+    name: 'grammar-detail', 
+    component: GrammarDetailView,
+    meta: {
+      title: 'HSK Chinese Grammar Guide & Quiz | HSK Free Lab',
+      description: 'Master Chinese grammar structures with detailed syntactic formulas, authentic native audio, common mistakes, and interactive quizzes.'
+    }
+  },
+  { 
     path: '/about', 
     name: 'about', 
     component: AboutView,
@@ -325,6 +336,14 @@ router.afterEach((to) => {
       description = `Learn Chinese word ${word.hanzi} (${word.pinyin}): English meaning "${word.meaning}", animated stroke order, HSK ${word.level} audio pronunciation, grammar collocations, and practice quiz.`;
       ogType = 'article';
       canonical = `https://mybwn.com/words/${word.slug}`;
+    }
+  } else if (to.name === 'grammar-detail' && to.params.slug) {
+    const rule = getGrammarRuleBySlug(to.params.slug as string);
+    if (rule) {
+      title = `${rule.title} - HSK ${rule.level} Chinese Grammar Guide | HSK Free Lab`;
+      description = `Master ${rule.title} for HSK ${rule.level}. Syntax pattern: ${rule.pattern}. Free bilingual examples with native audio, common mistakes, and interactive quiz.`;
+      ogType = 'article';
+      canonical = `https://mybwn.com/grammar/${rule.slug}`;
     }
   }
 

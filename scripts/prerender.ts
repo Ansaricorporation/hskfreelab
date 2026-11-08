@@ -34,6 +34,10 @@ import {
   getWordPracticeQuiz,
   type VocabItemWithSlug 
 } from '../src/data/vocab-helpers.ts';
+import { 
+  all88GrammarRules, 
+  type EnrichedGrammarRule 
+} from '../src/data/grammar-helpers.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -219,6 +223,200 @@ function renderWordsDirectoryStaticHtml(): string {
         </div>
       </section>
     </div>
+  `;
+}
+
+// Static HTML Generator for Individual 88 Grammar Rule Study Guide (/grammar/:slug)
+function renderGrammarDetailStaticHtml(rule: EnrichedGrammarRule): string {
+  const badgeColor = rule.level === 1 
+    ? 'bg-emerald-50 text-emerald-800 border-emerald-200' 
+    : rule.level === 2 
+    ? 'bg-sky-50 text-sky-800 border-sky-200' 
+    : 'bg-amber-50 text-amber-800 border-amber-200';
+
+  return `
+    <article class="max-w-4xl mx-auto py-8 px-4 space-y-10">
+      <!-- Breadcrumb Navigation -->
+      <nav aria-label="Breadcrumb" class="text-xs text-stone-500">
+        <ol class="flex items-center gap-1.5 flex-wrap">
+          <li><a href="/" class="hover:underline">Home</a> &gt;</li>
+          <li><a href="/hsk-${rule.level}" class="hover:underline">HSK ${rule.level} Hub</a> &gt;</li>
+          <li><a href="/grammar" class="hover:underline">Grammar Compendium</a> &gt;</li>
+          <li class="font-bold text-stone-900">${rule.title}</li>
+        </ol>
+      </nav>
+
+      <!-- HERO ARTICLE HEADER -->
+      <header class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-stone-100">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="px-3 py-1 rounded-full text-xs font-bold border ${badgeColor}">HSK ${rule.level}</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-stone-100 text-stone-700 text-xs font-semibold">${rule.cefr}</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-800 text-xs font-semibold">${rule.category}</span>
+            ${rule.parentLessonSlug ? `<a href="/lessons/${rule.parentLessonSlug}" class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold hover:underline">Taught in ${rule.parentLessonTitle || 'Core Lesson'} &rarr;</a>` : ''}
+          </div>
+          <span class="text-xs text-stone-400 font-mono">Rule ID: ${rule.id}</span>
+        </div>
+
+        <div class="space-y-3">
+          <h1 class="text-3xl sm:text-4xl font-black text-stone-900 tracking-tight leading-tight">
+            ${rule.title}
+          </h1>
+          <p class="text-base text-stone-700 leading-relaxed">
+            ${rule.explanation}
+          </p>
+        </div>
+
+        <!-- Syntax Formula Pattern -->
+        <div class="p-5 rounded-2xl bg-stone-50 border border-stone-200 space-y-2">
+          <div class="text-xs font-bold text-stone-500 uppercase tracking-wider">Core Sentence Pattern Formula:</div>
+          <div class="font-mono text-lg sm:text-xl font-black text-sky-800 bg-white p-3.5 rounded-xl border border-stone-200 shadow-2xs">
+            ${rule.pattern}
+          </div>
+        </div>
+      </header>
+
+      <!-- SECTION 1: Structural Variations -->
+      <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-5">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+          <span>📐</span>
+          <span>Sentence Variations &amp; Structural Configurations</span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+            <div class="text-xs font-bold uppercase text-emerald-900">Affirmative Pattern</div>
+            <div class="text-sm font-semibold text-stone-900">${rule.structuralVariations.affirmative}</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 space-y-1.5">
+            <div class="text-xs font-bold uppercase text-rose-900">Negative Pattern (不 / 没)</div>
+            <div class="text-sm font-semibold text-stone-900">${rule.structuralVariations.negative}</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-sky-50 border border-sky-200 space-y-1.5">
+            <div class="text-xs font-bold uppercase text-sky-900">Interrogative Question Form</div>
+            <div class="text-sm font-semibold text-stone-900">${rule.structuralVariations.question}</div>
+          </div>
+        </div>
+        ${rule.structuralVariations.notes ? `
+          <div class="p-4 rounded-2xl bg-stone-50 border border-stone-200 text-xs text-stone-700">
+            <strong>Syntactic Usage Note:</strong> ${rule.structuralVariations.notes}
+          </div>` : ''}
+      </section>
+
+      <!-- SECTION 2: Authentic Bilingual Examples -->
+      <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-5">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+          <span>🗣️</span>
+          <span>Authentic Contextual Examples &amp; Pronunciation</span>
+        </h2>
+        <div class="space-y-3">
+          ${rule.examples.map((ex) => `
+            <div class="p-4 sm:p-5 rounded-2xl bg-stone-50 border border-stone-200 space-y-1">
+              <div class="font-serif font-black text-lg sm:text-xl text-stone-900">${ex.zh}</div>
+              <div class="text-xs sm:text-sm font-semibold text-rose-700 font-mono">${ex.py}</div>
+              <div class="text-xs sm:text-sm text-stone-600">${ex.en}</div>
+            </div>`).join('')}
+        </div>
+      </section>
+
+      <!-- SECTION 3: Common Pitfalls & Exam Strategy -->
+      <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-5">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+          <span>⚠️</span>
+          <span>Common Mistakes &amp; HSK Exam Traps</span>
+        </h2>
+        <div class="space-y-3">
+          ${rule.commonMistakes.map((m, idx) => `
+            <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 flex items-start gap-3 text-xs sm:text-sm text-stone-800">
+              <span class="px-2 py-0.5 rounded-md bg-rose-200 text-rose-900 font-black text-xs shrink-0 mt-0.5">Trap ${idx + 1}</span>
+              <div>${m}</div>
+            </div>`).join('')}
+        </div>
+        <div class="p-5 rounded-2xl bg-amber-50 border border-amber-200 space-y-2">
+          <div class="text-xs font-bold text-amber-900 uppercase">Official HSK Test Strategy:</div>
+          <p class="text-xs sm:text-sm text-amber-950 leading-relaxed">${rule.examStrategy}</p>
+        </div>
+      </section>
+
+      <!-- SECTION 4: Cross-linked Vocabulary -->
+      ${rule.matchedVocab && rule.matchedVocab.length > 0 ? `
+      <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-5">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+            <span>📖</span>
+            <span>Key Syllabus Words Used in this Structure</span>
+          </h2>
+          <a href="/words" class="text-xs font-bold text-rose-700 hover:underline">All 603 Words &rarr;</a>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          ${rule.matchedVocab.map(v => `
+            <a href="/words/${v.slug}" class="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 hover:border-emerald-400 block space-y-1 group">
+              <div class="flex items-center justify-between">
+                <span class="font-serif font-black text-xl text-stone-900 group-hover:text-emerald-700">${v.hanzi}</span>
+                <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-stone-200 text-stone-700">HSK ${v.level}</span>
+              </div>
+              <div class="text-xs font-semibold text-rose-700">${v.pinyin}</div>
+              <div class="text-[11px] text-stone-500 truncate">${v.meaning}</div>
+            </a>`).join('')}
+        </div>
+      </section>` : ''}
+
+      <!-- SECTION 5: Practice Mastery Quiz -->
+      <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-sm space-y-6">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+          <span>✍️</span>
+          <span>Grammar Mastery Practice Quiz (随堂测试)</span>
+        </h2>
+        <div class="space-y-5">
+          ${rule.quiz.map((q, idx) => `
+            <div class="p-5 rounded-2xl bg-stone-50 border border-stone-200 space-y-3">
+              <div class="font-bold text-sm text-stone-900">Question ${idx + 1}: ${q.question}</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                ${q.options.map((opt, optIdx) => `
+                  <div class="p-3 rounded-xl border ${optIdx === q.correctIndex ? 'border-emerald-400 bg-emerald-50 text-emerald-950 font-bold' : 'border-stone-200 bg-white text-stone-700'}">
+                    <span>${String.fromCharCode(65 + optIdx)}. ${opt}</span>
+                    ${optIdx === q.correctIndex ? '<span class="ml-1 text-emerald-700 font-bold">✓ (Correct Answer)</span>' : ''}
+                  </div>`).join('')}
+              </div>
+              <div class="p-3 rounded-xl bg-white border border-stone-200 text-xs text-stone-600 leading-relaxed">
+                <strong>Pedagogical Explanation:</strong> ${q.explanation}
+              </div>
+            </div>`).join('')}
+        </div>
+      </section>
+
+      <!-- SECTION 6: Circular Navigation & Related Rules -->
+      <footer class="space-y-6 pt-6 border-t border-stone-200">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          ${rule.prevRule ? `
+            <a href="/grammar/${rule.prevRule.slug}" class="p-4 rounded-2xl bg-white border border-stone-200 hover:border-sky-400 block space-y-1">
+              <div class="text-[10px] uppercase font-bold text-stone-400">&larr; Previous Rule (HSK ${rule.prevRule.level})</div>
+              <div class="text-sm font-bold text-stone-900">${rule.prevRule.title}</div>
+            </a>` : '<div></div>'}
+          ${rule.nextRule ? `
+            <a href="/grammar/${rule.nextRule.slug}" class="p-4 rounded-2xl bg-white border border-stone-200 hover:border-sky-400 block space-y-1 text-right">
+              <div class="text-[10px] uppercase font-bold text-stone-400">Next Rule (HSK ${rule.nextRule.level}) &rarr;</div>
+              <div class="text-sm font-bold text-stone-900">${rule.nextRule.title}</div>
+            </a>` : '<div></div>'}
+        </div>
+
+        <!-- 4 Related Rules -->
+        ${rule.relatedRules && rule.relatedRules.length > 0 ? `
+          <div class="p-6 bg-white rounded-3xl border border-stone-200 space-y-4">
+            <h3 class="text-base font-bold text-stone-900">Related Grammar Rules to Study:</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              ${rule.relatedRules.map(rel => `
+                <a href="/grammar/${rel.slug}" class="p-3.5 rounded-xl bg-stone-50 border border-stone-200 hover:border-sky-300 block space-y-1">
+                  <div class="flex items-center justify-between text-[10px] text-stone-400 font-bold uppercase">
+                    <span>${rel.category}</span>
+                    <span class="text-sky-700">HSK ${rel.level}</span>
+                  </div>
+                  <div class="font-bold text-xs text-stone-900">${rel.title}</div>
+                  <div class="text-[11px] font-mono text-stone-500 truncate">${rel.pattern}</div>
+                </a>`).join('')}
+            </div>
+          </div>` : ''}
+      </footer>
+    </article>
   `;
 }
 
@@ -981,7 +1179,7 @@ function getCanonicalRoutes(): RouteDefinition[] {
         description: 'Comprehensive 88-point grammar compendium covering sentence formulas, particle behaviors (的, 得, 地, 了, 过, 把, 被), and contextual conversation rules across HSK 1, 2, and 3.'
       },
       renderBody: () => {
-        const all88 = getAll88GrammarPoints();
+        const all88 = all88GrammarRules;
         const hsk1Count = all88.filter(g => g.level === 1).length;
         const hsk2Count = all88.filter(g => g.level === 2).length;
         const hsk3Count = all88.filter(g => g.level === 3).length;
@@ -1001,18 +1199,16 @@ function getCanonicalRoutes(): RouteDefinition[] {
           <div class="space-y-6">
             ${all88.map(g => {
               const badgeColor = g.level === 1 ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : (g.level === 2 ? 'text-sky-700 bg-sky-50 border-sky-200' : 'text-rose-700 bg-rose-50 border-rose-200');
-              const lessonLink = g.lessonSlug 
-                ? `<a href="/lessons/${g.lessonSlug}" class="inline-flex items-center gap-1 text-xs font-bold text-rose-700 hover:text-rose-900 hover:underline">Practice in ${g.lessonTitle || 'Lesson'} &rarr;</a>`
-                : `<a href="/lessons" class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:text-emerald-900 hover:underline">Explore Practice Lessons &rarr;</a>`;
+              const lessonLink = g.parentLessonSlug 
+                ? `<a href="/lessons/${g.parentLessonSlug}" class="inline-flex items-center gap-1 text-xs font-semibold text-stone-500 hover:text-stone-800 hover:underline">Lesson: ${g.parentLessonTitle || 'Core Lesson'} &rarr;</a>`
+                : '';
 
-              const examplesHtml = Array.isArray(g.examples)
-                ? g.examples.map((ex: any) => `
-                    <div class="space-y-0.5">
-                      <div class="font-bold text-stone-900 text-sm">${ex.zh}</div>
-                      <div class="text-xs text-rose-700 font-mono">${ex.py}</div>
-                      <div class="text-xs text-stone-600">${ex.en}</div>
-                    </div>`).join('')
-                : `<div class="text-xs text-stone-800 font-medium">${g.example || ''}</div>`;
+              const examplesHtml = g.examples.map(ex => `
+                <div class="space-y-0.5">
+                  <div class="font-bold text-stone-900 text-sm">${ex.zh}</div>
+                  <div class="text-xs text-rose-700 font-mono">${ex.py}</div>
+                  <div class="text-xs text-stone-600">${ex.en}</div>
+                </div>`).join('');
 
               return `
               <article class="p-6 bg-white rounded-2xl border border-stone-200 shadow-sm space-y-4">
@@ -1021,7 +1217,9 @@ function getCanonicalRoutes(): RouteDefinition[] {
                   <span class="text-xs text-stone-400 font-mono">Rule #${g.id}</span>
                 </div>
                 <div>
-                  <h2 class="text-lg font-bold text-stone-900">${g.title}</h2>
+                  <h2 class="text-lg font-bold text-stone-900">
+                    <a href="/grammar/${g.slug}" class="hover:text-rose-700 hover:underline">${g.title}</a>
+                  </h2>
                   <div class="mt-1 inline-block px-3 py-1 rounded-lg bg-stone-100 font-mono text-xs font-bold text-stone-800 border border-stone-200">${g.pattern}</div>
                 </div>
                 <p class="text-xs text-stone-700 leading-relaxed">${g.explanation}</p>
@@ -1029,11 +1227,15 @@ function getCanonicalRoutes(): RouteDefinition[] {
                   <div class="text-[11px] font-bold uppercase tracking-wider text-stone-500">Illustrative Examples:</div>
                   ${examplesHtml}
                 </div>
-                ${g.commonMistake ? `
+                ${g.commonMistakes && g.commonMistakes.length > 0 ? `
                 <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
-                  <strong>Common Pitfall:</strong> ${g.commonMistake}
+                  <strong>Common Pitfall:</strong> ${g.commonMistakes[0]}
                 </div>` : ''}
-                <div class="pt-2 border-t border-stone-100 flex items-center justify-between text-xs">
+                <div class="pt-3 border-t border-stone-100 flex items-center justify-between flex-wrap gap-2 text-xs">
+                  <a href="/grammar/${g.slug}" class="font-bold text-rose-700 hover:underline inline-flex items-center gap-1">
+                    <span>Full Grammar Guide &amp; Practice Quiz</span>
+                    <span>&rarr;</span>
+                  </a>
                   ${lessonLink}
                 </div>
               </article>`;
@@ -1814,6 +2016,68 @@ function getCanonicalRoutes(): RouteDefinition[] {
       type: 'article',
       jsonLd,
       renderBody: () => renderWordDetailStaticHtml(word)
+    });
+  }
+
+  // 88 Dedicated Individual Grammar Study Pages (/grammar/:slug)
+  for (const rule of all88GrammarRules) {
+    const ruleTitle = `${rule.title} - HSK ${rule.level} Chinese Grammar Guide | HSK Free Lab`;
+    const ruleDesc = `Master ${rule.title} for HSK ${rule.level}. Syntax pattern: ${rule.pattern}. Free bilingual examples with native audio, common mistakes, and interactive quiz.`;
+    const canonical = `${SITE_DOMAIN}/grammar/${rule.slug}`;
+
+    // FAQ schema from Quiz
+    const faqQuestions = rule.quiz.map(q => ({
+      '@type': 'Question',
+      name: q.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: `${q.options[q.correctIndex]}. Explanation: ${q.explanation}`
+      }
+    }));
+
+    const jsonLd = [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_DOMAIN}/` },
+          { '@type': 'ListItem', position: 2, name: `HSK ${rule.level} Hub`, item: `${SITE_DOMAIN}/hsk-${rule.level}` },
+          { '@type': 'ListItem', position: 3, name: 'Grammar Compendium', item: `${SITE_DOMAIN}/grammar` },
+          { '@type': 'ListItem', position: 4, name: rule.title, item: canonical }
+        ]
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'LearningResource',
+        name: rule.title,
+        description: ruleDesc,
+        learningResourceType: 'Grammar Guide',
+        educationalLevel: `HSK Level ${rule.level} / CEFR ${rule.cefr}`,
+        url: canonical,
+        inLanguage: ['zh-Hans', 'en'],
+        isAccessibleForFree: true,
+        author: {
+          '@type': 'Organization',
+          name: 'HSK Free Lab Editorial Team',
+          url: `${SITE_DOMAIN}/`
+        }
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqQuestions
+      }
+    ];
+
+    routes.push({
+      path: `/grammar/${rule.slug}`,
+      title: ruleTitle,
+      description: ruleDesc,
+      priority: 0.8,
+      changefreq: 'monthly',
+      type: 'article',
+      jsonLd,
+      renderBody: () => renderGrammarDetailStaticHtml(rule)
     });
   }
 

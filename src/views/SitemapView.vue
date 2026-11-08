@@ -17,11 +17,12 @@ import { lessonsData } from '../data/lessons';
 import { blogPostsData } from '../data/blogs';
 import { getLessonUnitNumber } from '../data/lesson-helpers';
 import { allVocabWithSlugs } from '../data/vocab-helpers';
+import { all88GrammarRules } from '../data/grammar-helpers';
 import { updateSeoMeta } from '../utils/seo';
 
 updateSeoMeta({
-  title: 'HTML Sitemap & All-Pages Directory (672 Pages) | HSK Free Lab',
-  description: 'Complete index of all 672 pages on HSK Free Lab: 603 dedicated word study guides, 30 interactive lessons, 88 grammar rules, 18 study guides, and diagnostic tools.',
+  title: 'HTML Sitemap & All-Pages Directory (759 Pages) | HSK Free Lab',
+  description: 'Complete index of all 759 pages on HSK Free Lab: 603 dedicated word study guides, 88 dedicated grammar guides, 30 interactive lessons, 18 study guides, and diagnostic tools.',
   canonical: 'https://mybwn.com/sitemap',
   type: 'website'
 });
@@ -29,6 +30,11 @@ updateSeoMeta({
 const hsk1Lessons = computed(() => lessonsData.filter(l => l.level === 1));
 const hsk2Lessons = computed(() => lessonsData.filter(l => l.level === 2));
 const hsk3Lessons = computed(() => lessonsData.filter(l => l.level === 3));
+
+const hsk1Grammar = computed(() => all88GrammarRules.filter(g => g.level === 1));
+const hsk2Grammar = computed(() => all88GrammarRules.filter(g => g.level === 2));
+const hsk3Grammar = computed(() => all88GrammarRules.filter(g => g.level === 3));
+const sitemapGrammarTab = ref<1 | 2 | 3>(1);
 
 const hsk1Words = computed(() => allVocabWithSlugs.filter(w => w.level === 1));
 const hsk2Words = computed(() => allVocabWithSlugs.filter(w => w.level === 2));
@@ -48,7 +54,7 @@ const sitemapWordTab = ref<1 | 2 | 3>(1);
       
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300 text-xs font-bold">
         <Sparkles class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
-        <span>Complete Index · 672 Canonical Pages</span>
+        <span>Complete Index · 759 Canonical Pages</span>
       </div>
 
       <h1 class="text-3xl sm:text-5xl font-black text-stone-900 dark:text-stone-100 tracking-tight">
@@ -265,7 +271,83 @@ const sitemapWordTab = ref<1 | 2 | 3>(1);
       </div>
     </section>
 
-    <!-- SECTION 6: All 603 Dedicated Vocabulary Study Guides -->
+    <!-- SECTION 6: All 88 Dedicated Grammar Rule Guides -->
+    <section class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-200 dark:border-stone-800 pb-3">
+        <div class="flex items-center gap-2">
+          <GraduationCap class="w-5 h-5 text-sky-600 dark:text-sky-400" />
+          <h2 class="text-xl sm:text-2xl font-black text-stone-900 dark:text-stone-100">All 88 Dedicated Grammar Rule Guides</h2>
+        </div>
+        <!-- Grammar level switcher -->
+        <div class="flex items-center gap-1.5 text-xs font-bold">
+          <button
+            @click="sitemapGrammarTab = 1"
+            :class="[
+              'px-3 py-1 rounded-lg transition-colors',
+              sitemapGrammarTab === 1
+                ? 'bg-emerald-600 text-white'
+                : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200'
+            ]"
+          >
+            HSK 1 ({{ hsk1Grammar.length }})
+          </button>
+          <button
+            @click="sitemapGrammarTab = 2"
+            :class="[
+              'px-3 py-1 rounded-lg transition-colors',
+              sitemapGrammarTab === 2
+                ? 'bg-sky-600 text-white'
+                : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200'
+            ]"
+          >
+            HSK 2 ({{ hsk2Grammar.length }})
+          </button>
+          <button
+            @click="sitemapGrammarTab = 3"
+            :class="[
+              'px-3 py-1 rounded-lg transition-colors',
+              sitemapGrammarTab === 3
+                ? 'bg-rose-600 text-white'
+                : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200'
+            ]"
+          >
+            HSK 3 ({{ hsk3Grammar.length }})
+          </button>
+        </div>
+      </div>
+
+      <!-- Grammar list grid based on active tab -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 text-xs">
+        <router-link
+          v-for="g in (sitemapGrammarTab === 1 ? hsk1Grammar : (sitemapGrammarTab === 2 ? hsk2Grammar : hsk3Grammar))"
+          :key="g.slug"
+          :to="'/grammar/' + g.slug"
+          class="p-3.5 rounded-xl bg-white dark:bg-stone-900 border border-stone-200/70 dark:border-stone-800 hover:border-sky-400 dark:hover:border-sky-600 hover:bg-sky-50/20 transition-all group block space-y-1"
+        >
+          <div class="flex items-center justify-between text-[10px] text-stone-400 font-bold uppercase">
+            <span>{{ g.category }}</span>
+            <span class="text-sky-600 dark:text-sky-400">HSK {{ g.level }}</span>
+          </div>
+          <div class="font-bold text-stone-900 dark:text-stone-100 group-hover:text-sky-600 transition-colors line-clamp-1">
+            {{ g.title }}
+          </div>
+          <div class="text-[11px] font-mono text-stone-500 dark:text-stone-400 truncate">
+            {{ g.pattern }}
+          </div>
+        </router-link>
+      </div>
+
+      <div class="text-center pt-1">
+        <router-link
+          to="/grammar"
+          class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-xs font-bold hover:bg-sky-600 transition-colors"
+        >
+          <span>Open Full 88-Rule Grammar Compendium</span> &rarr;
+        </router-link>
+      </div>
+    </section>
+
+    <!-- SECTION 7: All 603 Dedicated Vocabulary Study Guides -->
     <section class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-200 dark:border-stone-800 pb-3">
         <div class="flex items-center gap-2">

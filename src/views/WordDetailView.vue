@@ -16,8 +16,10 @@ import {
   ChevronRight,
   FileText,
   Compass,
-  Check
+  Check,
+  Share2
 } from 'lucide-vue-next';
+import StudyCardPinModal from '../components/tools/StudyCardPinModal.vue';
 import { 
   getWordBySlug, 
   getAdjacentWords, 
@@ -43,6 +45,8 @@ const slug = computed(() => route.params.slug as string);
 const word = computed<VocabItemWithSlug | undefined>(() => {
   return getWordBySlug(slug.value);
 });
+
+const showPinModal = ref(false);
 
 // Fallback redirect if slug invalid
 watch(
@@ -268,18 +272,31 @@ function getCefr(level: number): string {
           </span>
         </div>
 
-        <!-- Learned Status Button -->
-        <button 
-          @click="toggleLearnedWord(word.id)"
-          class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs active:scale-95"
-          :class="isWordLearned(word.id)
-            ? 'bg-emerald-600 text-white' 
-            : 'bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 text-stone-700 dark:text-stone-300'"
-        >
-          <CheckCircle2 v-if="isWordLearned(word.id)" class="w-4 h-4" />
-          <Circle v-else class="w-4 h-4 text-stone-400" />
-          <span>{{ isWordLearned(word.id) ? 'Learned in Browser' : 'Mark as Learned' }}</span>
-        </button>
+        <div class="flex items-center gap-2 flex-wrap">
+          <!-- Pinterest Pin Button -->
+          <button 
+            @click="showPinModal = true"
+            type="button"
+            class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800 active:scale-95"
+            title="Create and save 2:3 vertical study card for Pinterest"
+          >
+            <Share2 class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
+            <span>📌 Save Study Card</span>
+          </button>
+
+          <!-- Learned Status Button -->
+          <button 
+            @click="toggleLearnedWord(word.id)"
+            class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs active:scale-95"
+            :class="isWordLearned(word.id)
+              ? 'bg-emerald-600 text-white' 
+              : 'bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 text-stone-700 dark:text-stone-300'"
+          >
+            <CheckCircle2 v-if="isWordLearned(word.id)" class="w-4 h-4" />
+            <Circle v-else class="w-4 h-4 text-stone-400" />
+            <span>{{ isWordLearned(word.id) ? 'Learned in Browser' : 'Mark as Learned' }}</span>
+          </button>
+        </div>
       </div>
 
       <!-- Main Word Presentation -->
@@ -731,6 +748,24 @@ function getCefr(level: number): string {
         </router-link>
       </div>
     </div>
+
+    <!-- PINTEREST STUDY CARD MODAL -->
+    <StudyCardPinModal
+      v-if="word"
+      :show="showPinModal"
+      type="word"
+      :level="word.level"
+      :title="word.hanzi"
+      :subtitle="word.pinyin"
+      :pattern="word.partOfSpeech"
+      :englishMeaning="word.meaning"
+      :exampleZh="word.exampleZh"
+      :examplePy="word.examplePy"
+      :exampleEn="word.exampleEn"
+      :canonicalUrl="`https://mybwn.com/words/${word.slug}`"
+      :slug="word.slug"
+      @close="showPinModal = false"
+    />
 
   </div>
 </template>
