@@ -64,6 +64,7 @@ import { Sparkles, ShieldCheck, Heart } from 'lucide-vue-next';
             <li><router-link to="/privacy-policy" class="hover:text-white transition-colors">Privacy Policy</router-link></li>
             <li><router-link to="/terms" class="hover:text-white transition-colors">Terms of Service</router-link></li>
             <li><router-link to="/disclaimer" class="hover:text-white transition-colors">Disclaimer</router-link></li>
+            <li><router-link to="/sitemap" class="hover:text-white transition-colors text-rose-400 font-semibold">HTML Sitemap (67 Pages)</router-link></li>
           </ul>
         </div>
 

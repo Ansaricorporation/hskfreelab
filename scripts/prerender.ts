@@ -128,6 +128,7 @@ function renderStaticFooter(): string {
           <li><a href="/privacy-policy" class="hover:text-white">Privacy Policy</a></li>
           <li><a href="/terms" class="hover:text-white">Terms of Service</a></li>
           <li><a href="/disclaimer" class="hover:text-white">Educational Disclaimer</a></li>
+          <li><a href="/sitemap" class="hover:text-white">HTML Sitemap (All 67 Pages)</a></li>
         </ul>
       </div>
     </div>
@@ -1024,6 +1025,121 @@ function getCanonicalRoutes(): RouteDefinition[] {
             </ul>
           </div>
         </div>`
+    },
+
+    // 17B. HTML Sitemap
+    {
+      path: '/sitemap',
+      title: 'HTML Sitemap & All-Pages Directory | HSK Free Lab',
+      description: 'Complete index of all 67 pages on HSK Free Lab: HSK 1, 2, and 3 level hubs, 30 interactive lessons, 88 grammar rules, 18 study guides, and diagnostic tools.',
+      priority: 0.6,
+      changefreq: 'weekly',
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: 'HTML Sitemap & All-Pages Directory',
+        url: `${SITE_DOMAIN}/sitemap`,
+        description: 'Complete directory of all 67 pages across HSK Free Lab including exam preparation hubs, 30 interactive lessons, 88 grammar points, and study masterclasses.'
+      },
+      renderBody: () => `
+        <div class="max-w-7xl mx-auto py-10 px-4 space-y-12">
+          <header class="space-y-4 max-w-3xl">
+            <span class="px-3 py-1 rounded-full bg-rose-50 text-rose-800 text-xs font-bold border border-rose-200">Complete Directory · 67 Canonical Pages</span>
+            <h1 class="text-3xl sm:text-5xl font-black text-stone-900">HTML Sitemap &amp; All-Pages Directory</h1>
+            <p class="text-sm text-stone-700 leading-relaxed">Direct links to every official curriculum unit, level hub, diagnostic tool, grammar rule, and academic masterclass on HSK Free Lab.</p>
+          </header>
+
+          <section class="space-y-4">
+            <h2 class="text-2xl font-bold text-stone-900 border-b border-stone-200 pb-2">Core Preparation Hubs &amp; Tools</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+              <a href="/" class="p-4 bg-white rounded-2xl border border-stone-200 block space-y-1 hover:border-emerald-300">
+                <strong class="text-stone-900 text-sm">Homepage</strong>
+                <p class="text-stone-600">Main overview &amp; roadmap</p>
+              </a>
+              <a href="/hsk-1" class="p-4 bg-white rounded-2xl border border-stone-200 block space-y-1 hover:border-emerald-300">
+                <strong class="text-stone-900 text-sm">HSK 1 Preparation Hub</strong>
+                <p class="text-stone-600">150 foundation vocabulary words</p>
+              </a>
+              <a href="/hsk-2" class="p-4 bg-white rounded-2xl border border-stone-200 block space-y-1 hover:border-sky-300">
+                <strong class="text-stone-900 text-sm">HSK 2 Preparation Hub</strong>
+                <p class="text-stone-600">300 cumulative vocabulary words</p>
+              </a>
+              <a href="/hsk-3" class="p-4 bg-white rounded-2xl border border-stone-200 block space-y-1 hover:border-rose-300">
+                <strong class="text-stone-900 text-sm">HSK 3 Preparation Hub</strong>
+                <p class="text-stone-600">600 cumulative vocabulary words</p>
+              </a>
+              <a href="/calculator" class="p-4 bg-white rounded-2xl border border-stone-200 block space-y-1 hover:border-amber-300">
+                <strong class="text-stone-900 text-sm">HSK Score Calculator</strong>
+                <p class="text-stone-600">Scaled scores &amp; passing margins</p>
+              </a>
+              <a href="/pinyin-trainer" class="p-4 bg-white rounded-2xl border border-stone-200 block space-y-1 hover:border-blue-300">
+                <strong class="text-stone-900 text-sm">Pinyin Tone Trainer</strong>
+                <p class="text-stone-600">Interactive 4-tone audio soundboard</p>
+              </a>
+              <a href="/stroke-order" class="p-4 bg-white rounded-2xl border border-stone-200 block space-y-1 hover:border-rose-300">
+                <strong class="text-stone-900 text-sm">Stroke Order Animator</strong>
+                <p class="text-stone-600">Hanzi stroke writing &amp; quiz</p>
+              </a>
+              <a href="/mock-tests" class="p-4 bg-white rounded-2xl border border-stone-200 block space-y-1 hover:border-purple-300">
+                <strong class="text-stone-900 text-sm">30 Timed Mock Tests</strong>
+                <p class="text-stone-600">Timed exam simulations with audio</p>
+              </a>
+              <a href="/lessons" class="p-4 bg-white rounded-2xl border border-stone-200 block space-y-1 hover:border-emerald-300">
+                <strong class="text-stone-900 text-sm">30 Interactive Lessons</strong>
+                <p class="text-stone-600">Curriculum master directory</p>
+              </a>
+              <a href="/grammar" class="p-4 bg-white rounded-2xl border border-stone-200 block space-y-1 hover:border-rose-300">
+                <strong class="text-stone-900 text-sm">88-Rule Grammar Compendium</strong>
+                <p class="text-stone-600">Structural formulas &amp; examples</p>
+              </a>
+              <a href="/guides" class="p-4 bg-white rounded-2xl border border-stone-200 block space-y-1 hover:border-amber-300">
+                <strong class="text-stone-900 text-sm">18 Academic Masterclasses</strong>
+                <p class="text-stone-600">Study blueprints &amp; tactics</p>
+              </a>
+              <a href="/hsk-history" class="p-4 bg-white rounded-2xl border border-stone-200 block space-y-1 hover:border-indigo-300">
+                <strong class="text-stone-900 text-sm">HSK History &amp; 3.0</strong>
+                <p class="text-stone-600">Evolution from 1984 to 3.0</p>
+              </a>
+            </div>
+          </section>
+
+          <section class="space-y-4">
+            <h2 class="text-2xl font-bold text-stone-900 border-b border-stone-200 pb-2">30 Dedicated Interactive Lessons</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+              ${lessonsData.map(l => {
+                const uNum = getLessonUnitNumber(l.slug);
+                return `
+                <a href="/lessons/${l.slug}" class="p-3 bg-white rounded-xl border border-stone-200 block hover:border-emerald-400">
+                  <span class="text-[10px] uppercase font-bold text-emerald-700">HSK ${l.level} · Unit ${uNum}</span>
+                  <div class="font-bold text-stone-900">${l.title}</div>
+                </a>`;
+              }).join('')}
+            </div>
+          </section>
+
+          <section class="space-y-4">
+            <h2 class="text-2xl font-bold text-stone-900 border-b border-stone-200 pb-2">18 Academic Study Guides &amp; Masterclasses</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+              ${blogPostsData.map(b => `
+                <a href="/guides/${b.slug}" class="p-3 bg-white rounded-xl border border-stone-200 block hover:border-rose-400">
+                  <span class="text-[10px] uppercase font-bold text-rose-700">${b.tags[0]} · ${b.readTime}</span>
+                  <div class="font-bold text-stone-900 line-clamp-1">${b.title}</div>
+                </a>`).join('')}
+            </div>
+          </section>
+
+          <section class="space-y-4">
+            <h2 class="text-2xl font-bold text-stone-900 border-b border-stone-200 pb-2">Trust, E-E-A-T &amp; Legal Policies</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
+              <a href="/about" class="p-3 bg-white rounded-xl border border-stone-200 block hover:border-sky-300 font-bold text-stone-900">About Us</a>
+              <a href="/contact" class="p-3 bg-white rounded-xl border border-stone-200 block hover:border-sky-300 font-bold text-stone-900">Contact Us</a>
+              <a href="/data-sources" class="p-3 bg-white rounded-xl border border-stone-200 block hover:border-sky-300 font-bold text-stone-900">Data Sources</a>
+              <a href="/privacy-policy" class="p-3 bg-white rounded-xl border border-stone-200 block hover:border-sky-300 font-bold text-stone-900">Privacy Policy</a>
+              <a href="/terms" class="p-3 bg-white rounded-xl border border-stone-200 block hover:border-sky-300 font-bold text-stone-900">Terms of Service</a>
+              <a href="/disclaimer" class="p-3 bg-white rounded-xl border border-stone-200 block hover:border-sky-300 font-bold text-stone-900">Disclaimer</a>
+            </div>
+          </section>
+        </div>`
     }
   ];
 
@@ -1400,16 +1516,25 @@ async function prerender() {
 
     routeHtml = routeHtml.replace(/<div id="app"([^>]*)>[\s\S]*?<\/div>/i, `<div id="app"$1>${innerBody}</div>`);
 
-    // Determine target file path
-    let targetFilePath = baseHtmlPath;
-    if (route.path !== '/') {
+    if (route.path === '/') {
+      fs.writeFileSync(baseHtmlPath, routeHtml, 'utf8');
+    } else {
       const cleanPath = route.path.replace(/^\//, '');
+
+      // 1. Output clean extensionless file: dist/<cleanPath>.html
+      // Enables GitHub Pages to serve clean canonical URLs (e.g. /hsk-1, /guides/hsk-1-study-plan, /lessons/greetings-and-introductions)
+      // directly with HTTP 200 OK and ZERO 301 trailing-slash redirects!
+      const cleanFilePath = path.join(DIST_DIR, `${cleanPath}.html`);
+      fs.mkdirSync(path.dirname(cleanFilePath), { recursive: true });
+      fs.writeFileSync(cleanFilePath, routeHtml, 'utf8');
+
+      // 2. Output directory index fallback: dist/<cleanPath>/index.html
+      // Guarantees that if a client or crawler requests the trailing-slash variant (/hsk-1/), it also returns 200 OK
       const targetDir = path.join(DIST_DIR, cleanPath);
       fs.mkdirSync(targetDir, { recursive: true });
-      targetFilePath = path.join(targetDir, 'index.html');
+      const dirIndexPath = path.join(targetDir, 'index.html');
+      fs.writeFileSync(dirIndexPath, routeHtml, 'utf8');
     }
-
-    fs.writeFileSync(targetFilePath, routeHtml, 'utf8');
     successCount++;
   }
 

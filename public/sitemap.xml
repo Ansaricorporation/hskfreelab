@@ -109,6 +109,12 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://mybwn.com/sitemap</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://mybwn.com/guides/hsk-1-study-plan</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>

@@ -18,6 +18,7 @@ const AboutView = () => import('../views/AboutView.vue');
 const ContactView = () => import('../views/ContactView.vue');
 const HskHistoryView = () => import('../views/HskHistoryView.vue');
 const LegalView = () => import('../views/LegalView.vue');
+const SitemapView = () => import('../views/SitemapView.vue');
 
 const routes: RouteRecordRaw[] = [
   { 
@@ -250,6 +251,16 @@ const routes: RouteRecordRaw[] = [
       title: 'Data Sources & Open Source Licenses - HSK Free Lab',
       description: 'Official data sources, vocab lists, and open source licenses powering HSK Free Lab.',
       canonical: 'https://mybwn.com/data-sources'
+    }
+  },
+  { 
+    path: '/sitemap', 
+    name: 'sitemap', 
+    component: SitemapView,
+    meta: {
+      title: 'HTML Sitemap & All-Pages Directory | HSK Free Lab',
+      description: 'Complete index of all 67 pages on HSK Free Lab: HSK 1, 2, and 3 level hubs, 30 interactive lessons, 88 grammar rules, 18 study guides, and diagnostic tools.',
+      canonical: 'https://mybwn.com/sitemap'
     }
   },
   { path: '/:pathMatch(.*)*', redirect: '/' }
