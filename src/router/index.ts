@@ -10,6 +10,7 @@ const ScoreCalculatorView = () => import('../views/ScoreCalculatorView.vue');
 const PronunciationView = () => import('../views/PronunciationView.vue');
 const MockTestView = () => import('../views/MockTestView.vue');
 const LessonsView = () => import('../views/LessonsView.vue');
+const LessonDetailView = () => import('../views/LessonDetailView.vue');
 const GrammarView = () => import('../views/GrammarView.vue');
 const BlogListView = () => import('../views/BlogListView.vue');
 const BlogPostView = () => import('../views/BlogPostView.vue');
@@ -120,6 +121,15 @@ const routes: RouteRecordRaw[] = [
       title: 'Free Mandarin Grammar & Vocabulary Lessons | HSK Free Lab',
       description: 'Bite-sized Chinese grammar lessons, sentence structure formulas, and daily practical conversation drills.',
       canonical: 'https://mybwn.com/lessons'
+    }
+  },
+  { 
+    path: '/lessons/:slug', 
+    name: 'lesson-detail', 
+    component: LessonDetailView,
+    meta: {
+      title: 'Free Mandarin Grammar & Vocabulary Lessons | HSK Free Lab',
+      description: 'Bite-sized Chinese grammar lessons, sentence structure formulas, and daily practical conversation drills.'
     }
   },
   { 

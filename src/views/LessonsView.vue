@@ -1,258 +1,175 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { BookOpen, Volume2, CheckCircle2, XCircle, ArrowRight, Sparkles } from 'lucide-vue-next';
-import { lessonsData } from '../data';
-import { Lesson, HskLevel } from '../types';
-import { playAudio } from '../utils/speech';
-import AudioButton from '../components/ui/AudioButton.vue';
-import { markLessonCompleted, activeProgress } from '../stores/auth';
+import { 
+  BookOpen, 
+  Volume2, 
+  CheckCircle2, 
+  ArrowRight, 
+  Sparkles, 
+  GraduationCap, 
+  Layers,
+  Award
+} from 'lucide-vue-next';
+import { lessonsData } from '../data/lessons.ts';
+import { activeProgress } from '../stores/auth';
+import type { Lesson, HskLevel } from '../types';
 
-const selectedLevel = ref<HskLevel>(1);
-const selectedLessonSlug = ref<string>(lessonsData[0].slug);
-const quizAnswers = ref<Record<number, number>>({});
-const showQuizResults = ref(false);
+const selectedLevel = ref<HskLevel | 'all'>('all');
 
 const filteredLessons = computed(() => {
+  if (selectedLevel.value === 'all') return lessonsData;
   return lessonsData.filter(l => l.level === selectedLevel.value);
 });
 
-const activeLesson = computed(() => {
-  return lessonsData.find(l => l.slug === selectedLessonSlug.value) || filteredLessons.value[0];
+function isLessonCompleted(slug: string): boolean {
+  return activeProgress.value.completedLessons.includes(slug);
+}
+
+const completionCount = computed(() => {
+  return lessonsData.filter(l => isLessonCompleted(l.slug)).length;
 });
-
-function selectLesson(slug: string) {
-  selectedLessonSlug.value = slug;
-  quizAnswers.value = {};
-  showQuizResults.value = false;
-}
-
-function answerQuestion(qIdx: number, optIdx: number) {
-  quizAnswers.value[qIdx] = optIdx;
-}
-
-function checkQuiz() {
-  showQuizResults.value = true;
-  if (activeLesson.value?.slug) {
-    markLessonCompleted(activeLesson.value.slug);
-  }
-}
-
-function toggleCompleteLesson() {
-  if (activeLesson.value?.slug) {
-    markLessonCompleted(activeLesson.value.slug);
-  }
-}
-
-function playDialogueAudio(text: string) {
-  playAudio(text, 0.85);
-}
 </script>
 
 <template>
-  <div class="max-w-5xl mx-auto space-y-10 pb-16">
-    <!-- Header (Boxed Card) -->
-    <div class="bg-white/80 dark:bg-stone-900/85 backdrop-blur-md rounded-3xl border border-stone-200/90 dark:border-stone-800 p-6 sm:p-8 text-center space-y-4 shadow-sm">
+  <div class="max-w-6xl mx-auto space-y-12 pb-24 px-4">
+    
+    <!-- Header (Boxed Hero Card) -->
+    <header class="bg-white/80 dark:bg-stone-900/85 backdrop-blur-md rounded-3xl border border-stone-200/90 dark:border-stone-800 p-6 sm:p-10 text-center space-y-4 shadow-sm">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-semibold">
-        <BookOpen class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-        <span>Curated Curriculum</span>
+        <GraduationCap class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+        <span>Official Curriculum &bull; 30 Core Units</span>
       </div>
-      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black text-stone-900 dark:text-stone-100 tracking-tight">
-        Interactive HSK Lessons
-      </h1>
-      <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 max-w-xl mx-auto leading-relaxed">
-        Structured dialogues with native speech audio, real-time vocabulary breakdowns, and comprehension quizzes.
-      </p>
-    </div>
 
-    <!-- Level Filter Tabs (Responsive Segmented Control) -->
-    <div class="grid grid-cols-3 sm:flex items-center justify-center gap-1.5 sm:gap-2 p-1.5 bg-stone-100 dark:bg-stone-800/90 rounded-2xl max-w-md mx-auto shadow-inner">
+      <h1 class="text-3xl sm:text-5xl font-black text-stone-900 dark:text-stone-100 tracking-tight leading-tight">
+        Interactive HSK Lessons Curriculum
+      </h1>
+
+      <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 max-w-2xl mx-auto leading-relaxed">
+        Step-by-step Mandarin Chinese dialogues, enriched vocabulary breakdowns, grammar formula explanations, and interactive quizzes for HSK 1, 2, and 3.
+      </p>
+
+      <div class="pt-2 flex items-center justify-center gap-4 text-xs font-semibold text-stone-500 dark:text-stone-400">
+        <span class="flex items-center gap-1.5">
+          <BookOpen class="w-4 h-4 text-emerald-600" /> 30 Units
+        </span>
+        <span>&bull;</span>
+        <span class="flex items-center gap-1.5">
+          <Layers class="w-4 h-4 text-sky-600" /> 88 Grammar Patterns
+        </span>
+        <span>&bull;</span>
+        <span class="flex items-center gap-1.5">
+          <CheckCircle2 class="w-4 h-4 text-rose-600" /> {{ completionCount }} / 30 Completed
+        </span>
+      </div>
+    </header>
+
+    <!-- Level Filter Tabs -->
+    <div class="flex flex-wrap items-center justify-center gap-2 max-w-xl mx-auto">
+      <button 
+        type="button"
+        @click="selectedLevel = 'all'"
+        :class="[
+          'py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs',
+          selectedLevel === 'all' 
+            ? 'bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900' 
+            : 'bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-stone-700 hover:bg-stone-50'
+        ]"
+      >
+        All 30 Units
+      </button>
+
       <button 
         v-for="lvl in [1, 2, 3]" 
         :key="lvl"
-        @click="selectedLevel = lvl as HskLevel; selectedLessonSlug = filteredLessons[0]?.slug || ''"
+        type="button"
+        @click="selectedLevel = lvl as HskLevel"
         :class="[
-          'w-full sm:w-auto py-2 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap text-center shrink-0',
+          'py-2 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs',
           selectedLevel === lvl 
-            ? 'bg-emerald-600 text-white shadow-sm font-black' 
-            : 'text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white'
+            ? lvl === 1 ? 'bg-emerald-600 text-white' : lvl === 2 ? 'bg-sky-600 text-white' : 'bg-rose-600 text-white'
+            : 'bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-stone-700 hover:bg-stone-50'
         ]"
       >
-        <span class="inline sm:hidden whitespace-nowrap">HSK&nbsp;{{ lvl }}</span>
-        <span class="hidden sm:inline whitespace-nowrap">HSK&nbsp;{{ lvl }} Lessons</span>
+        HSK {{ lvl }} (10 Units)
       </button>
     </div>
 
-    <!-- Main Content Layout (Sidebar + Active Lesson) -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-      
-      <!-- Lesson Navigation Sidebar -->
-      <div class="lg:col-span-1 space-y-2">
-        <div class="flex items-center justify-between px-1">
-          <h4 class="text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider">Lessons List</h4>
-          <span class="text-[10px] text-stone-400 lg:hidden">Swipe →</span>
-        </div>
-        
-        <!-- Responsive Container: Horizontal Scroll on Mobile, Vertical Stack on Desktop -->
-        <div class="flex lg:flex-col overflow-x-auto lg:overflow-y-auto pb-2 lg:pb-0 gap-1.5 lg:max-h-[600px] pr-1 scrollbar-thin">
-          <button 
-            v-for="(lesson, idx) in filteredLessons" 
-            :key="lesson.id"
-            @click="selectLesson(lesson.slug)"
-            :class="[
-              'text-left p-2.5 sm:p-3 rounded-xl text-xs font-semibold transition-all flex items-center lg:items-start gap-2 shrink-0 lg:shrink w-auto lg:w-full whitespace-nowrap lg:whitespace-normal',
-              activeLesson?.slug === lesson.slug 
-                ? 'bg-emerald-600 text-white shadow-sm font-bold' 
-                : 'bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 border border-stone-200/80 dark:border-stone-700'
-            ]"
-          >
-            <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] shrink-0 font-bold" :class="activeLesson?.slug === lesson.slug ? 'bg-emerald-700 text-white' : 'bg-stone-100 dark:bg-stone-700 text-stone-600 dark:text-stone-300'">
-              {{ idx + 1 }}
+    <!-- Units Grid (30 Distinct Cards) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <router-link
+        v-for="(lesson, idx) in filteredLessons" 
+        :key="lesson.id"
+        :to="`/lessons/${lesson.slug}`"
+        class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-6 shadow-xs hover:shadow-md hover:border-emerald-300 dark:hover:border-emerald-700 transition-all flex flex-col justify-between group"
+      >
+        <div class="space-y-3.5">
+          <div class="flex items-center justify-between">
+            <span 
+              :class="[
+                'text-[10px] font-bold px-2.5 py-0.5 rounded-full border',
+                lesson.level === 1 
+                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
+                  : lesson.level === 2
+                  ? 'bg-sky-50 text-sky-800 border-sky-200 dark:bg-sky-950/60 dark:text-sky-300 dark:border-sky-800'
+                  : 'bg-rose-50 text-rose-800 border-rose-200 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-800'
+              ]"
+            >
+              HSK {{ lesson.level }} &bull; Unit {{ (idx % 10) + 1 }}
             </span>
-            <span class="line-clamp-1 lg:line-clamp-2">{{ lesson.title }}</span>
-          </button>
-        </div>
-      </div>
 
-      <!-- Active Lesson Body -->
-      <div v-if="activeLesson" class="lg:col-span-3 space-y-8">
-        
-        <!-- Lesson Banner -->
-        <div class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 shadow-md p-6 sm:p-8 space-y-4 transition-all">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-              HSK {{ activeLesson.level }}
+            <span 
+              v-if="isLessonCompleted(lesson.slug)"
+              class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400"
+            >
+              <CheckCircle2 class="w-3.5 h-3.5" /> Done
             </span>
-            <span class="text-xs text-stone-400 dark:text-stone-500 font-mono">Lesson ID: {{ activeLesson.slug }}</span>
           </div>
 
-          <h2 class="text-2xl sm:text-3xl font-black text-stone-900 dark:text-stone-100">
-            {{ activeLesson.title }}
+          <h2 class="text-base sm:text-lg font-black text-stone-900 dark:text-stone-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors line-clamp-2">
+            {{ lesson.title }}
           </h2>
 
-          <p class="text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
-            {{ activeLesson.description }}
+          <p class="text-xs text-stone-500 dark:text-stone-400 line-clamp-2 leading-relaxed">
+            {{ lesson.description }}
           </p>
 
-          <!-- Key Vocabulary Pills -->
-          <div class="pt-2 flex flex-wrap items-center gap-1.5">
-            <span class="text-xs font-semibold text-stone-400 dark:text-stone-500 mr-1">Key Vocab:</span>
-            <span 
-              v-for="word in activeLesson.keyVocab" 
-              :key="word"
-              class="px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-200 text-xs font-serif font-bold border border-stone-200 dark:border-stone-700"
-            >
-              {{ word }}
+          <div class="flex items-center gap-2 flex-wrap pt-1 text-[11px] text-stone-500 dark:text-stone-400">
+            <span class="px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800">
+              {{ lesson.dialogue.length }} Dialogue Lines
+            </span>
+            <span class="px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800">
+              {{ lesson.keyVocab.length }} Vocab Words
+            </span>
+            <span class="px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800">
+              {{ lesson.grammarPoints.length }} Grammar Rules
             </span>
           </div>
         </div>
 
-        <!-- Dialogue Section -->
-        <div class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 shadow-md p-6 sm:p-8 space-y-6 transition-all">
-          <div class="flex items-center justify-between pb-4 border-b border-stone-100 dark:border-stone-800">
-            <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
-              <span>Conversational Dialogue (对话)</span>
-            </h3>
-            <span class="text-xs text-stone-400 dark:text-stone-500">Tap speaker for audio</span>
-          </div>
-
-          <div class="space-y-4">
-            <div 
-              v-for="(line, lIdx) in activeLesson.dialogue" 
-              :key="lIdx"
-              class="p-4 rounded-2xl bg-stone-50/70 dark:bg-stone-800/60 border border-stone-100 dark:border-stone-800 hover:border-emerald-200 dark:hover:border-emerald-700 transition-all flex items-start gap-4"
-            >
-              <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold text-xs flex items-center justify-center shrink-0">
-                {{ line.speaker }}
-              </div>
-
-              <div class="flex-1 space-y-1">
-                <div class="flex items-center justify-between">
-                  <div class="text-lg font-serif font-bold text-stone-900 dark:text-stone-100">{{ line.zh }}</div>
-                  <AudioButton :text="line.zh" size="sm" />
-                </div>
-                <div class="text-xs font-semibold text-emerald-700 dark:text-emerald-400">{{ line.py }}</div>
-                <div class="text-xs text-stone-600 dark:text-stone-300 italic">{{ line.en }}</div>
-              </div>
-            </div>
-          </div>
+        <div class="mt-5 pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs font-bold text-emerald-700 dark:text-emerald-400">
+          <span>Start Lesson</span>
+          <ArrowRight class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
         </div>
+      </router-link>
+    </div>
 
-        <!-- Grammar Points Section -->
-        <div class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 shadow-md p-6 sm:p-8 space-y-4 transition-all">
-          <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
-            <span>Core Grammar & Usage Notes</span>
-          </h3>
-
-          <ul class="space-y-2.5">
-            <li 
-              v-for="(point, pIdx) in activeLesson.grammarPoints" 
-              :key="pIdx"
-              class="p-3.5 rounded-xl bg-stone-50 dark:bg-stone-800/60 text-xs sm:text-sm text-stone-700 dark:text-stone-300 font-medium flex items-start gap-2.5 border border-stone-100 dark:border-stone-800"
-            >
-              <span class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
-                {{ pIdx + 1 }}
-              </span>
-              <span>{{ point }}</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Comprehension Check Quiz -->
-        <div class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 shadow-md p-6 sm:p-8 space-y-6 transition-all">
-          <div class="flex items-center justify-between pb-4 border-b border-stone-100 dark:border-stone-800">
-            <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100">
-              Comprehension Check Quiz
-            </h3>
-            <span class="text-xs text-stone-400 dark:text-stone-500">{{ activeLesson.practiceQuestions.length }} Questions</span>
-          </div>
-
-          <div class="space-y-6">
-            <div 
-              v-for="(q, qIdx) in activeLesson.practiceQuestions" 
-              :key="qIdx"
-              class="space-y-3"
-            >
-              <div class="text-sm font-semibold text-stone-900 dark:text-stone-100">
-                {{ qIdx + 1 }}. {{ q.question }}
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <button 
-                  v-for="(opt, optIdx) in q.options" 
-                  :key="optIdx"
-                  @click="answerQuestion(qIdx, optIdx)"
-                  :class="[
-                    'p-3 rounded-xl border text-xs sm:text-sm font-medium text-left transition-all',
-                    quizAnswers[qIdx] === optIdx 
-                      ? 'border-emerald-600 dark:border-emerald-500 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-950 dark:text-emerald-100 font-bold ring-2 ring-emerald-500/20' 
-                      : 'border-stone-200 dark:border-stone-700 hover:bg-stone-50 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200',
-                    showQuizResults && optIdx === q.correctIndex ? 'border-emerald-500 bg-emerald-100 dark:bg-emerald-900/60 font-bold text-emerald-950 dark:text-emerald-100' : '',
-                    showQuizResults && quizAnswers[qIdx] === optIdx && optIdx !== q.correctIndex ? 'border-rose-400 bg-rose-50 dark:bg-rose-950/60 text-rose-900 dark:text-rose-200' : ''
-                  ]"
-                >
-                  {{ opt }}
-                </button>
-              </div>
-
-              <!-- Explanation -->
-              <div v-if="showQuizResults" class="p-3 rounded-xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 text-xs text-stone-600 dark:text-stone-300">
-                <strong>Explanation:</strong> {{ q.explanation }}
-              </div>
-            </div>
-
-            <div class="pt-2">
-              <button 
-                @click="checkQuiz"
-                class="px-5 py-2.5 rounded-xl bg-stone-900 dark:bg-stone-100 hover:bg-emerald-700 dark:hover:bg-emerald-600 text-white dark:text-stone-900 font-bold text-xs transition-colors shadow-xs"
-              >
-                Check Answers
-              </button>
-            </div>
-          </div>
-        </div>
-
+    <!-- Curriculum Footer Summary -->
+    <div class="p-8 rounded-3xl bg-stone-100/80 dark:bg-stone-900/60 border border-stone-200/80 dark:border-stone-800 text-center space-y-3">
+      <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100">
+        Ready to Test Your Knowledge?
+      </h3>
+      <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 max-w-xl mx-auto">
+        Complement your lesson practice with our 30 full-length timed mock exams featuring native audio dialogues and real-time score grading.
+      </p>
+      <div class="pt-2">
+        <router-link 
+          to="/mock-tests" 
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-xs font-bold hover:bg-stone-800 transition-colors"
+        >
+          <span>Take a Timed Mock Exam</span>
+          <ArrowRight class="w-3.5 h-3.5" />
+        </router-link>
       </div>
-
     </div>
 
   </div>

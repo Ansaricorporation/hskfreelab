@@ -467,6 +467,32 @@ function scrollToSection(sectionId: string) {
             </router-link>
           </div>
 
+          <!-- Practice Hubs & Learning Resources Card -->
+          <div class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 shadow-md p-6 space-y-3">
+            <div class="font-bold text-stone-900 dark:text-stone-100 text-sm flex items-center gap-2">
+              <Compass class="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>Core Learning Resources</span>
+            </div>
+            <div class="space-y-1.5 text-xs">
+              <router-link to="/lessons" class="flex items-center justify-between p-2 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 transition-colors">
+                <span>30 Interactive Lessons</span>
+                <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">Units 1–30</span>
+              </router-link>
+              <router-link to="/grammar" class="flex items-center justify-between p-2 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 transition-colors">
+                <span>Grammar Compendium</span>
+                <span class="text-[10px] font-bold text-rose-600 dark:text-rose-400">88 Rules</span>
+              </router-link>
+              <router-link to="/stroke-order" class="flex items-center justify-between p-2 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 transition-colors">
+                <span>Stroke Order Studio</span>
+                <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400">Animator</span>
+              </router-link>
+              <router-link to="/pinyin-trainer" class="flex items-center justify-between p-2 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 transition-colors">
+                <span>Pinyin & Tone Soundboard</span>
+                <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400">Audio TTS</span>
+              </router-link>
+            </div>
+          </div>
+
           <!-- Related Reading Cards -->
           <div v-if="relatedPosts.length > 0" class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 shadow-md p-6 space-y-4">
             <div class="font-bold text-stone-900 dark:text-stone-100 text-sm flex items-center gap-2">

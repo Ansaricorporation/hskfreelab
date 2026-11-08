@@ -50,6 +50,31 @@ const lessonsList = computed(() => getLessonsByLevel(currentLevel.value));
 const grammarList = computed(() => getGrammarByLevel(currentLevel.value));
 const mockTest = computed(() => getMockTestByLevel(currentLevel.value));
 
+const recommendedGuides = computed(() => {
+  if (currentLevel.value === 1) {
+    return [
+      { slug: 'hsk-1-study-plan', title: 'HSK 1 Study Plan: The Definitive 30-Day Blueprint', readTime: '9 min read', tag: 'Study Plan' },
+      { slug: 'most-common-hsk-1-characters', title: 'The 50 Most Essential HSK 1 Chinese Characters', readTime: '11 min read', tag: 'Characters' },
+      { slug: 'best-hsk-1-study-tips', title: '10 Cognitive Science-Backed Study Techniques', readTime: '8 min read', tag: 'Techniques' },
+      { slug: 'pinyin-tones-mastery', title: 'Conquering Mandarin Pinyin Tones & Contours', readTime: '10 min read', tag: 'Phonetics' },
+    ];
+  } else if (currentLevel.value === 2) {
+    return [
+      { slug: 'hsk-1-vs-hsk-2', title: 'HSK 1 vs HSK 2: Comprehensive Level Transition Guide', readTime: '8 min read', tag: 'Comparison' },
+      { slug: 'hsk-2-listening-tactics', title: 'How to Ace HSK 2 Listening: Overcoming Fast Native Speech', readTime: '9 min read', tag: 'Listening' },
+      { slug: 'measure-words-guide', title: 'The Ultimate Guide to Chinese Measure Words (量词)', readTime: '12 min read', tag: 'Grammar' },
+      { slug: 'mandarin-false-friends', title: '25 False Friends and Confusing Word Pairs in Mandarin', readTime: '10 min read', tag: 'Vocabulary' },
+    ];
+  } else {
+    return [
+      { slug: 'hsk-3-writing-section-explained', title: 'Mastering the HSK 3 Writing Section: Scramble & Hanzi', readTime: '10 min read', tag: 'Writing' },
+      { slug: 'hsk-3-complete-guide', title: 'The Definitive HSK 3 Survival Guide to Confident Fluency', readTime: '12 min read', tag: 'Mastery' },
+      { slug: 'chinese-radicals-guide', title: 'Decoding Chinese Characters: The Top 40 Radicals', readTime: '11 min read', tag: 'Radicals' },
+      { slug: 'how-to-use-mock-tests', title: 'The Science of Test Simulation: Maximize Score Gains', readTime: '9 min read', tag: 'Mock Tests' },
+    ];
+  }
+});
+
 const levelMeta = computed(() => {
   if (currentLevel.value === 1) {
     return {
@@ -110,7 +135,7 @@ const levelMeta = computed(() => {
         <!-- Quick Action CTA -->
         <div class="flex flex-col sm:flex-row md:flex-col gap-2 shrink-0">
           <router-link 
-            :to="`/mock-test/hsk${currentLevel}`" 
+            to="/mock-tests" 
             class="px-5 py-2.5 rounded-xl bg-stone-900 dark:bg-stone-100 hover:bg-rose-700 dark:hover:bg-rose-600 text-white dark:text-stone-900 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-xs"
           >
             <Award class="w-3.5 h-3.5" />
@@ -211,10 +236,13 @@ const levelMeta = computed(() => {
             <router-link 
               v-for="lesson in lessonsList" 
               :key="lesson.id"
-              to="/lessons"
-              class="block p-3 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-800/80 transition-colors border border-stone-100 dark:border-stone-800"
+              :to="'/lessons/' + lesson.slug"
+              class="block p-3 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-800/80 transition-colors border border-stone-100 dark:border-stone-800 group"
             >
-              <div class="text-xs font-bold text-stone-800 dark:text-stone-200">{{ lesson.title }}</div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs font-bold text-stone-800 dark:text-stone-200 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">{{ lesson.title }}</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 shrink-0">Unit {{ lesson.id }}</span>
+              </div>
               <div class="text-[11px] text-stone-500 dark:text-stone-400 line-clamp-1 mt-0.5">{{ lesson.description }}</div>
             </router-link>
           </div>
@@ -222,7 +250,7 @@ const levelMeta = computed(() => {
 
         <div class="pt-4 mt-2">
           <router-link to="/lessons" class="text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline flex items-center gap-1">
-            <span>View all lessons</span> <ArrowRight class="w-3 h-3" />
+            <span>View all 30 curriculum units</span> <ArrowRight class="w-3 h-3" />
           </router-link>
         </div>
       </div>
@@ -258,6 +286,49 @@ const levelMeta = computed(() => {
         </div>
       </div>
 
+    </div>
+
+    <!-- Recommended Study Guides for this level -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-stone-900 dark:text-stone-100 flex items-center gap-2">
+            <BookOpen class="w-5 h-5 text-rose-600 dark:text-rose-400" />
+            <span>Recommended HSK {{ currentLevel }} Masterclasses & Study Guides</span>
+          </h2>
+          <p class="text-xs text-stone-500 dark:text-stone-400 mt-1">
+            In-depth academic guides, tactical exam blueprints, and grammar breakdowns for HSK {{ currentLevel }}.
+          </p>
+        </div>
+        <router-link to="/guides" class="text-xs font-bold text-rose-600 hover:text-rose-800 dark:text-rose-400 flex items-center gap-1 shrink-0">
+          <span>All 18 Masterclasses</span>
+          <ArrowRight class="w-3.5 h-3.5" />
+        </router-link>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <router-link
+          v-for="guide in recommendedGuides"
+          :key="guide.slug"
+          :to="'/guides/' + guide.slug"
+          class="p-4 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800 hover:border-rose-300 dark:hover:border-rose-700 hover:shadow-md transition-all group flex flex-col justify-between"
+        >
+          <div class="space-y-2">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 uppercase">
+              {{ guide.tag }}
+            </span>
+            <h3 class="text-xs font-bold text-stone-900 dark:text-stone-100 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors line-clamp-2">
+              {{ guide.title }}
+            </h3>
+          </div>
+          <div class="mt-3 pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-[11px] text-stone-400 dark:text-stone-500">
+            <span>{{ guide.readTime }}</span>
+            <span class="text-rose-600 dark:text-rose-400 font-semibold flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+              Read <ArrowRight class="w-3 h-3" />
+            </span>
+          </div>
+        </router-link>
+      </div>
     </div>
 
     <!-- Full Interactive Vocabulary Browser -->

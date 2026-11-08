@@ -440,6 +440,82 @@ const selectedDaily = ref(dailyWords[0]);
       </div>
     </section>
 
+    <!-- Curriculum & Linguistic Reference Hubs Section -->
+    <section class="w-full max-w-7xl mx-auto">
+      <div class="text-center max-w-xl mx-auto mb-10">
+        <h2 class="text-2xl sm:text-3xl font-black text-stone-900 dark:text-stone-100">Curriculum & Grammar Compendium</h2>
+        <p class="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1">Structured sequential lessons and comprehensive grammatical references.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card 1: 30 Interactive Lessons -->
+        <router-link 
+          to="/lessons" 
+          class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-6 shadow-sm hover:shadow-md transition-all group block"
+        >
+          <div class="p-3 rounded-2xl bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 w-fit mb-4 group-hover:scale-105 transition-transform">
+            <GraduationCap class="w-6 h-6" />
+          </div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 uppercase">
+            30 Structured Units
+          </span>
+          <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors mt-2">
+            HSK 1–3 Complete Course
+          </h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400 mt-1.5 leading-relaxed">
+            Step-by-step conversational dialogues, verified vocabulary tables, grammar notes, and comprehension quizzes across all 3 levels.
+          </p>
+          <div class="mt-4 flex items-center text-xs font-semibold text-emerald-700 dark:text-emerald-400 gap-1">
+            <span>Explore lessons</span> <ArrowRight class="w-3 h-3" />
+          </div>
+        </router-link>
+
+        <!-- Card 2: 88 Grammar Points -->
+        <router-link 
+          to="/grammar" 
+          class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-6 shadow-sm hover:shadow-md transition-all group block"
+        >
+          <div class="p-3 rounded-2xl bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300 w-fit mb-4 group-hover:scale-105 transition-transform">
+            <BookOpen class="w-6 h-6" />
+          </div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 uppercase">
+            88 Grammar Rules
+          </span>
+          <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100 group-hover:text-rose-700 dark:group-hover:text-rose-400 transition-colors mt-2">
+            Complete Grammar Compendium
+          </h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400 mt-1.5 leading-relaxed">
+            Formula structures, native example sentences, common pitfalls, and direct links to practice lessons for every HSK 1, 2, and 3 rule.
+          </p>
+          <div class="mt-4 flex items-center text-xs font-semibold text-rose-700 dark:text-rose-400 gap-1">
+            <span>Browse all rules</span> <ArrowRight class="w-3 h-3" />
+          </div>
+        </router-link>
+
+        <!-- Card 3: HSK History & Evolution -->
+        <router-link 
+          to="/hsk-history" 
+          class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-6 shadow-sm hover:shadow-md transition-all group block"
+        >
+          <div class="p-3 rounded-2xl bg-indigo-100 dark:bg-indigo-950/70 text-indigo-800 dark:text-indigo-300 w-fit mb-4 group-hover:scale-105 transition-transform">
+            <Compass class="w-6 h-6" />
+          </div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-800 dark:text-indigo-300 uppercase">
+            Official Standards
+          </span>
+          <h3 class="text-lg font-bold text-stone-900 dark:text-stone-100 group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors mt-2">
+            HSK History & 3.0 Standards
+          </h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400 mt-1.5 leading-relaxed">
+            The evolution of Chinese proficiency testing from HSK 1.0 to 2.0 and the upcoming 3.0 9-band framework by CLEC.
+          </p>
+          <div class="mt-4 flex items-center text-xs font-semibold text-indigo-700 dark:text-indigo-400 gap-1">
+            <span>Learn history</span> <ArrowRight class="w-3 h-3" />
+          </div>
+        </router-link>
+      </div>
+    </section>
+
     <!-- Academic Guides & Masterclasses Section -->
     <section class="w-full max-w-7xl mx-auto">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
@@ -465,7 +541,7 @@ const selectedDaily = ref(dailyWords[0]);
         <router-link 
           v-for="b in featuredBlogs" 
           :key="b.slug"
-          :to="`/blog/${b.slug}`"
+          :to="`/guides/${b.slug}`"
           class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-6 shadow-xs hover:shadow-md transition-all group flex flex-col justify-between"
         >
           <div class="space-y-3">

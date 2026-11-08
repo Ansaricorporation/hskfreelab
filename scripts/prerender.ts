@@ -16,6 +16,13 @@ import { hsk3Vocab } from '../src/data/hsk3-vocab.ts';
 import { lessonsData } from '../src/data/lessons.ts';
 import { grammarData } from '../src/data/grammar.ts';
 import { mockTestsData } from '../src/data/mock-tests.ts';
+import { 
+  getAll88GrammarPoints, 
+  getEnrichedVocabForLesson, 
+  getLessonUnitNumber, 
+  getAdjacentLessons, 
+  getRelatedGuidesForLesson 
+} from '../src/data/lesson-helpers.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -524,12 +531,12 @@ function getCanonicalRoutes(): RouteDefinition[] {
         </div>`
     },
 
-    // 9. Lessons
+    // 9. Lessons Directory
     {
       path: '/lessons',
-      title: 'Free Mandarin Grammar & Vocabulary Lessons | HSK Free Lab',
-      description: 'Bite-sized Chinese grammar lessons, sentence structure formulas, and daily practical conversation drills.',
-      priority: 0.8,
+      title: 'Free Mandarin Grammar & Vocabulary Lessons (30 Units) | HSK Free Lab',
+      description: 'Master Chinese step-by-step with 30 bite-sized interactive lessons covering HSK 1, 2, and 3 dialogues, verified vocabulary, grammar formulas, and quizzes.',
+      priority: 0.9,
       changefreq: 'weekly',
       jsonLd: {
         '@context': 'https://schema.org',
@@ -537,61 +544,122 @@ function getCanonicalRoutes(): RouteDefinition[] {
         name: '30 Interactive HSK Mandarin Lessons',
         url: `${SITE_DOMAIN}/lessons`,
         isAccessibleForFree: true,
-        description: 'Bite-sized Chinese lessons covering grammar structures, everyday vocabulary, and conversational dialogues.'
+        description: 'Complete 30-unit curriculum covering foundational Chinese dialogues, key vocabulary, sentence grammar structures, and comprehension quizzes across HSK 1, 2, and 3.'
       },
       renderBody: () => `
-        <div class="max-w-7xl mx-auto py-10 px-4 space-y-8">
+        <div class="max-w-7xl mx-auto py-10 px-4 space-y-10">
           <header class="text-center max-w-3xl mx-auto space-y-3">
             <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">Structured Curriculum · 30 Bite-Sized Lessons</span>
-            <h1 class="text-3xl sm:text-5xl font-black text-stone-900">Interactive Mandarin Lessons</h1>
-            <p class="text-sm text-stone-700 leading-relaxed">Master Chinese sentence structures, high-frequency verbs, and practical daily dialogues step-by-step.</p>
+            <h1 class="text-3xl sm:text-5xl font-black text-stone-900">30 Interactive Mandarin Lessons</h1>
+            <p class="text-sm text-stone-700 leading-relaxed">Master Chinese sentence structures, high-frequency vocabulary, conversational dialogues, and take instant quizzes across HSK 1, 2, and 3.</p>
+            <div class="flex items-center justify-center gap-3 pt-2 text-xs font-bold">
+              <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">HSK 1: 10 Units</span>
+              <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-800">HSK 2: 10 Units</span>
+              <span class="px-3 py-1 rounded-full bg-rose-100 text-rose-800">HSK 3: 10 Units</span>
+            </div>
           </header>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            ${lessonsData.slice(0, 15).map(l => `
-              <div class="p-6 bg-white rounded-2xl border border-stone-200 shadow-sm space-y-2">
-                <span class="text-[10px] uppercase font-bold text-emerald-700">Level ${l.level} · Unit ${l.unit}</span>
-                <h2 class="text-lg font-bold text-stone-900">${l.title}</h2>
-                <p class="text-xs text-stone-600 line-clamp-2">${l.description}</p>
-                <a href="/lessons" class="inline-block text-xs font-bold text-emerald-700 pt-1">Start Lesson &rarr;</a>
-              </div>`).join('')}
+            ${lessonsData.map(l => {
+              const uNum = getLessonUnitNumber(l.slug);
+              const badgeColor = l.level === 1 ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : (l.level === 2 ? 'text-sky-700 bg-sky-50 border-sky-200' : 'text-rose-700 bg-rose-50 border-rose-200');
+              return `
+              <div class="p-6 bg-white rounded-2xl border border-stone-200 shadow-sm space-y-3 flex flex-col justify-between">
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md border ${badgeColor}">HSK ${l.level} · Unit ${uNum}</span>
+                    <span class="text-xs text-stone-400 font-mono">${l.keyVocab.length} Vocab</span>
+                  </div>
+                  <h2 class="text-lg font-bold text-stone-900">${l.title}</h2>
+                  <p class="text-xs text-stone-600 line-clamp-2 leading-relaxed">${l.description}</p>
+                </div>
+                <div class="pt-3 border-t border-stone-100">
+                  <a href="/lessons/${l.slug}" class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:text-emerald-800 hover:underline">
+                    <span>Start Unit ${uNum} Lesson</span>
+                    <span>&rarr;</span>
+                  </a>
+                </div>
+              </div>`;
+            }).join('')}
           </div>
         </div>`
     },
 
-    // 10. Grammar
+    // 10. Grammar Compendium (88 Rules)
     {
       path: '/grammar',
-      title: 'Essential HSK 1-3 Grammar Compendium - Sentence Structures & Rules | HSK Free Lab',
-      description: 'Comprehensive grammar reference for HSK 1, 2, and 3 with sentence patterns, particle explanations, and clear English examples.',
-      priority: 0.8,
+      title: 'Essential HSK 1-3 Grammar Compendium (88 Rules & Patterns) | HSK Free Lab',
+      description: 'Comprehensive 88-rule Mandarin grammar compendium for HSK 1, 2, and 3 with formula patterns, clear explanations, authentic example sentences, and direct lesson links.',
+      priority: 0.9,
       changefreq: 'weekly',
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'LearningResource',
-        name: 'HSK 1-3 Essential Grammar Compendium',
+        name: 'HSK 1-3 Complete 88-Rule Grammar Compendium',
         url: `${SITE_DOMAIN}/grammar`,
         isAccessibleForFree: true,
-        description: 'Comprehensive grammar reference rules, structural sentence patterns, and particle breakdowns for HSK 1, 2, and 3.'
+        description: 'Comprehensive 88-point grammar compendium covering sentence formulas, particle behaviors (的, 得, 地, 了, 过, 把, 被), and contextual conversation rules across HSK 1, 2, and 3.'
       },
-      renderBody: () => `
-        <div class="max-w-4xl mx-auto py-10 px-4 space-y-8">
-          <header class="text-center space-y-3">
-            <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">Grammar Compendium · Sentence Logic</span>
-            <h1 class="text-3xl sm:text-5xl font-black text-stone-900">Essential HSK 1-3 Grammar Compendium</h1>
-            <p class="text-sm text-stone-700 leading-relaxed">Master the core sentence formulas, particle behaviors (的, 得, 地, 了, 过), and question forms without confusing jargon.</p>
+      renderBody: () => {
+        const all88 = getAll88GrammarPoints();
+        const hsk1Count = all88.filter(g => g.level === 1).length;
+        const hsk2Count = all88.filter(g => g.level === 2).length;
+        const hsk3Count = all88.filter(g => g.level === 3).length;
+
+        return `
+        <div class="max-w-5xl mx-auto py-10 px-4 space-y-8">
+          <header class="text-center space-y-4">
+            <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">Grammar Compendium · 88 Verified Rules</span>
+            <h1 class="text-3xl sm:text-5xl font-black text-stone-900">HSK 1–3 Grammar Compendium</h1>
+            <p class="text-sm text-stone-700 leading-relaxed max-w-3xl mx-auto">Master every essential Chinese sentence formula, grammatical particle (的, 得, 地, 了, 过, 把, 被), and structure from beginner to intermediate.</p>
+            <div class="flex items-center justify-center gap-3 pt-2 text-xs font-bold">
+              <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">HSK 1: ${hsk1Count} Rules</span>
+              <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-800">HSK 2: ${hsk2Count} Rules</span>
+              <span class="px-3 py-1 rounded-full bg-rose-100 text-rose-800">HSK 3: ${hsk3Count} Rules</span>
+            </div>
           </header>
           <div class="space-y-6">
-            ${grammarData.map(g => `
-              <article class="p-6 bg-white rounded-2xl border border-stone-200 shadow-sm space-y-3">
-                <span class="text-[10px] uppercase font-bold text-rose-700">Level ${g.level} Pattern</span>
-                <h2 class="text-xl font-bold text-stone-900">${g.pattern}</h2>
-                <p class="text-xs text-stone-700 leading-relaxed">${g.explanation}</p>
-                <div class="p-3 bg-stone-50 rounded-xl border border-stone-200 text-xs text-stone-800 space-y-1">
-                  <strong>Example:</strong> ${g.example}
+            ${all88.map(g => {
+              const badgeColor = g.level === 1 ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : (g.level === 2 ? 'text-sky-700 bg-sky-50 border-sky-200' : 'text-rose-700 bg-rose-50 border-rose-200');
+              const lessonLink = g.lessonSlug 
+                ? `<a href="/lessons/${g.lessonSlug}" class="inline-flex items-center gap-1 text-xs font-bold text-rose-700 hover:text-rose-900 hover:underline">Practice in ${g.lessonTitle || 'Lesson'} &rarr;</a>`
+                : `<a href="/lessons" class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:text-emerald-900 hover:underline">Explore Practice Lessons &rarr;</a>`;
+
+              const examplesHtml = Array.isArray(g.examples)
+                ? g.examples.map((ex: any) => `
+                    <div class="space-y-0.5">
+                      <div class="font-bold text-stone-900 text-sm">${ex.zh}</div>
+                      <div class="text-xs text-rose-700 font-mono">${ex.py}</div>
+                      <div class="text-xs text-stone-600">${ex.en}</div>
+                    </div>`).join('')
+                : `<div class="text-xs text-stone-800 font-medium">${g.example || ''}</div>`;
+
+              return `
+              <article class="p-6 bg-white rounded-2xl border border-stone-200 shadow-sm space-y-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md border ${badgeColor}">HSK Level ${g.level}</span>
+                  <span class="text-xs text-stone-400 font-mono">Rule #${g.id}</span>
                 </div>
-              </article>`).join('')}
+                <div>
+                  <h2 class="text-lg font-bold text-stone-900">${g.title}</h2>
+                  <div class="mt-1 inline-block px-3 py-1 rounded-lg bg-stone-100 font-mono text-xs font-bold text-stone-800 border border-stone-200">${g.pattern}</div>
+                </div>
+                <p class="text-xs text-stone-700 leading-relaxed">${g.explanation}</p>
+                <div class="p-4 bg-stone-50 rounded-xl border border-stone-200 space-y-3">
+                  <div class="text-[11px] font-bold uppercase tracking-wider text-stone-500">Illustrative Examples:</div>
+                  ${examplesHtml}
+                </div>
+                ${g.commonMistake ? `
+                <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
+                  <strong>Common Pitfall:</strong> ${g.commonMistake}
+                </div>` : ''}
+                <div class="pt-2 border-t border-stone-100 flex items-center justify-between text-xs">
+                  ${lessonLink}
+                </div>
+              </article>`;
+            }).join('')}
           </div>
-        </div>`
+        </div>`;
+      }
     },
 
     // 11. Guides Directory
@@ -943,6 +1011,215 @@ function getCanonicalRoutes(): RouteDefinition[] {
             <a href="/guides" class="font-bold text-rose-700 hover:underline">&larr; Back to All 18 Guides</a>
             <a href="/hsk-1" class="font-bold text-emerald-700 hover:underline">Start HSK 1 Free &rarr;</a>
           </footer>
+        </article>`
+    });
+  }
+
+  // 19. Add all 30 individual lesson routes (/lessons/:slug)
+  for (const lesson of lessonsData) {
+    const unitNum = getLessonUnitNumber(lesson.slug);
+    const enrichedVocab = getEnrichedVocabForLesson(lesson);
+    const adjacent = getAdjacentLessons(lesson.slug);
+    const cefr = lesson.level === 1 ? 'A1' : lesson.level === 2 ? 'A2' : 'B1';
+    const canonicalUrl = `${SITE_DOMAIN}/lessons/${lesson.slug}`;
+
+    routes.push({
+      path: `/lessons/${lesson.slug}`,
+      title: `HSK ${lesson.level} Lesson ${unitNum}: ${lesson.title} | HSK Free Lab`,
+      description: `${lesson.description} Comprehensive HSK ${lesson.level} lesson featuring conversational dialogue, enriched vocabulary definitions, sentence grammar rules, and interactive quiz.`,
+      type: 'article',
+      priority: 0.8,
+      changefreq: 'weekly',
+      jsonLd: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'LearningResource',
+          name: `HSK ${lesson.level} Lesson ${unitNum}: ${lesson.title}`,
+          description: lesson.description,
+          educationalLevel: `CEFR ${cefr}`,
+          isAccessibleForFree: true,
+          provider: {
+            '@type': 'Organization',
+            name: 'HSK Free Lab',
+            url: SITE_DOMAIN
+          },
+          url: canonicalUrl
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_DOMAIN}/` },
+            { '@type': 'ListItem', position: 2, name: 'Lessons', item: `${SITE_DOMAIN}/lessons` },
+            { '@type': 'ListItem', position: 3, name: `HSK ${lesson.level}`, item: `${SITE_DOMAIN}/hsk-${lesson.level}` },
+            { '@type': 'ListItem', position: 4, name: `Unit ${unitNum}: ${lesson.title}`, item: canonicalUrl }
+          ]
+        }
+      ],
+      renderBody: () => `
+        <article class="max-w-4xl mx-auto py-10 px-4 space-y-10">
+          
+          <!-- Breadcrumb Navigation -->
+          <nav class="text-xs text-stone-500 flex items-center gap-2 flex-wrap">
+            <a href="/" class="hover:underline">Home</a> &gt;
+            <a href="/lessons" class="hover:underline">Lessons</a> &gt;
+            <a href="/hsk-${lesson.level}" class="hover:underline">HSK ${lesson.level}</a> &gt;
+            <span class="text-stone-800 font-semibold">Unit ${unitNum}: ${lesson.title}</span>
+          </nav>
+
+          <!-- Lesson Header -->
+          <header class="space-y-4 border-b border-stone-200 pb-8">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="px-3 py-1 rounded-full text-xs font-bold border ${lesson.level === 1 ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : (lesson.level === 2 ? 'bg-sky-50 text-sky-800 border-sky-200' : 'bg-rose-50 text-rose-800 border-rose-200')}">
+                HSK ${lesson.level} · Unit ${unitNum} of 10
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full bg-stone-100 text-stone-600 text-xs font-semibold">
+                CEFR ${cefr}
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full bg-stone-100 text-stone-600 text-xs font-semibold">
+                ${enrichedVocab.length} Key Words
+              </span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-black text-stone-900 tracking-tight leading-tight">
+              ${lesson.title}
+            </h1>
+            <p class="text-base text-stone-700 leading-relaxed max-w-3xl">
+              ${lesson.description}
+            </p>
+          </header>
+
+          <!-- Section 1: Dialogue -->
+          <section class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+                <span>💬</span>
+                <span>Conversational Dialogue (课文对话)</span>
+              </h2>
+              <span class="text-xs text-stone-400 font-mono">${lesson.dialogue.length} Sentences</span>
+            </div>
+            <div class="space-y-3">
+              ${lesson.dialogue.map(d => `
+                <div class="p-4 bg-white rounded-2xl border border-stone-200 shadow-xs space-y-1">
+                  <div class="text-xs font-bold text-stone-500 uppercase tracking-wider">${d.speaker}</div>
+                  <div class="text-lg font-bold text-stone-900">${d.zh}</div>
+                  <div class="text-xs text-rose-700 font-mono">${d.py}</div>
+                  <div class="text-xs text-stone-600">${d.en}</div>
+                </div>`).join('')}
+            </div>
+          </section>
+
+          <!-- Section 2: Key Vocabulary Table -->
+          <section class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+                <span>📖</span>
+                <span>Key Vocabulary Deck (重点生词)</span>
+              </h2>
+              <span class="text-xs text-stone-400 font-mono">${enrichedVocab.length} Words</span>
+            </div>
+            <div class="overflow-x-auto bg-white rounded-2xl border border-stone-200 shadow-xs">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-stone-50 border-b border-stone-200 text-stone-600 font-bold uppercase text-[10px]">
+                  <tr>
+                    <th class="p-3">Character</th>
+                    <th class="p-3">Pinyin</th>
+                    <th class="p-3">Meaning</th>
+                    <th class="p-3">Type</th>
+                    <th class="p-3">Example Sentence</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-stone-100">
+                  ${enrichedVocab.map(v => `
+                    <tr class="hover:bg-stone-50/70">
+                      <td class="p-3 font-bold text-base text-stone-900 whitespace-nowrap">
+                        <a href="/stroke-order?char=${encodeURIComponent(v.hanzi[0])}" class="hover:text-rose-700" title="View stroke animation for ${v.hanzi[0]}">${v.hanzi}</a>
+                      </td>
+                      <td class="p-3 font-mono text-rose-700 whitespace-nowrap">${v.pinyin}</td>
+                      <td class="p-3 text-stone-700 font-medium">${v.meaning}</td>
+                      <td class="p-3 text-stone-500 whitespace-nowrap"><span class="px-2 py-0.5 rounded bg-stone-100">${v.partOfSpeech}</span></td>
+                      <td class="p-3 text-stone-700 space-y-0.5">
+                        <div class="font-bold text-stone-800">${v.exampleZh}</div>
+                        <div class="text-stone-500 font-mono text-[11px]">${v.examplePy}</div>
+                        <div class="text-stone-600">${v.exampleEn}</div>
+                      </td>
+                    </tr>`).join('')}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Section 3: Grammar Structures -->
+          <section class="space-y-4">
+            <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+              <span>📐</span>
+              <span>Essential Grammar Formulas (语法要点)</span>
+            </h2>
+            <div class="space-y-3">
+              ${lesson.grammarPoints.map((gp, gIdx) => `
+                <div class="p-5 bg-white rounded-2xl border border-stone-200 shadow-xs space-y-2">
+                  <div class="flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-md bg-rose-100 text-rose-800 text-[11px] font-bold flex items-center justify-center">${gIdx + 1}</span>
+                    <h3 class="text-sm font-bold text-stone-900">${gp}</h3>
+                  </div>
+                  <p class="text-xs text-stone-600 leading-relaxed pl-7">Core structural pattern for HSK ${lesson.level}. For the comprehensive breakdown with formulas and pitfalls, review the <a href="/grammar" class="text-rose-700 underline font-semibold">88-Rule Grammar Compendium</a>.</p>
+                </div>`).join('')}
+            </div>
+          </section>
+
+          <!-- Section 4: Practice Quiz -->
+          <section class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+                <span>✍️</span>
+                <span>Comprehension Practice (随堂检测)</span>
+              </h2>
+              <span class="text-xs text-stone-400 font-mono">${lesson.practiceQuestions.length} Questions</span>
+            </div>
+            <div class="space-y-4">
+              ${lesson.practiceQuestions.map((q, qIdx) => `
+                <div class="p-5 bg-white rounded-2xl border border-stone-200 shadow-xs space-y-3">
+                  <div class="font-bold text-stone-900 text-sm">Question ${qIdx + 1}: ${q.question}</div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    ${q.options.map((opt, optIdx) => `
+                      <div class="p-2.5 rounded-xl border ${optIdx === q.correctIndex ? 'border-emerald-300 bg-emerald-50/60 font-bold text-emerald-900' : 'border-stone-200 bg-stone-50 text-stone-700'}">
+                        <span>${String.fromCharCode(65 + optIdx)}. ${opt}</span>
+                        ${optIdx === q.correctIndex ? '<span class="ml-1 text-emerald-700 font-bold">(Verified Answer)</span>' : ''}
+                      </div>`).join('')}
+                  </div>
+                  <div class="p-3 bg-stone-50 rounded-xl border border-stone-100 text-xs text-stone-600">
+                    <strong>Explanation:</strong> ${q.explanation}
+                  </div>
+                </div>`).join('')}
+            </div>
+          </section>
+
+          <!-- Section 5: Unit Progression & Internal Links -->
+          <footer class="pt-8 border-t border-stone-200 space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              ${adjacent.prevLesson ? `
+                <a href="/lessons/${adjacent.prevLesson.slug}" class="p-4 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-stone-50 transition-all flex flex-col justify-between">
+                  <span class="text-[10px] uppercase font-bold text-stone-400">&larr; Previous Unit</span>
+                  <span class="text-sm font-bold text-stone-900 mt-1">${adjacent.prevLesson.title}</span>
+                </a>` : '<div></div>'}
+              ${adjacent.nextLesson ? `
+                <a href="/lessons/${adjacent.nextLesson.slug}" class="p-4 rounded-2xl border border-stone-200 hover:border-emerald-300 hover:bg-stone-50 transition-all flex flex-col justify-between text-right">
+                  <span class="text-[10px] uppercase font-bold text-stone-400">Next Unit &rarr;</span>
+                  <span class="text-sm font-bold text-stone-900 mt-1">${adjacent.nextLesson.title}</span>
+                </a>` : '<div></div>'}
+            </div>
+
+            <!-- Level Hub & Reference Cross-Links -->
+            <div class="p-6 bg-stone-50 rounded-2xl border border-stone-200 space-y-3 text-xs">
+              <div class="font-bold text-stone-900">Explore More HSK ${lesson.level} Resources:</div>
+              <div class="flex flex-wrap items-center gap-3">
+                <a href="/hsk-${lesson.level}" class="px-3 py-1.5 rounded-lg bg-white border border-stone-300 font-semibold text-stone-800 hover:border-rose-400">HSK ${lesson.level} Vocabulary &amp; Specs &rarr;</a>
+                <a href="/mock-tests" class="px-3 py-1.5 rounded-lg bg-white border border-stone-300 font-semibold text-stone-800 hover:border-purple-400">HSK ${lesson.level} Timed Mock Tests &rarr;</a>
+                <a href="/grammar" class="px-3 py-1.5 rounded-lg bg-white border border-stone-300 font-semibold text-stone-800 hover:border-rose-400">88-Rule Grammar Compendium &rarr;</a>
+                <a href="/lessons" class="px-3 py-1.5 rounded-lg bg-white border border-stone-300 font-semibold text-stone-800 hover:border-emerald-400">All 30 Curriculum Units &rarr;</a>
+              </div>
+            </div>
+          </footer>
+
         </article>`
     });
   }
