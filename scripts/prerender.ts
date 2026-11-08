@@ -631,6 +631,237 @@ function renderWordDetailStaticHtml(word: VocabItemWithSlug): string {
   `;
 }
 
+// FAQ Datasets & HTML Helpers for Position #0 Featured Snippet & Printable SEO
+const hsk1Faqs = [
+  {
+    question: 'How many words are in HSK 1?',
+    answer: 'HSK 1 requires exactly 150 official vocabulary words (and approximately 174 unique Chinese characters). These words cover foundational survival communication such as greetings (你好, 再见), numbers (一, 二, 三), family members (爸爸, 妈妈), basic question particles (吗, 呢, 谁), and essential verbs (看, 吃, 喝, 是, 有). On HSK Free Lab, you can practice all 150 words with stroke animations, native audio, and printable cheat sheets.'
+  },
+  {
+    question: 'What is the passing score for HSK 1?',
+    answer: 'The passing score for HSK 1 is 120 out of 200 total points (60%). The exam consists of two equal sections: Listening (20 questions, maximum 100 points) and Reading (20 questions, maximum 100 points). There is no minimum score requirement per individual section—as long as your combined total score reaches 120 points, you pass and receive official Hanban/CTI certification.'
+  },
+  {
+    question: 'How long does it take to pass HSK 1?',
+    answer: 'Most beginner students achieve HSK 1 proficiency in 25 to 40 hours of focused study (typically 3 to 6 weeks studying 1 hour daily, or 2 to 3 months of casual study). Because HSK 1 includes Pinyin tone markings alongside every character on the test, students can pass quickly by focusing on listening comprehension and 5 to 10 vocabulary words per day.'
+  },
+  {
+    question: 'Does HSK 1 include a writing section or tone marks?',
+    answer: 'No, HSK 1 does NOT contain any character writing section. It only tests Listening and Reading comprehension using multiple-choice and true/false picture matching. Furthermore, all Chinese characters on the official HSK 1 exam include printed Pinyin tone marks directly above them, making it the most beginner-accessible level in the official Chinese testing framework.'
+  },
+  {
+    question: 'How can I download or print the HSK 1 vocabulary list for free as a PDF?',
+    answer: 'You can generate and print the complete official 150-word HSK 1 vocabulary list directly from this page for free with zero watermarks or registration. Click the "🖨️ Print / Save as PDF Cheat Sheet" button at the top of the vocabulary table, or press Ctrl + P (Cmd + P on Mac), select "Save as PDF" as the print destination, and your browser will render a beautifully formatted multi-page reference sheet with Hanzi, Pinyin tones, parts of speech, and English definitions.'
+  }
+];
+
+const hsk2Faqs = [
+  {
+    question: 'How many words are in HSK 2?',
+    answer: 'HSK 2 requires a cumulative total of 300 vocabulary words—consisting of 150 new intermediate-elementary words added to the 150 foundational HSK 1 words. Vocabulary expands to cover daily activities, shopping, dining out, transportation, weather, and basic feelings and health expressions.'
+  },
+  {
+    question: 'What is the passing score for HSK 2?',
+    answer: 'The passing score for HSK 2 is 120 out of 200 total points (60%). The exam is divided into two sections: Listening (35 questions, 100 points) and Reading (25 questions, 100 points). There is no separate minimum cut-off for each section; any combination totaling 120 or above earns official passing certification.'
+  },
+  {
+    question: 'How long does it take to pass HSK 2?',
+    answer: 'Transitioning from HSK 1 to HSK 2 usually takes between 30 and 50 additional study hours (approximately 6 to 10 weeks of consistent daily practice). If starting from scratch without prior Mandarin knowledge, reaching HSK 2 takes roughly 60 to 90 total study hours.'
+  },
+  {
+    question: 'Does HSK 2 include a writing section or tone marks?',
+    answer: 'Like HSK 1, HSK 2 has NO character writing section. All questions are multiple-choice or sentence-picture matching. In addition, official HSK 2 test papers still include full Pinyin transcriptions printed above every Chinese character, allowing learners to verify pronunciation while reading.'
+  },
+  {
+    question: 'How can I download or print the HSK 2 vocabulary list for free as a PDF?',
+    answer: 'To get a printable HSK 2 vocabulary cheat sheet, click the "🖨️ Print / Save as PDF Cheat Sheet" button located above the vocabulary browser on this page. Then select "Save as PDF" in your browser\'s print dialog to download a complete, clean, ad-free PDF containing all HSK 2 vocabulary words, complete with Pinyin, grammatical classification, and English definitions.'
+  }
+];
+
+const hsk3Faqs = [
+  {
+    question: 'How many words are in HSK 3?',
+    answer: 'HSK 3 requires a cumulative vocabulary of 600 words (300 new words introduced at Level 3, plus the 300 words from HSK 1 and 2). It also requires familiarity with approximately 617 distinct Chinese characters used in diverse contexts from career and travel to hobbies and health.'
+  },
+  {
+    question: 'What is the passing score for HSK 3?',
+    answer: 'The passing score for HSK 3 is 180 out of 300 total points (60%). Unlike HSK 1 and 2 (which are scored out of 200), HSK 3 introduces a third mandatory section: Writing. The exam is divided into Listening (100 points), Reading (100 points), and Writing (100 points). An aggregate score of 180 across all three sections earns a pass.'
+  },
+  {
+    question: 'How long does it take to pass HSK 3?',
+    answer: 'Reaching HSK 3 typically requires 120 to 200 cumulative study hours from zero, or about 80 to 120 hours after passing HSK 2. Because HSK 3 removes Pinyin from the reading section and requires writing Chinese characters, students usually dedicate 3 to 6 months of disciplined daily practice.'
+  },
+  {
+    question: 'Does HSK 3 include a writing section or tone marks?',
+    answer: 'YES! HSK 3 is the first level that includes a Writing section (10 questions, 100 points). Part 1 requires unscrambling 5 sentences into correct grammatical order. Part 2 requires writing 5 individual Chinese characters into sentences given Pinyin clues. Crucially, HSK 3 completely eliminates Pinyin from the Reading section—all passages and questions are printed exclusively in Chinese characters (Hanzi).'
+  },
+  {
+    question: 'How can I download or print the HSK 3 vocabulary list for free as a PDF?',
+    answer: 'You can easily print or save the complete 600-word HSK 3 vocabulary syllabus as a free PDF study packet. Click the "🖨️ Print / Save as PDF Cheat Sheet" button above the vocabulary table, or press Ctrl + P / Cmd + P. Your browser will format the table into an optimized multi-page study sheet without any navigation bars or advertisements.'
+  }
+];
+
+const grammarFaqsStatic = [
+  {
+    question: 'How many grammar points are tested on HSK 1, 2, and 3?',
+    answer: 'The official HSK 1–3 syllabus contains exactly 88 core grammar points: 24 foundational rules in HSK 1 (basic word order S-V-O, question particles 吗/呢, measure words, negation 不/没), 32 elementary rules in HSK 2 (aspect particles 了/过, comparative 比, auxiliary verbs 要/能/可以), and 32 intermediate rules in HSK 3 (disposal 把-sentences, passive voice 被, structural particles 的/得/地, and compound conjunctions 虽然...但是...).'
+  },
+  {
+    question: 'How can I print or download this HSK grammar compendium as a free PDF cheat sheet?',
+    answer: 'Click the "🖨️ Print / Save as PDF Cheat Sheet" button on this page, or press Ctrl+P (Cmd+P on Mac) and choose "Save as PDF". You can filter by level first (e.g. clicking HSK 1 to export only Level 1 rules, or All to print all 88 rules). The print stylesheet automatically hides website navigation, search boxes, and buttons, formatting the 88 rules into a clean, multi-page reference packet.'
+  },
+  {
+    question: 'What is the fundamental word order of a Chinese sentence?',
+    answer: 'Standard Mandarin Chinese follows Subject + Time + Location + Manner + Verb + Object (S-T-L-M-V-O). Unlike English, time words and location phrases in Chinese almost always precede the main verb (e.g., "我明天在学校学习" — literally: I tomorrow at school study).'
+  },
+  {
+    question: 'What is the difference between 的 (de), 得 (de), and 地 (de)?',
+    answer: 'All three particles are pronounced "de" with a neutral tone, but serve distinct grammatical functions: 的 is used after adjectives or possessive nouns before a noun (e.g., 我的书 - my book; 红色的苹果 - red apple); 得 is used after a verb or adjective to introduce a degree or complement (e.g., 跑得快 - runs fast); 地 is used after an adverbial modifier before an action verb (e.g., 高兴地说 - happily said).'
+  },
+  {
+    question: 'How do 把 (bǎ) sentences work in HSK 3 grammar?',
+    answer: 'The 把 construction (Disposal Structure) moves the direct object ahead of the verb to emphasize what happened to that object or how it changed state: Subject + 把 + Object + Verb + Other Element (e.g., 我把作业做完了 - I finished the homework). The verb in a 把 sentence cannot stand alone and must be accompanied by an aspect marker (了), directional complement, or resultative complement.'
+  }
+];
+
+function generateFaqSchema(faqs: { question: string; answer: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map(f => ({
+      '@type': 'Question',
+      'name': f.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': f.answer
+      }
+    }))
+  };
+}
+
+function renderFaqHtml(faqs: { question: string; answer: string }[], heading: string): string {
+  return `
+    <section class="p-6 sm:p-8 bg-white rounded-2xl border border-stone-200 shadow-sm space-y-6">
+      <div class="space-y-1 pb-4 border-b border-stone-200">
+        <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Frequently Asked Questions</span>
+        <h2 class="text-2xl font-black text-stone-900">${heading}</h2>
+        <p class="text-xs text-stone-600">Essential answers for test-takers, self-learners, and Mandarin educators.</p>
+      </div>
+      <div class="space-y-4">
+        ${faqs.map(f => `
+          <div class="p-4 bg-stone-50 rounded-xl border border-stone-200 space-y-2">
+            <h3 class="text-sm font-bold text-stone-900">${f.question}</h3>
+            <p class="text-xs text-stone-700 leading-relaxed">${f.answer}</p>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function renderPrintableSectionHtml(levelName: string, wordCount: string): string {
+  return `
+    <section class="p-6 sm:p-8 bg-rose-50/50 rounded-2xl border border-rose-200/80 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="space-y-1">
+          <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-bold uppercase">Printable Educational Resources</span>
+          <h2 class="text-xl sm:text-2xl font-black text-stone-900">Free Printable ${levelName} Vocabulary List (PDF Download)</h2>
+          <p class="text-xs text-stone-700 max-w-2xl leading-relaxed">
+            Need a clean, multi-page paper study sheet for classroom teaching, offline handwriting practice, or daily desk revision? You can print or save the complete official ${levelName} (${wordCount}) syllabus directly from your browser in 1 click.
+          </p>
+        </div>
+        <div class="shrink-0">
+          <button onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-rose-600 text-white font-bold text-xs shadow-xs hover:bg-rose-700">🖨️ Print / Save as PDF Cheat Sheet</button>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs pt-2">
+        <div class="p-3 bg-white rounded-xl border border-stone-200">
+          <strong>1. Zero Paywalls or Watermarks:</strong> Completely open educational access. Prints clean tabular lists with Hanzi, Pinyin tones, and English meanings.
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-stone-200">
+          <strong>2. Teacher &amp; Classroom Ready:</strong> Includes pencil checkboxes next to each word for homework tracking and weekly classroom vocab quizzes.
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-stone-200">
+          <strong>3. How to Save as PDF:</strong> Press <kbd class="px-1 py-0.5 bg-stone-100 border rounded text-[10px]">Ctrl+P</kbd> or <kbd class="px-1 py-0.5 bg-stone-100 border rounded text-[10px]">Cmd+P</kbd>, choose "Save as PDF", and save for offline review.
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderQuickFactsTableHtml(level: 1 | 2 | 3): string {
+  const specs = level === 1
+    ? [
+        ['Official Vocabulary Requirement', '150 Words', 'Foundational survival words & greetings'],
+        ['Unique Chinese Characters', '174 Characters', 'Elementary Hanzi building blocks'],
+        ['CEFR Benchmark', 'A1 (Breakthrough)', 'Basic daily communication & introductions'],
+        ['Exam Test Structure', 'Listening (20) + Reading (20)', '40 total questions, ~40 minutes duration'],
+        ['Passing Score Threshold', '120 / 200 (60%)', 'Aggregate score; no individual section cut-off'],
+        ['Pinyin Annotations', 'Full Pinyin on Exam', 'Printed above every Chinese character'],
+        ['Character Writing Test', 'None (0 Writing Tasks)', 'Multiple choice & true/false pictures only'],
+        ['Audio Listening Speed', 'Played Twice (2x)', 'Clear native voice with extended pauses'],
+        ['Target Study Duration', '25–40 Hours', 'Approx. 3–4 weeks at 1 hour daily practice'],
+        ['Free Printable PDF Sheet', '1-Click Instant Print', 'Free browser export with zero watermarks or ads']
+      ]
+    : level === 2
+    ? [
+        ['Official Vocabulary Requirement', '300 Words Total', '150 new HSK 2 words + 150 HSK 1 cumulative'],
+        ['Unique Chinese Characters', '347 Characters', 'Expands into common shopping & travel radicals'],
+        ['CEFR Benchmark', 'A2 (Waystage)', 'Elementary routine tasks & direct social exchanges'],
+        ['Exam Test Structure', 'Listening (35) + Reading (25)', '60 total questions, ~55 minutes duration'],
+        ['Passing Score Threshold', '120 / 200 (60%)', 'Combined score; no minimum per section'],
+        ['Pinyin Annotations', 'Full Pinyin on Exam', 'Printed above all characters across test paper'],
+        ['Character Writing Test', 'None (0 Writing Tasks)', 'Multiple choice comprehension & picture matches'],
+        ['Audio Listening Speed', 'Played Twice (2x)', 'Conversational pace with normal pauses'],
+        ['Target Study Duration', '50–80 Cumulative Hours', 'Approx. 6–8 weeks after passing HSK 1'],
+        ['Free Printable PDF Sheet', '1-Click Instant Print', 'Free browser export with zero watermarks or ads']
+      ]
+    : [
+        ['Official Vocabulary Requirement', '600 Words Total', '300 new HSK 3 words + 300 HSK 1–2 cumulative'],
+        ['Unique Chinese Characters', '617 Characters', 'Core literacy across everyday workplace & study'],
+        ['CEFR Benchmark', 'B1 (Threshold)', 'Independent travel, work, and social fluency'],
+        ['Exam Test Structure', 'Listening (40) + Reading (30) + Writing (10)', '80 total questions, ~90 minutes duration'],
+        ['Passing Score Threshold', '180 / 300 (60%)', '100 points per section; 180 total aggregate to pass'],
+        ['Pinyin Annotations', 'No Pinyin on Exam Paper', 'All passages and questions are pure Hanzi'],
+        ['Character Writing Test', '10 Writing Questions', '5 sentence scrambles + 5 Hanzi fill-in characters'],
+        ['Audio Listening Speed', 'Played Twice (2x)', 'Authentic dialogues at normal conversational speed'],
+        ['Target Study Duration', '120–200 Cumulative Hours', 'Approx. 3–5 months of disciplined study'],
+        ['Free Printable PDF Sheet', '1-Click Instant Print', 'Free browser export with zero watermarks or ads']
+      ];
+
+  return `
+    <section class="p-6 bg-white rounded-2xl border border-stone-200 shadow-sm space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+        <div>
+          <span class="text-[10px] font-bold text-rose-700 uppercase tracking-wider">Official Syllabus Reference</span>
+          <h2 class="text-xl sm:text-2xl font-black text-stone-900 mt-0.5">HSK ${level} Quick Facts &amp; Passing Requirements</h2>
+        </div>
+        <span class="text-xs text-stone-500">CTI &amp; CLEC Standards</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-stone-50 border-b border-stone-200 font-bold text-stone-700">
+              <th class="p-2.5">Examination Metric</th>
+              <th class="p-2.5">HSK ${level} Requirement</th>
+              <th class="p-2.5">Official Examination Notes</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-100">
+            ${specs.map(([m, r, n]) => `
+              <tr>
+                <td class="p-2.5 font-bold text-stone-900 whitespace-nowrap">${m}</td>
+                <td class="p-2.5 font-semibold text-rose-700 whitespace-nowrap">${r}</td>
+                <td class="p-2.5 text-stone-600">${n}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  `;
+}
+
 // Build Static Content for Each Route
 function getCanonicalRoutes(): RouteDefinition[] {
   const routes: RouteDefinition[] = [
@@ -719,16 +950,19 @@ function getCanonicalRoutes(): RouteDefinition[] {
       description: 'Master all 150 official HSK 1 vocabulary words. Includes tone audio, stroke breakdown, daily grammar patterns, and practice tests.',
       priority: 0.9,
       changefreq: 'weekly',
-      jsonLd: {
-        '@context': 'https://schema.org',
-        '@type': 'Course',
-        name: 'HSK 1 Complete Chinese Preparation Course',
-        description: 'Comprehensive study course for HSK Level 1 including 150 vocabulary words, listening comprehension, and official test simulator.',
-        provider: { '@type': 'EducationalOrganization', name: 'HSK Free Lab', url: `${SITE_DOMAIN}/` },
-        isAccessibleForFree: true,
-        inLanguage: 'zh-CN',
-        educationalLevel: 'Beginner'
-      },
+      jsonLd: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'Course',
+          name: 'HSK 1 Complete Chinese Preparation Course',
+          description: 'Comprehensive study course for HSK Level 1 including 150 vocabulary words, listening comprehension, and official test simulator.',
+          provider: { '@type': 'EducationalOrganization', name: 'HSK Free Lab', url: `${SITE_DOMAIN}/` },
+          isAccessibleForFree: true,
+          inLanguage: 'zh-CN',
+          educationalLevel: 'Beginner'
+        },
+        generateFaqSchema(hsk1Faqs)
+      ],
       renderBody: () => `
         <div class="max-w-7xl mx-auto py-8 px-4 space-y-8">
           <header class="text-center max-w-3xl mx-auto space-y-3">
@@ -736,14 +970,8 @@ function getCanonicalRoutes(): RouteDefinition[] {
             <h1 class="text-3xl sm:text-5xl font-black text-stone-900">HSK 1 Complete Preparation Hub</h1>
             <p class="text-sm text-stone-700 leading-relaxed">The HSK 1 test assesses examinees' ability in daily Chinese communication. Examinees who pass HSK 1 can understand and use very simple Chinese phrases and satisfy basic communication needs.</p>
           </header>
-          <section class="p-6 bg-white rounded-2xl border border-stone-200 shadow-sm space-y-4">
-            <h2 class="text-2xl font-bold text-stone-900">Official HSK 1 Examination Format &amp; Score Thresholds</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-              <div class="p-4 bg-stone-50 rounded-xl border border-stone-200"><strong>Listening Section:</strong> 20 questions, approx. 15 minutes. Maximum 100 points.</div>
-              <div class="p-4 bg-stone-50 rounded-xl border border-stone-200"><strong>Reading Section:</strong> 20 questions, approx. 17 minutes. Maximum 100 points.</div>
-              <div class="p-4 bg-stone-50 rounded-xl border border-stone-200"><strong>Passing Score:</strong> 120 points out of 200 (60% passing threshold).</div>
-            </div>
-          </section>
+          ${renderQuickFactsTableHtml(1)}
+          ${renderPrintableSectionHtml('HSK 1', '150 Words')}
           <section class="space-y-4">
             <h2 class="text-2xl font-bold text-stone-900">Official HSK 1 Vocabulary List (${hsk1Vocab.length} Words)</h2>
             <div class="overflow-x-auto bg-white rounded-2xl border border-stone-200 shadow-sm">
@@ -776,6 +1004,7 @@ function getCanonicalRoutes(): RouteDefinition[] {
               </a>
             </div>
           </section>
+          ${renderFaqHtml(hsk1Faqs, 'Frequently Asked Questions About HSK 1')}
         </div>`
     },
 
@@ -786,16 +1015,19 @@ function getCanonicalRoutes(): RouteDefinition[] {
       description: 'Transition from beginner to elementary Mandarin. Comprehensive HSK 2 vocabulary lists, listening drills, and passing score guides.',
       priority: 0.9,
       changefreq: 'weekly',
-      jsonLd: {
-        '@context': 'https://schema.org',
-        '@type': 'Course',
-        name: 'HSK 2 Complete Chinese Preparation Course',
-        description: 'Comprehensive study course for HSK Level 2 covering 300 cumulative vocabulary words, grammar rules, and mock examinations.',
-        provider: { '@type': 'EducationalOrganization', name: 'HSK Free Lab', url: `${SITE_DOMAIN}/` },
-        isAccessibleForFree: true,
-        inLanguage: 'zh-CN',
-        educationalLevel: 'Elementary'
-      },
+      jsonLd: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'Course',
+          name: 'HSK 2 Complete Chinese Preparation Course',
+          description: 'Comprehensive study course for HSK Level 2 covering 300 cumulative vocabulary words, grammar rules, and mock examinations.',
+          provider: { '@type': 'EducationalOrganization', name: 'HSK Free Lab', url: `${SITE_DOMAIN}/` },
+          isAccessibleForFree: true,
+          inLanguage: 'zh-CN',
+          educationalLevel: 'Elementary'
+        },
+        generateFaqSchema(hsk2Faqs)
+      ],
       renderBody: () => `
         <div class="max-w-7xl mx-auto py-8 px-4 space-y-8">
           <header class="text-center max-w-3xl mx-auto space-y-3">
@@ -803,14 +1035,8 @@ function getCanonicalRoutes(): RouteDefinition[] {
             <h1 class="text-3xl sm:text-5xl font-black text-stone-900">HSK 2 Complete Preparation Hub</h1>
             <p class="text-sm text-stone-700 leading-relaxed">The HSK 2 examination tests examinees' capacity to use Chinese in simple and direct exchanges on familiar daily topics. Passing HSK 2 certifies a firm foundation for higher-level Chinese studies.</p>
           </header>
-          <section class="p-6 bg-white rounded-2xl border border-stone-200 shadow-sm space-y-4">
-            <h2 class="text-2xl font-bold text-stone-900">Official HSK 2 Examination Format &amp; Score Thresholds</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-              <div class="p-4 bg-stone-50 rounded-xl border border-stone-200"><strong>Listening Section:</strong> 35 questions, approx. 25 minutes. Maximum 100 points.</div>
-              <div class="p-4 bg-stone-50 rounded-xl border border-stone-200"><strong>Reading Section:</strong> 25 questions, approx. 22 minutes. Maximum 100 points.</div>
-              <div class="p-4 bg-stone-50 rounded-xl border border-stone-200"><strong>Passing Score:</strong> 120 points out of 200 (60% passing threshold).</div>
-            </div>
-          </section>
+          ${renderQuickFactsTableHtml(2)}
+          ${renderPrintableSectionHtml('HSK 2', '300 Words')}
           <section class="space-y-4">
             <h2 class="text-2xl font-bold text-stone-900">Official HSK 2 Vocabulary List (${hsk2Vocab.length} New Words)</h2>
             <div class="overflow-x-auto bg-white rounded-2xl border border-stone-200 shadow-sm">
@@ -821,7 +1047,7 @@ function getCanonicalRoutes(): RouteDefinition[] {
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-stone-100">
-                  ${hsk2Vocab.slice(0, 150).map((v, i) => `<tr><td class="p-3 text-stone-400 font-mono">${i + 1}</td><td class="p-3 font-serif font-black text-base text-stone-900">${v.hanzi}</td><td class="p-3 font-semibold text-sky-700">${v.pinyin}</td><td class="p-3 text-stone-500">${v.pos || 'noun'}</td><td class="p-3 text-stone-800">${v.meaning}</td></tr>`).join('')}
+                  ${hsk2Vocab.map((v, i) => `<tr><td class="p-3 text-stone-400 font-mono">${i + 1}</td><td class="p-3 font-serif font-black text-base text-stone-900">${v.hanzi}</td><td class="p-3 font-semibold text-sky-700">${v.pinyin}</td><td class="p-3 text-stone-500">${v.pos || 'noun'}</td><td class="p-3 text-stone-800">${v.meaning}</td></tr>`).join('')}
                 </tbody>
               </table>
             </div>
@@ -843,6 +1069,7 @@ function getCanonicalRoutes(): RouteDefinition[] {
               </a>
             </div>
           </section>
+          ${renderFaqHtml(hsk2Faqs, 'Frequently Asked Questions About HSK 2')}
         </div>`
     },
 
@@ -853,16 +1080,19 @@ function getCanonicalRoutes(): RouteDefinition[] {
       description: 'Intermediate Mandarin test preparation. Master 300 additional HSK 3 characters, reading comprehension drills, and full exam prep.',
       priority: 0.9,
       changefreq: 'weekly',
-      jsonLd: {
-        '@context': 'https://schema.org',
-        '@type': 'Course',
-        name: 'HSK 3 Complete Chinese Preparation Course',
-        description: 'Comprehensive study course for HSK Level 3 covering 600 cumulative vocabulary words, reading comprehension, and character writing.',
-        provider: { '@type': 'EducationalOrganization', name: 'HSK Free Lab', url: `${SITE_DOMAIN}/` },
-        isAccessibleForFree: true,
-        inLanguage: 'zh-CN',
-        educationalLevel: 'Intermediate'
-      },
+      jsonLd: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'Course',
+          name: 'HSK 3 Complete Chinese Preparation Course',
+          description: 'Comprehensive study course for HSK Level 3 covering 600 cumulative vocabulary words, reading comprehension, and character writing.',
+          provider: { '@type': 'EducationalOrganization', name: 'HSK Free Lab', url: `${SITE_DOMAIN}/` },
+          isAccessibleForFree: true,
+          inLanguage: 'zh-CN',
+          educationalLevel: 'Intermediate'
+        },
+        generateFaqSchema(hsk3Faqs)
+      ],
       renderBody: () => `
         <div class="max-w-7xl mx-auto py-8 px-4 space-y-8">
           <header class="text-center max-w-3xl mx-auto space-y-3">
@@ -870,15 +1100,8 @@ function getCanonicalRoutes(): RouteDefinition[] {
             <h1 class="text-3xl sm:text-5xl font-black text-stone-900">HSK 3 Complete Preparation Hub</h1>
             <p class="text-sm text-stone-700 leading-relaxed">The HSK 3 examination certifies that examinees can complete basic communicative tasks in daily life, study, and work. Examinees can handle most communicative situations when traveling in China.</p>
           </header>
-          <section class="p-6 bg-white rounded-2xl border border-stone-200 shadow-sm space-y-4">
-            <h2 class="text-2xl font-bold text-stone-900">Official HSK 3 Examination Format &amp; Score Thresholds</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs">
-              <div class="p-4 bg-stone-50 rounded-xl border border-stone-200"><strong>Listening Section:</strong> 40 questions, approx. 35 minutes. 100 points.</div>
-              <div class="p-4 bg-stone-50 rounded-xl border border-stone-200"><strong>Reading Section:</strong> 30 questions, approx. 30 minutes. 100 points.</div>
-              <div class="p-4 bg-stone-50 rounded-xl border border-stone-200"><strong>Writing Section:</strong> 10 questions, approx. 15 minutes. 100 points.</div>
-              <div class="p-4 bg-stone-50 rounded-xl border border-stone-200"><strong>Passing Score:</strong> 180 points out of 300 (60% passing threshold).</div>
-            </div>
-          </section>
+          ${renderQuickFactsTableHtml(3)}
+          ${renderPrintableSectionHtml('HSK 3', '600 Words')}
           <section class="space-y-4">
             <h2 class="text-2xl font-bold text-stone-900">Official HSK 3 Vocabulary List (${hsk3Vocab.length} New Words)</h2>
             <div class="overflow-x-auto bg-white rounded-2xl border border-stone-200 shadow-sm">
@@ -889,7 +1112,7 @@ function getCanonicalRoutes(): RouteDefinition[] {
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-stone-100">
-                  ${hsk3Vocab.slice(0, 150).map((v, i) => `<tr><td class="p-3 text-stone-400 font-mono">${i + 1}</td><td class="p-3 font-serif font-black text-base text-stone-900">${v.hanzi}</td><td class="p-3 font-semibold text-rose-700">${v.pinyin}</td><td class="p-3 text-stone-500">${v.pos || 'noun'}</td><td class="p-3 text-stone-800">${v.meaning}</td></tr>`).join('')}
+                  ${hsk3Vocab.map((v, i) => `<tr><td class="p-3 text-stone-400 font-mono">${i + 1}</td><td class="p-3 font-serif font-black text-base text-stone-900">${v.hanzi}</td><td class="p-3 font-semibold text-rose-700">${v.pinyin}</td><td class="p-3 text-stone-500">${v.pos || 'noun'}</td><td class="p-3 text-stone-800">${v.meaning}</td></tr>`).join('')}
                 </tbody>
               </table>
             </div>
@@ -911,6 +1134,7 @@ function getCanonicalRoutes(): RouteDefinition[] {
               </a>
             </div>
           </section>
+          ${renderFaqHtml(hsk3Faqs, 'Frequently Asked Questions About HSK 3')}
         </div>`
     },
 
@@ -1170,14 +1394,17 @@ function getCanonicalRoutes(): RouteDefinition[] {
       description: 'Comprehensive 88-rule Mandarin grammar compendium for HSK 1, 2, and 3 with formula patterns, clear explanations, authentic example sentences, and direct lesson links.',
       priority: 0.9,
       changefreq: 'weekly',
-      jsonLd: {
-        '@context': 'https://schema.org',
-        '@type': 'LearningResource',
-        name: 'HSK 1-3 Complete 88-Rule Grammar Compendium',
-        url: `${SITE_DOMAIN}/grammar`,
-        isAccessibleForFree: true,
-        description: 'Comprehensive 88-point grammar compendium covering sentence formulas, particle behaviors (的, 得, 地, 了, 过, 把, 被), and contextual conversation rules across HSK 1, 2, and 3.'
-      },
+      jsonLd: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'LearningResource',
+          name: 'HSK 1-3 Complete 88-Rule Grammar Compendium',
+          url: `${SITE_DOMAIN}/grammar`,
+          isAccessibleForFree: true,
+          description: 'Comprehensive 88-point grammar compendium covering sentence formulas, particle behaviors (的, 得, 地, 了, 过, 把, 被), and contextual conversation rules across HSK 1, 2, and 3.'
+        },
+        generateFaqSchema(grammarFaqsStatic)
+      ],
       renderBody: () => {
         const all88 = all88GrammarRules;
         const hsk1Count = all88.filter(g => g.level === 1).length;
@@ -1196,6 +1423,33 @@ function getCanonicalRoutes(): RouteDefinition[] {
               <span class="px-3 py-1 rounded-full bg-rose-100 text-rose-800">HSK 3: ${hsk3Count} Rules</span>
             </div>
           </header>
+          
+          <section class="p-6 sm:p-8 bg-sky-50/50 rounded-2xl border border-sky-200/80 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <span class="px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-bold uppercase">Printable Educational Resources</span>
+                <h2 class="text-xl sm:text-2xl font-black text-stone-900">Free Printable HSK Grammar Cheat Sheet (PDF Download)</h2>
+                <p class="text-xs text-stone-700 max-w-2xl leading-relaxed">
+                  Need an offline syntax reference sheet for classroom teaching, exam revision, or desktop quick lookup? Print or export all 88 essential sentence structures, function words (把, 被, 了, 过), and comparative patterns directly from your browser in 1 click.
+                </p>
+              </div>
+              <div class="shrink-0">
+                <button onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-sky-600 text-white font-bold text-xs shadow-xs hover:bg-sky-700">🖨️ Print Grammar Sheet</button>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs pt-2">
+              <div class="p-3 bg-white rounded-xl border border-stone-200">
+                <strong>1. Filter by Level:</strong> Review HSK 1, 2, or 3 separately, or print all 88 rules together as a single master compendium.
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-stone-200">
+                <strong>2. Clean Multi-Page PDF:</strong> Automatically removes headers, footers, and interactive buttons for clean printing.
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-stone-200">
+                <strong>3. Save as PDF:</strong> Press Ctrl+P (or Cmd+P), select "Save as PDF" destination, and save locally.
+              </div>
+            </div>
+          </section>
+
           <div class="space-y-6">
             ${all88.map(g => {
               const badgeColor = g.level === 1 ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : (g.level === 2 ? 'text-sky-700 bg-sky-50 border-sky-200' : 'text-rose-700 bg-rose-50 border-rose-200');
@@ -1241,6 +1495,7 @@ function getCanonicalRoutes(): RouteDefinition[] {
               </article>`;
             }).join('')}
           </div>
+          ${renderFaqHtml(grammarFaqsStatic, 'Frequently Asked Questions About HSK Grammar')}
         </div>`;
       }
     },

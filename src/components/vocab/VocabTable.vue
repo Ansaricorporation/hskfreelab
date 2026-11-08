@@ -12,7 +12,8 @@ import {
   ChevronUp,
   CheckCircle2,
   Circle,
-  Check
+  Check,
+  Printer
 } from 'lucide-vue-next';
 import { VocabItem, HskLevel } from '../../types';
 import { getWordSlug } from '../../data/vocab-helpers';
@@ -85,6 +86,20 @@ function openStrokeOrder(character: string) {
   const firstChar = character.charAt(0);
   router.push({ path: '/stroke-order', query: { char: firstChar } });
 }
+
+function printTable() {
+  viewMode.value = 'table';
+  searchQuery.value = '';
+  selectedPos.value = 'all';
+  progressFilter.value = 'all';
+  setTimeout(() => {
+    window.print();
+  }, 100);
+}
+
+defineExpose({
+  printTable
+});
 </script>
 
 <template>
@@ -116,40 +131,53 @@ function openStrokeOrder(character: string) {
         />
       </div>
 
-      <!-- View Switcher -->
-      <div class="flex items-center gap-1 p-1 bg-stone-100 dark:bg-stone-800 rounded-xl w-full sm:w-auto justify-center">
+      <!-- Actions: Print + View Switcher -->
+      <div class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-between sm:justify-end">
         <button 
-          @click="viewMode = 'table'" 
-          :class="[
-            'px-3 py-1.5 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-all',
-            viewMode === 'table' ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-stone-100 shadow-xs' : 'text-stone-500 hover:text-stone-900 dark:hover:text-stone-200'
-          ]"
+          type="button"
+          @click="printTable"
+          class="px-3.5 py-1.5 text-xs font-bold rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 hover:bg-stone-100 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"
+          title="Print or Save as PDF Cheat Sheet"
         >
-          <TableIcon class="w-3.5 h-3.5" />
-          <span>Table View</span>
+          <Printer class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
+          <span>Print / PDF Sheet</span>
         </button>
 
-        <button 
-          @click="viewMode = 'cards'" 
-          :class="[
-            'px-3 py-1.5 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-all',
-            viewMode === 'cards' ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-stone-100 shadow-xs' : 'text-stone-500 hover:text-stone-900 dark:hover:text-stone-200'
-          ]"
-        >
-          <Sparkles class="w-3.5 h-3.5" />
-          <span>Cards</span>
-        </button>
+        <!-- View Switcher -->
+        <div class="flex items-center gap-1 p-1 bg-stone-100 dark:bg-stone-800 rounded-xl">
+          <button 
+            @click="viewMode = 'table'" 
+            :class="[
+              'px-3 py-1.5 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-all',
+              viewMode === 'table' ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-stone-100 shadow-xs' : 'text-stone-500 hover:text-stone-900 dark:hover:text-stone-200'
+            ]"
+          >
+            <TableIcon class="w-3.5 h-3.5" />
+            <span>Table View</span>
+          </button>
 
-        <button 
-          @click="viewMode = 'flashcards'" 
-          :class="[
-            'px-3 py-1.5 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-all',
-            viewMode === 'flashcards' ? 'bg-white dark:bg-stone-700 text-rose-700 dark:text-rose-300 shadow-xs font-bold' : 'text-stone-500 hover:text-stone-900 dark:hover:text-stone-200'
-          ]"
-        >
-          <Layers class="w-3.5 h-3.5" />
-          <span>Flashcard Mode</span>
-        </button>
+          <button 
+            @click="viewMode = 'cards'" 
+            :class="[
+              'px-3 py-1.5 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-all',
+              viewMode === 'cards' ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-stone-100 shadow-xs' : 'text-stone-500 hover:text-stone-900 dark:hover:text-stone-200'
+            ]"
+          >
+            <Sparkles class="w-3.5 h-3.5" />
+            <span>Cards</span>
+          </button>
+
+          <button 
+            @click="viewMode = 'flashcards'" 
+            :class="[
+              'px-3 py-1.5 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-all',
+              viewMode === 'flashcards' ? 'bg-white dark:bg-stone-700 text-rose-700 dark:text-rose-300 shadow-xs font-bold' : 'text-stone-500 hover:text-stone-900 dark:hover:text-stone-200'
+            ]"
+          >
+            <Layers class="w-3.5 h-3.5" />
+            <span>Flashcard Mode</span>
+          </button>
+        </div>
       </div>
 
     </div>
@@ -222,12 +250,12 @@ function openStrokeOrder(character: string) {
           <thead>
             <tr class="bg-stone-50/80 dark:bg-stone-800/60 border-b border-stone-200/80 dark:border-stone-700 text-[11px] font-bold text-stone-500 dark:text-stone-400 uppercase tracking-wider">
               <th class="py-3 px-3 w-12 text-center" title="Mark as learned to track progress">Learned</th>
-              <th class="py-3 px-3 w-12 text-center">Audio</th>
+              <th class="py-3 px-3 w-12 text-center no-print">Audio</th>
               <th class="py-3 px-4">Character</th>
               <th class="py-3 px-4">Pinyin</th>
               <th class="py-3 px-4">Meaning</th>
               <th class="py-3 px-4 hidden sm:table-cell">Type</th>
-              <th class="py-3 px-4 text-right">Practice</th>
+              <th class="py-3 px-4 text-right no-print">Practice</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-stone-100 dark:divide-stone-800">
@@ -239,9 +267,10 @@ function openStrokeOrder(character: string) {
               >
                 <!-- Learned Checkbox Button -->
                 <td class="py-3.5 px-3 text-center" @click.stop>
+                  <span class="print-only font-mono text-stone-500 font-bold text-base">□</span>
                   <button 
                     @click="toggleLearnedWord(item.id)"
-                    class="p-1 rounded-lg transition-transform active:scale-90"
+                    class="no-print p-1 rounded-lg transition-transform active:scale-90"
                     :title="isWordLearned(item.id) ? 'Mark as not learned' : 'Mark as learned'"
                   >
                     <CheckCircle2 v-if="isWordLearned(item.id)" class="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
@@ -250,7 +279,7 @@ function openStrokeOrder(character: string) {
                 </td>
 
                 <!-- Audio button (Normal + Slow Turtle Speed) -->
-                <td class="py-3.5 px-3 text-center" @click.stop>
+                <td class="py-3.5 px-3 text-center no-print" @click.stop>
                   <div class="flex items-center justify-center gap-1">
                     <AudioButton :text="item.hanzi" size="sm" />
                     <button 
@@ -290,7 +319,7 @@ function openStrokeOrder(character: string) {
                 </td>
 
                 <!-- Action: Open stroke order -->
-                <td class="py-3.5 px-4 text-right" @click.stop>
+                <td class="py-3.5 px-4 text-right no-print" @click.stop>
                   <button 
                     @click="openStrokeOrder(item.hanzi)"
                     class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-stone-100 dark:bg-stone-800 hover:bg-rose-50 dark:hover:bg-rose-950 hover:text-rose-700 dark:hover:text-rose-300 text-stone-700 dark:text-stone-300 transition-colors"
@@ -303,7 +332,7 @@ function openStrokeOrder(character: string) {
               </tr>
 
               <!-- Expandable Example Sentence Row -->
-              <tr v-if="expandedRowId === item.id" class="bg-stone-50/80 dark:bg-stone-800/40 border-b border-stone-200 dark:border-stone-700">
+              <tr v-if="expandedRowId === item.id" class="no-print bg-stone-50/80 dark:bg-stone-800/40 border-b border-stone-200 dark:border-stone-700">
                 <td colspan="7" class="p-4 sm:px-6">
                   <div class="space-y-1">
                     <div class="text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-wider">Example Sentence:</div>

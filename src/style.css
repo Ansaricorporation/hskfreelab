@@ -99,3 +99,113 @@ html.dark ::-webkit-scrollbar-thumb:hover {
 ::-webkit-scrollbar-thumb:hover {
   background: #b8ab97;
 }
+
+/* ==========================================================================
+   Print Stylesheet for Printable HSK Vocabulary & Grammar Cheat Sheets
+   ========================================================================== */
+
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}
+
+@media print {
+  @page {
+    margin: 1cm 1.2cm;
+    size: A4 portrait;
+  }
+
+  /* Universal reset for print */
+  *, *::before, *::after {
+    background: transparent !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  html, body, #app, main {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+
+  /* Hide screen-only interactive & navigational elements */
+  header,
+  footer,
+  nav,
+  .no-print,
+  button,
+  input,
+  select,
+  textarea,
+  [role="dialog"],
+  .fixed,
+  .sticky,
+  .toast-banner,
+  .cookie-consent-banner {
+    display: none !important;
+  }
+
+  /* Display print-only elements (e.g. printable header, watermark) */
+  .print-only {
+    display: block !important;
+  }
+
+  /* Prevent page breaks inside cards, tables, and rows */
+  tr, .print-card, article, blockquote {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+    color: #111827 !important;
+  }
+
+  /* Clean printable table styling */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-top: 8px !important;
+    margin-bottom: 12px !important;
+  }
+
+  th, td {
+    border: 1px solid #d1d5db !important;
+    padding: 5px 8px !important;
+    text-align: left !important;
+    vertical-align: middle !important;
+  }
+
+  th {
+    background-color: #f3f4f6 !important;
+    font-weight: 700 !important;
+    font-size: 8.5pt !important;
+    text-transform: uppercase !important;
+    color: #374151 !important;
+  }
+
+  td {
+    font-size: 9pt !important;
+  }
+
+  /* Pinyin tone colors rendered cleanly in dark print */
+  .text-rose-600, .text-emerald-600, .text-indigo-600, .text-amber-600, .text-sky-600 {
+    color: #1f2937 !important;
+    font-weight: 600 !important;
+  }
+
+  /* Printable links: no underline and standard text */
+  a, a:visited {
+    color: #111827 !important;
+    text-decoration: none !important;
+  }
+}
