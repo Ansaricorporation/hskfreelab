@@ -25,6 +25,7 @@ import {
   getRelatedGuidesForLesson,
   type EnrichedVocabItem 
 } from '../data/lesson-helpers.ts';
+import { getWordByHanzi } from '../data/vocab-helpers.ts';
 import { playAudio } from '../utils/speech';
 import { updateSeoMeta } from '../utils/seo';
 import { markLessonCompleted, activeProgress } from '../stores/auth';
@@ -286,7 +287,14 @@ watch(lesson, (cur) => {
           <div class="space-y-2">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="font-serif font-black text-2xl text-stone-900 dark:text-stone-100">
+                <router-link 
+                  v-if="getWordByHanzi(item.hanzi)"
+                  :to="'/words/' + getWordByHanzi(item.hanzi)?.slug"
+                  class="font-serif font-black text-2xl text-stone-900 dark:text-stone-100 hover:text-rose-600 dark:hover:text-rose-400 transition-colors"
+                >
+                  {{ item.hanzi }}
+                </router-link>
+                <span v-else class="font-serif font-black text-2xl text-stone-900 dark:text-stone-100">
                   {{ item.hanzi }}
                 </span>
                 <span class="text-sm font-bold text-rose-600 dark:text-rose-400">
@@ -310,12 +318,21 @@ watch(lesson, (cur) => {
           </div>
 
           <div class="pt-2 flex items-center justify-between border-t border-stone-200/50 dark:border-stone-700/50 text-xs">
-            <router-link 
-              :to="`/stroke-order/${encodeURIComponent(item.hanzi.charAt(0))}`"
-              class="text-stone-500 dark:text-stone-400 hover:text-rose-600 dark:hover:text-rose-400 font-semibold flex items-center gap-1"
-            >
-              <span>Stroke Order</span> &rarr;
-            </router-link>
+            <div class="flex items-center gap-3">
+              <router-link 
+                v-if="getWordByHanzi(item.hanzi)"
+                :to="'/words/' + getWordByHanzi(item.hanzi)?.slug"
+                class="text-rose-600 dark:text-rose-400 hover:underline font-semibold flex items-center gap-0.5"
+              >
+                <span>Word Guide</span> &rarr;
+              </router-link>
+              <router-link 
+                :to="`/stroke-order/${encodeURIComponent(item.hanzi.charAt(0))}`"
+                class="text-stone-500 dark:text-stone-400 hover:text-rose-600 dark:hover:text-rose-400 font-semibold flex items-center gap-1"
+              >
+                <span>Stroke Order</span> &rarr;
+              </router-link>
+            </div>
 
             <button
               type="button"

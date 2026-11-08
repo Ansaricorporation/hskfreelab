@@ -15,6 +15,7 @@ import {
   Check
 } from 'lucide-vue-next';
 import { VocabItem, HskLevel } from '../../types';
+import { getWordSlug } from '../../data/vocab-helpers';
 import AudioButton from '../ui/AudioButton.vue';
 import LevelBadge from '../ui/LevelBadge.vue';
 import FlashcardDeck from './FlashcardDeck.vue';
@@ -264,9 +265,11 @@ function openStrokeOrder(character: string) {
 
                 <!-- Hanzi -->
                 <td class="py-3.5 px-4 font-serif text-2xl font-black text-stone-900 dark:text-stone-100 tracking-wide">
-                  <span :class="{ 'text-emerald-700 dark:text-emerald-400': isWordLearned(item.id) }">
-                    {{ item.hanzi }}
-                  </span>
+                  <router-link :to="'/words/' + getWordSlug(item)" class="hover:text-rose-600 dark:hover:text-rose-400 transition-colors">
+                    <span :class="{ 'text-emerald-700 dark:text-emerald-400': isWordLearned(item.id) }">
+                      {{ item.hanzi }}
+                    </span>
+                  </router-link>
                 </td>
 
                 <!-- Pinyin with tone color -->
@@ -353,7 +356,11 @@ function openStrokeOrder(character: string) {
 
           <div class="pt-3">
             <div class="flex items-start justify-between">
-              <div class="font-serif text-4xl font-black text-stone-900 dark:text-stone-100">{{ item.hanzi }}</div>
+              <div class="font-serif text-4xl font-black text-stone-900 dark:text-stone-100">
+                <router-link :to="'/words/' + getWordSlug(item)" class="hover:text-rose-600 dark:hover:text-rose-400 transition-colors">
+                  {{ item.hanzi }}
+                </router-link>
+              </div>
               <!-- Learned toggle button -->
               <button 
                 @click="toggleLearnedWord(item.id)"

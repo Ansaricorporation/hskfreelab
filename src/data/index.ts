@@ -76,3 +76,6 @@ export function getAllBlogPosts(): BlogPost[] {
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {
   return blogPostsData.find(b => b.slug === slug);
 }
+
+export * from './vocab-helpers';
+

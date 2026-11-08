@@ -23,6 +23,17 @@ import {
   getAdjacentLessons, 
   getRelatedGuidesForLesson 
 } from '../src/data/lesson-helpers.ts';
+import { 
+  allVocabWithSlugs, 
+  getAdjacentWords, 
+  getConstituentCharacters, 
+  getToneBreakdown, 
+  getSharedCharacterFamily, 
+  getWordCorpusAppearances, 
+  getWordUsageGuide, 
+  getWordPracticeQuiz,
+  type VocabItemWithSlug 
+} from '../src/data/vocab-helpers.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -102,6 +113,7 @@ function renderStaticFooter(): string {
       <div>
         <h4 class="font-bold text-white mb-3">HSK Syllabus</h4>
         <ul class="space-y-2 text-xs text-stone-400">
+          <li><a href="/words" class="hover:text-white">603 Words Dictionary</a></li>
           <li><a href="/hsk-1" class="hover:text-white">HSK 1 (150 Vocab &amp; Audio)</a></li>
           <li><a href="/hsk-2" class="hover:text-white">HSK 2 (300 Vocab &amp; Grammar)</a></li>
           <li><a href="/hsk-3" class="hover:text-white">HSK 3 (600 Vocab &amp; Reading)</a></li>
@@ -128,7 +140,7 @@ function renderStaticFooter(): string {
           <li><a href="/privacy-policy" class="hover:text-white">Privacy Policy</a></li>
           <li><a href="/terms" class="hover:text-white">Terms of Service</a></li>
           <li><a href="/disclaimer" class="hover:text-white">Educational Disclaimer</a></li>
-          <li><a href="/sitemap" class="hover:text-white">HTML Sitemap (All 67 Pages)</a></li>
+          <li><a href="/sitemap" class="hover:text-white">HTML Sitemap (All 672 Pages)</a></li>
         </ul>
       </div>
     </div>
@@ -136,6 +148,289 @@ function renderStaticFooter(): string {
       &copy; 2026 HSK Free Lab (mybwn.com). Official CLEC syllabus aligned. Powered by open-source linguistics.
     </div>
   </footer>`;
+}
+
+// Static HTML Generator for Master Words Directory (/words)
+function renderWordsDirectoryStaticHtml(): string {
+  const hsk1 = allVocabWithSlugs.filter(w => w.level === 1);
+  const hsk2 = allVocabWithSlugs.filter(w => w.level === 2);
+  const hsk3 = allVocabWithSlugs.filter(w => w.level === 3);
+
+  return `
+    <div class="max-w-6xl mx-auto py-10 px-4 space-y-10">
+      <header class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-10 text-center space-y-4">
+        <span class="inline-block px-3 py-1 rounded-full bg-rose-50 text-rose-800 text-xs font-bold border border-rose-200">Official HSK 1–3 Complete Lexicon</span>
+        <h1 class="text-3xl sm:text-5xl font-black text-stone-900 tracking-tight">Master Chinese Vocabulary Directory (603 Words)</h1>
+        <p class="text-sm text-stone-600 max-w-2xl mx-auto leading-relaxed">
+          Comprehensive study portal indexing all 603 official words in the Chinese Ministry of Education HSK 1, 2, and 3 curriculum. Explore dedicated character study guides, stroke order animations, native audio pronunciation, tone sandhi rules, and practice quizzes.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-2 pt-2">
+          <a href="#hsk-1" class="px-4 py-2 rounded-xl bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">HSK 1 (153 Words)</a>
+          <a href="#hsk-2" class="px-4 py-2 rounded-xl bg-sky-50 text-sky-800 text-xs font-bold border border-sky-200">HSK 2 (150 Words)</a>
+          <a href="#hsk-3" class="px-4 py-2 rounded-xl bg-rose-50 text-rose-800 text-xs font-bold border border-rose-200">HSK 3 (300 Words)</a>
+        </div>
+      </header>
+
+      <!-- HSK 1 Section -->
+      <section id="hsk-1" class="space-y-4">
+        <div class="flex items-center justify-between border-b border-stone-200 pb-3">
+          <h2 class="text-2xl font-black text-stone-900">HSK 1 Vocabulary (${hsk1.length} Foundation Words)</h2>
+          <a href="/hsk-1" class="text-xs font-bold text-emerald-700 hover:underline">Open HSK 1 Hub &rarr;</a>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 text-xs">
+          ${hsk1.map(w => `
+            <a href="/words/${w.slug}" class="p-3 bg-white rounded-2xl border border-stone-200 hover:border-emerald-400 hover:shadow-xs transition-all block text-center space-y-1">
+              <div class="font-serif font-black text-2xl text-stone-900">${w.hanzi}</div>
+              <div class="text-[11px] font-bold text-emerald-700">${w.pinyin}</div>
+              <div class="text-[10px] text-stone-500 truncate">${w.meaning}</div>
+            </a>`).join('')}
+        </div>
+      </section>
+
+      <!-- HSK 2 Section -->
+      <section id="hsk-2" class="space-y-4">
+        <div class="flex items-center justify-between border-b border-stone-200 pb-3">
+          <h2 class="text-2xl font-black text-stone-900">HSK 2 Vocabulary (${hsk2.length} Elementary Words)</h2>
+          <a href="/hsk-2" class="text-xs font-bold text-sky-700 hover:underline">Open HSK 2 Hub &rarr;</a>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 text-xs">
+          ${hsk2.map(w => `
+            <a href="/words/${w.slug}" class="p-3 bg-white rounded-2xl border border-stone-200 hover:border-sky-400 hover:shadow-xs transition-all block text-center space-y-1">
+              <div class="font-serif font-black text-2xl text-stone-900">${w.hanzi}</div>
+              <div class="text-[11px] font-bold text-sky-700">${w.pinyin}</div>
+              <div class="text-[10px] text-stone-500 truncate">${w.meaning}</div>
+            </a>`).join('')}
+        </div>
+      </section>
+
+      <!-- HSK 3 Section -->
+      <section id="hsk-3" class="space-y-4">
+        <div class="flex items-center justify-between border-b border-stone-200 pb-3">
+          <h2 class="text-2xl font-black text-stone-900">HSK 3 Vocabulary (${hsk3.length} Intermediate Words)</h2>
+          <a href="/hsk-3" class="text-xs font-bold text-rose-700 hover:underline">Open HSK 3 Hub &rarr;</a>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 text-xs">
+          ${hsk3.map(w => `
+            <a href="/words/${w.slug}" class="p-3 bg-white rounded-2xl border border-stone-200 hover:border-rose-400 hover:shadow-xs transition-all block text-center space-y-1">
+              <div class="font-serif font-black text-2xl text-stone-900">${w.hanzi}</div>
+              <div class="text-[11px] font-bold text-rose-700">${w.pinyin}</div>
+              <div class="text-[10px] text-stone-500 truncate">${w.meaning}</div>
+            </a>`).join('')}
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+// Static HTML Generator for Individual Word Study Guide (/words/:slug)
+function renderWordDetailStaticHtml(word: VocabItemWithSlug): string {
+  const chars = getConstituentCharacters(word.hanzi);
+  const toneData = getToneBreakdown(word);
+  const family = getSharedCharacterFamily(word, 8);
+  const corpus = getWordCorpusAppearances(word);
+  const usage = getWordUsageGuide(word);
+  const quiz = getWordPracticeQuiz(word);
+  const adjacent = getAdjacentWords(word.slug);
+
+  const cefr = word.level === 1 ? 'A1 (Breakthrough)' : (word.level === 2 ? 'A2 (Waystage)' : 'B1 (Threshold)');
+
+  return `
+    <article class="max-w-4xl mx-auto py-8 px-4 space-y-10">
+      <!-- Breadcrumb Navigation -->
+      <nav aria-label="Breadcrumb" class="text-xs text-stone-500">
+        <ol class="flex items-center gap-1.5 flex-wrap">
+          <li><a href="/" class="hover:underline">Home</a> &gt;</li>
+          <li><a href="/hsk-${word.level}" class="hover:underline">HSK ${word.level} Hub</a> &gt;</li>
+          <li><a href="/words" class="hover:underline">Words Directory</a> &gt;</li>
+          <li class="font-bold text-stone-900">${word.hanzi} (${word.pinyin})</li>
+        </ol>
+      </nav>
+
+      <!-- Hero Card -->
+      <header class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-4">
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-bold border border-emerald-200">HSK Level ${word.level}</span>
+          <span class="px-2.5 py-1 rounded-full bg-stone-100 text-stone-700 font-semibold">CEFR ${cefr}</span>
+          <span class="px-2.5 py-1 rounded-full bg-rose-50 text-rose-800 font-semibold capitalize">${word.partOfSpeech}</span>
+          ${word.radical ? `<span class="px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 font-semibold">Radical: ${word.radical}</span>` : ''}
+          ${word.strokeCount ? `<span class="px-2.5 py-1 rounded-full bg-sky-50 text-sky-800 font-semibold">${word.strokeCount} Strokes</span>` : ''}
+        </div>
+        <div class="flex items-baseline gap-4 flex-wrap">
+          <h1 class="font-serif font-black text-5xl sm:text-6xl text-stone-900 tracking-tight">${word.hanzi}</h1>
+          <span class="text-2xl sm:text-3xl font-black text-rose-600">${word.pinyin}</span>
+        </div>
+        <p class="text-2xl font-bold text-stone-800">${word.meaning}</p>
+        <p class="text-xs sm:text-sm text-stone-600 leading-relaxed border-t border-stone-100 pt-3">
+          <strong>Overview:</strong> 「${word.hanzi}」 (${word.pinyin}) is an official <strong>HSK ${word.level}</strong> vocabulary ${word.partOfSpeech} meaning <em>"${word.meaning}"</em>. Below is the comprehensive academic study guide featuring character stroke breakdowns, phonetic tone pitch analysis, grammatical collocations, and practice exam questions.
+        </p>
+      </header>
+
+      <!-- Section: Stroke Order & Character Anatomy -->
+      <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900">Chinese Character Stroke Order &amp; Anatomy</h2>
+        <p class="text-xs text-stone-600 leading-relaxed">
+          Official stroke sequence for writing 「${word.hanzi}」 according to standard Chinese ministry orthography. Click any character below to open the dedicated stroke animator and interactive handwriting canvas.
+        </p>
+        <div class="flex flex-wrap gap-4 pt-2">
+          ${chars.map(c => `
+            <div class="p-4 rounded-2xl bg-stone-50 border border-stone-200 text-center min-w-[130px] space-y-1.5">
+              <div class="font-serif font-black text-5xl text-stone-900">${c}</div>
+              <div class="text-[11px] font-bold text-rose-600"><a href="/stroke-order/${encodeURIComponent(c)}" class="hover:underline">Animate &amp; Practice &rarr;</a></div>
+            </div>`).join('')}
+        </div>
+      </section>
+
+      <!-- Section: Pinyin Pitch Contour & Sandhi -->
+      <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900">Pinyin Pitch Contour &amp; Sandhi Rules</h2>
+        <p class="text-xs text-stone-600 leading-relaxed">
+          Acoustic pitch height, five-degree pitch values, and connected speech tone modifications for 「${word.hanzi}」.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          ${toneData.syllables.map(s => `
+            <div class="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="font-serif font-black text-3xl text-stone-900">${s.hanziChar}</span>
+                <span class="text-base font-bold text-rose-600">${s.pinyin}</span>
+              </div>
+              <div class="text-xs font-bold text-stone-800">${s.toneName} · Pitch ${s.tonePitch}</div>
+              <p class="text-[11px] text-stone-600 leading-relaxed">${s.toneDescription}</p>
+            </div>`).join('')}
+        </div>
+        ${toneData.sandhiRules.length > 0 ? `
+          <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 space-y-1">
+            <div class="font-bold flex items-center gap-1.5">
+              <span>⚡</span>
+              <span>Tone Modification (Sandhi) Rule</span>
+            </div>
+            ${toneData.sandhiRules.map(r => `<p class="leading-relaxed">${r}</p>`).join('')}
+          </div>` : ''}
+      </section>
+
+      <!-- Section: Contextual Example Sentences & Corpus -->
+      <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900">Contextual Example Sentences &amp; Exam Dialogue</h2>
+        <div class="p-5 rounded-2xl bg-stone-50 border border-stone-200 space-y-1.5">
+          <div class="text-[10px] font-bold uppercase text-stone-400">Primary Syllabus Sentence</div>
+          <div class="font-serif font-black text-xl text-stone-900">${word.exampleZh}</div>
+          <div class="text-xs font-semibold text-rose-600">${word.examplePy}</div>
+          <div class="text-xs text-stone-600">${word.exampleEn}</div>
+        </div>
+
+        ${corpus.length > 0 ? `
+          <div class="space-y-3 pt-2">
+            <h3 class="text-xs font-bold text-stone-500 uppercase tracking-wider">Lesson &amp; Grammar Corpus Appearances (${corpus.length})</h3>
+            <div class="space-y-2.5">
+              ${corpus.map(m => `
+                <div class="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-1 text-xs">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-rose-700">${m.title}</span>
+                    <a href="${m.source === 'lesson' ? `/lessons/${m.slug}` : '/grammar'}" class="text-[11px] text-stone-500 hover:underline">View Source &rarr;</a>
+                  </div>
+                  <div class="font-serif font-bold text-base text-stone-900">${m.zh}</div>
+                  <div class="text-[11px] text-rose-600 font-medium">${m.py}</div>
+                  <div class="text-xs text-stone-600">${m.en}</div>
+                </div>`).join('')}
+            </div>
+          </div>` : ''}
+      </section>
+
+      <!-- Section: Grammar Patterns & Collocations -->
+      <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900">Grammar Patterns &amp; Syntactic Placement</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-5 rounded-2xl bg-stone-50 border border-stone-200 space-y-2 text-xs">
+            <div class="font-bold text-stone-700 uppercase text-[10px]">Syntactic Pattern</div>
+            <div class="font-mono font-bold text-rose-700 p-3 bg-white rounded-xl border border-stone-200">${usage.syntacticPattern}</div>
+            <p class="text-stone-600 leading-relaxed pt-1">${usage.grammaticalRole}</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-stone-50 border border-stone-200 space-y-2 text-xs">
+            <div class="font-bold text-amber-800 uppercase text-[10px]">HSK ${word.level} Exam Tip</div>
+            <p class="text-stone-700 leading-relaxed">${usage.examTips}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Shared-Character Word Family -->
+      ${family.length > 0 ? `
+        <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-4">
+          <h2 class="text-xl sm:text-2xl font-black text-stone-900">Shared-Character Word Family &amp; Radical Network</h2>
+          <p class="text-xs text-stone-600">Connect compound words sharing characters or radicals with 「${word.hanzi}」 across the HSK 1–3 syllabus.</p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            ${family.map(f => `
+              <a href="/words/${f.word.slug}" class="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 hover:border-rose-400 block space-y-1.5 transition-all">
+                <div class="flex items-center justify-between text-[10px] text-stone-400">
+                  <span>Shared: ${f.sharedElement}</span>
+                  <span>HSK ${f.word.level}</span>
+                </div>
+                <div class="font-serif font-black text-2xl text-stone-900">${f.word.hanzi}</div>
+                <div class="text-[11px] font-bold text-rose-600">${f.word.pinyin}</div>
+                <div class="text-[10px] text-stone-500 truncate">${f.word.meaning}</div>
+              </a>`).join('')}
+          </div>
+        </section>` : ''}
+
+      <!-- Section: Practice Quiz -->
+      <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900">Interactive 3-Question Practice Quiz</h2>
+        <div class="space-y-4">
+          ${quiz.map((q, qIdx) => `
+            <div class="p-5 rounded-2xl bg-stone-50 border border-stone-200 space-y-3 text-xs">
+              <div class="font-bold text-stone-900 text-sm">Question ${qIdx + 1}: ${q.question}</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                ${q.options.map((opt, oIdx) => `
+                  <div class="p-2.5 rounded-xl border ${oIdx === q.correctIndex ? 'border-emerald-400 bg-emerald-50 font-bold text-emerald-900' : 'border-stone-200 bg-white text-stone-700'}">
+                    <span>${String.fromCharCode(65 + oIdx)}. ${opt}</span>
+                    ${oIdx === q.correctIndex ? ' <span class="text-emerald-700 font-bold">(Verified Answer)</span>' : ''}
+                  </div>`).join('')}
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-stone-100 text-stone-600 leading-relaxed">
+                <strong>Explanation:</strong> ${q.explanation}
+              </div>
+            </div>`).join('')}
+        </div>
+      </section>
+
+      <!-- Section: HSK Exam Strategy & Motor Memory -->
+      <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-3">
+        <h2 class="text-lg sm:text-xl font-black text-stone-900">HSK ${word.level} Exam Preparation &amp; Memory Guidance</h2>
+        <div class="space-y-2 text-xs text-stone-700 leading-relaxed">
+          <p>
+            In the official Chinese Proficiency Test (HSK Level ${word.level}), candidates are tested on recognizing 「${word.hanzi}」 across listening comprehension dialogues, reading passage sentences, and contextual phrase completion tasks. When listening to audio dialogues, remember that Mandarin Chinese is a tonal language where distinct tonal contours differentiate unrelated vocabulary items that share the identical romanized Pinyin spelling (${word.pinyin}).
+          </p>
+          <p>
+            To build long-term retention and fluent character recall, practice writing each constituent character in the stroke order studio above. Consistent handwriting practice establishes motor memory for character radicals and structural proportions, making it significantly easier to distinguish complex multi-stroke characters in rapid-fire reading passages.
+          </p>
+        </div>
+      </section>
+
+      <!-- Adjacent Word Navigation Footer -->
+      <footer class="pt-6 border-t border-stone-200 space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <a href="/words/${adjacent.prev.slug}" class="p-4 rounded-2xl bg-white border border-stone-200 hover:border-rose-400 block transition-all">
+            <span class="text-[10px] text-stone-400 uppercase font-bold">&larr; Previous Word</span>
+            <div class="font-serif font-black text-lg text-stone-900 mt-1">${adjacent.prev.hanzi} (${adjacent.prev.pinyin})</div>
+            <div class="text-stone-500 truncate">${adjacent.prev.meaning}</div>
+          </a>
+          <a href="/words/${adjacent.next.slug}" class="p-4 rounded-2xl bg-white border border-stone-200 hover:border-rose-400 block text-right transition-all">
+            <span class="text-[10px] text-stone-400 uppercase font-bold">Next Word &rarr;</span>
+            <div class="font-serif font-black text-lg text-stone-900 mt-1">${adjacent.next.hanzi} (${adjacent.next.pinyin})</div>
+            <div class="text-stone-500 truncate">${adjacent.next.meaning}</div>
+          </a>
+        </div>
+
+        <div class="p-5 bg-stone-50 rounded-2xl border border-stone-200 text-xs flex flex-wrap items-center justify-between gap-3">
+          <span class="font-bold text-stone-800">More HSK ${word.level} Resources:</span>
+          <div class="flex items-center gap-3 flex-wrap">
+            <a href="/hsk-${word.level}" class="font-semibold text-rose-700 hover:underline">HSK ${word.level} Hub &rarr;</a>
+            <a href="/words" class="font-semibold text-rose-700 hover:underline">603 Words Directory &rarr;</a>
+            <a href="/lessons" class="font-semibold text-rose-700 hover:underline">All Lessons &rarr;</a>
+            <a href="/mock-tests" class="font-semibold text-rose-700 hover:underline">Timed Mock Tests &rarr;</a>
+          </div>
+        </div>
+      </footer>
+    </article>
+  `;
 }
 
 // Build Static Content for Each Route
@@ -1425,6 +1720,103 @@ function getCanonicalRoutes(): RouteDefinition[] {
     });
   }
 
+  // Master Vocabulary Directory (/words)
+  routes.push({
+    path: '/words',
+    title: 'HSK 1-3 Chinese Vocabulary Directory (603 Words) | HSK Free Lab',
+    description: 'Master all 603 official HSK 1, 2, and 3 Chinese words with stroke order animations, native audio pronunciation, tone pitch contours, and grammar quizzes.',
+    priority: 0.9,
+    changefreq: 'weekly',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'HSK 1-3 Chinese Vocabulary Directory (603 Words)',
+      description: 'Comprehensive study portal indexing all 603 official HSK 1, 2, and 3 words with stroke orders, pronunciations, and grammar collocations.',
+      url: `${SITE_DOMAIN}/words`
+    },
+    renderBody: () => renderWordsDirectoryStaticHtml()
+  });
+
+  // 603 Dedicated Individual Word Study Pages (/words/:slug)
+  for (const word of allVocabWithSlugs) {
+    const wordTitle = `${word.hanzi} (${word.pinyin}) Meaning in English, Stroke Order & HSK ${word.level} Sentences | HSK Free Lab`;
+    const wordDesc = `Learn Chinese word ${word.hanzi} (${word.pinyin}): English meaning "${word.meaning}", animated stroke order, HSK ${word.level} audio pronunciation, grammar collocations, and practice quiz.`;
+    const canonical = `${SITE_DOMAIN}/words/${word.slug}`;
+
+    const jsonLd = [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'DefinedTerm',
+        '@id': `${canonical}#term`,
+        name: word.hanzi,
+        alternateName: word.pinyin,
+        description: word.meaning,
+        inDefinedTermSet: {
+          '@type': 'DefinedTermSet',
+          name: `HSK Level ${word.level} Vocabulary Syllabus`,
+          url: `${SITE_DOMAIN}/hsk-${word.level}`
+        }
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'LearningResource',
+        '@id': `${canonical}#resource`,
+        name: `${word.hanzi} (${word.pinyin}) - HSK ${word.level} Chinese Word Study Guide`,
+        description: wordDesc,
+        educationalLevel: `HSK ${word.level}`,
+        learningResourceType: 'Study Guide',
+        inLanguage: ['zh-Hans', 'en'],
+        provider: {
+          '@type': 'Organization',
+          name: 'HSK Free Lab',
+          url: `${SITE_DOMAIN}/`
+        }
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        '@id': `${canonical}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: `${SITE_DOMAIN}/`
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: `HSK ${word.level} Hub`,
+            item: `${SITE_DOMAIN}/hsk-${word.level}`
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: 'Words Directory',
+            item: `${SITE_DOMAIN}/words`
+          },
+          {
+            '@type': 'ListItem',
+            position: 4,
+            name: `${word.hanzi} (${word.pinyin})`,
+            item: canonical
+          }
+        ]
+      }
+    ];
+
+    routes.push({
+      path: `/words/${word.slug}`,
+      title: wordTitle,
+      description: wordDesc,
+      priority: 0.7,
+      changefreq: 'monthly',
+      type: 'article',
+      jsonLd,
+      renderBody: () => renderWordDetailStaticHtml(word)
+    });
+  }
+
   return routes;
 }
 
@@ -1465,11 +1857,27 @@ async function prerender() {
   const routes = getCanonicalRoutes();
   console.log(`📋 [prerender] Found ${routes.length} canonical routes to render.`);
 
-  // 1. Generate XML Sitemap
-  const sitemapXml = generateSitemapXml(routes);
-  fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemapXml, 'utf8');
-  fs.writeFileSync(path.join(ROOT_DIR, 'public', 'sitemap.xml'), sitemapXml, 'utf8');
-  console.log(`✅ [prerender] Wrote ${routes.length} URLs to dist/sitemap.xml and public/sitemap.xml`);
+  // 1. Generate XML Sitemaps (Core + Words + Master)
+  const coreRoutes = routes.filter(r => !r.path.startsWith('/words/'));
+  const wordRoutes = routes.filter(r => r.path.startsWith('/words/'));
+
+  const sitemapMasterXml = generateSitemapXml(routes);
+  const sitemapCoreXml = generateSitemapXml(coreRoutes);
+  const sitemapWordsXml = generateSitemapXml(wordRoutes);
+
+  fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemapMasterXml, 'utf8');
+  fs.writeFileSync(path.join(ROOT_DIR, 'public', 'sitemap.xml'), sitemapMasterXml, 'utf8');
+
+  fs.writeFileSync(path.join(DIST_DIR, 'sitemap-core.xml'), sitemapCoreXml, 'utf8');
+  fs.writeFileSync(path.join(ROOT_DIR, 'public', 'sitemap-core.xml'), sitemapCoreXml, 'utf8');
+
+  fs.writeFileSync(path.join(DIST_DIR, 'sitemap-words.xml'), sitemapWordsXml, 'utf8');
+  fs.writeFileSync(path.join(ROOT_DIR, 'public', 'sitemap-words.xml'), sitemapWordsXml, 'utf8');
+
+  console.log(`✅ [prerender] Sitemaps generated:`);
+  console.log(`   - Master sitemap.xml: ${routes.length} canonical URLs`);
+  console.log(`   - sitemap-core.xml: ${coreRoutes.length} core URLs`);
+  console.log(`   - sitemap-words.xml: ${wordRoutes.length} word URLs`);
 
   // 2. Generate Static HTML for each route
   let successCount = 0;

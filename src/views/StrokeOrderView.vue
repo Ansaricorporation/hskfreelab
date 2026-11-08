@@ -1,17 +1,33 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import StrokeAnimator from '../components/tools/StrokeAnimator.vue';
-import { PenTool, Sparkles, BookOpen, Layers } from 'lucide-vue-next';
+import { PenTool, BookOpen } from 'lucide-vue-next';
 
 const route = useRoute();
 const charQuery = ref<string>('爱');
 
-onMounted(() => {
-  if (route.query.char && typeof route.query.char === 'string') {
-    charQuery.value = route.query.char;
+function extractChar(): string {
+  const param = route.params.character;
+  const query = route.query.char;
+  let raw = '';
+  if (typeof param === 'string' && param) {
+    raw = decodeURIComponent(param);
+  } else if (typeof query === 'string' && query) {
+    raw = decodeURIComponent(query);
   }
-});
+  if (!raw) return '爱';
+  const firstHanzi = Array.from(raw).find(c => /\p{Script=Han}/u.test(c));
+  return firstHanzi || raw.charAt(0) || '爱';
+}
+
+watch(
+  () => [route.params.character, route.query.char],
+  () => {
+    charQuery.value = extractChar();
+  },
+  { immediate: true }
+);
 </script>
 
 <template>

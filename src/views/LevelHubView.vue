@@ -333,7 +333,7 @@ const levelMeta = computed(() => {
 
     <!-- Full Interactive Vocabulary Browser -->
     <div class="space-y-4">
-      <div class="flex items-center justify-between">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <h2 class="text-2xl font-black text-stone-900 dark:text-stone-100">
             HSK {{ currentLevel }} Vocabulary Deck
@@ -342,6 +342,13 @@ const levelMeta = computed(() => {
             Full word list with pronunciation audio, stroke animation, and flashcard practice mode.
           </p>
         </div>
+        <router-link 
+          to="/words" 
+          class="text-xs font-bold text-rose-600 hover:text-rose-800 dark:text-rose-400 flex items-center gap-1 shrink-0"
+        >
+          <span>All 603 Words Directory</span>
+          <ArrowRight class="w-3.5 h-3.5" />
+        </router-link>
       </div>
 
       <VocabTable :vocabList="vocabList" :level="currentLevel" />

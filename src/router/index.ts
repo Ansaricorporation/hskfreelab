@@ -1,10 +1,13 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { updateSeoMeta } from '../utils/seo';
 import { getBlogPostBySlug } from '../data/blogs';
+import { getWordBySlug } from '../data/vocab-helpers';
 
 // Lazy-loaded route components for optimal initial paint & code-splitting
 const HomeView = () => import('../views/HomeView.vue');
 const LevelHubView = () => import('../views/LevelHubView.vue');
+const WordsDirectoryView = () => import('../views/WordsDirectoryView.vue');
+const WordDetailView = () => import('../views/WordDetailView.vue');
 const StrokeOrderView = () => import('../views/StrokeOrderView.vue');
 const ScoreCalculatorView = () => import('../views/ScoreCalculatorView.vue');
 const PronunciationView = () => import('../views/PronunciationView.vue');
@@ -59,6 +62,25 @@ const routes: RouteRecordRaw[] = [
       title: 'HSK 3 Preparation Hub - 600 Words & Reading Drills | HSK Free Lab',
       description: 'Intermediate Mandarin test preparation. Master 300 additional HSK 3 characters, reading comprehension drills, and full exam prep.',
       canonical: 'https://mybwn.com/hsk-3'
+    }
+  },
+  { 
+    path: '/words', 
+    name: 'words-directory', 
+    component: WordsDirectoryView,
+    meta: {
+      title: 'HSK 1-3 Chinese Vocabulary Directory (603 Words) | HSK Free Lab',
+      description: 'Master all 603 official HSK 1, 2, and 3 Chinese words with stroke order animations, native audio pronunciation, tone pitch contours, and grammar quizzes.',
+      canonical: 'https://mybwn.com/words'
+    }
+  },
+  { 
+    path: '/words/:slug', 
+    name: 'word-detail', 
+    component: WordDetailView,
+    meta: {
+      title: 'HSK Chinese Vocabulary Study Guide | HSK Free Lab',
+      description: 'Master Chinese characters with stroke order animations, audio pronunciation, radical decomposition, and practice quizzes.'
     }
   },
   { 
@@ -296,6 +318,14 @@ router.afterEach((to) => {
     title = `Write ${to.params.character} - Chinese Character Stroke Order & Animation | HSK Free Lab`;
     description = `Animate stroke order, radical decomposition, and stroke count for Chinese character ${to.params.character}.`;
     canonical = `https://mybwn.com/stroke-order/${encodeURIComponent(to.params.character as string)}`;
+  } else if (to.name === 'word-detail' && to.params.slug) {
+    const word = getWordBySlug(to.params.slug as string);
+    if (word) {
+      title = `${word.hanzi} (${word.pinyin}) Meaning in English, Stroke Order & HSK ${word.level} Sentences | HSK Free Lab`;
+      description = `Learn Chinese word ${word.hanzi} (${word.pinyin}): English meaning "${word.meaning}", animated stroke order, HSK ${word.level} audio pronunciation, grammar collocations, and practice quiz.`;
+      ogType = 'article';
+      canonical = `https://mybwn.com/words/${word.slug}`;
+    }
   }
 
   updateSeoMeta({ title, description, canonical, type: ogType }, to.path);

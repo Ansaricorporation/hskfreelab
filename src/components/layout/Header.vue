@@ -98,6 +98,20 @@ function closeMenus() {
             class="absolute left-0 mt-1 w-64 bg-white dark:bg-stone-900 rounded-2xl shadow-xl border border-stone-200 dark:border-stone-800 py-2 z-50 animate-in fade-in"
           >
             <router-link 
+              to="/words" 
+              @click="closeMenus" 
+              class="flex items-center gap-3 px-4 py-2.5 text-xs text-stone-700 dark:text-stone-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:text-emerald-700 dark:hover:text-emerald-400"
+            >
+              <div class="p-2 rounded-lg bg-emerald-100/70 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400">
+                <BookOpen class="w-4 h-4" />
+              </div>
+              <div>
+                <div class="font-bold text-stone-900 dark:text-stone-100">603 Words Dictionary</div>
+                <div class="text-[11px] text-stone-400">HSK 1-3 vocab with stroke orders</div>
+              </div>
+            </router-link>
+
+            <router-link 
               to="/stroke-order" 
               @click="closeMenus" 
               class="flex items-center gap-3 px-4 py-2.5 text-xs text-stone-700 dark:text-stone-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-700 dark:hover:text-rose-400"
@@ -295,6 +309,15 @@ function closeMenus() {
         >
           <Award class="w-4 h-4 text-purple-600" />
           <span>30 Examination Mock Gates</span>
+        </router-link>
+
+        <router-link 
+          to="/words" 
+          @click="closeMenus" 
+          class="flex items-center gap-3 px-3 py-2 rounded-xl text-stone-800 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800 font-semibold"
+        >
+          <BookOpen class="w-4 h-4 text-emerald-600" />
+          <span>603 Words Dictionary</span>
         </router-link>
 
         <router-link 

@@ -32,6 +32,7 @@ import { Sparkles, ShieldCheck, Heart } from 'lucide-vue-next';
         <div>
           <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">HSK Levels</h4>
           <ul class="space-y-2.5 text-sm">
+            <li><router-link to="/words" class="hover:text-white transition-colors">603 Words Dictionary</router-link></li>
             <li><router-link to="/hsk-1" class="hover:text-white transition-colors">HSK 1 (A1 · 150 Vocab)</router-link></li>
             <li><router-link to="/hsk-2" class="hover:text-white transition-colors">HSK 2 (A2 · 300 Vocab)</router-link></li>
             <li><router-link to="/hsk-3" class="hover:text-white transition-colors">HSK 3 (B1 · 600 Vocab)</router-link></li>
