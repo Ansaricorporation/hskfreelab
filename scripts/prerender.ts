@@ -198,6 +198,23 @@ function getCanonicalRoutes(): RouteDefinition[] {
               <a href="/hsk-3" class="inline-block text-xs font-bold text-rose-700 pt-2">Explore HSK 3 Hub &rarr;</a>
             </div>
           </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+            <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm space-y-2">
+              <h2 class="text-xl font-bold text-stone-900"><a href="/lessons" class="hover:text-emerald-700">30 Interactive Lessons</a></h2>
+              <p class="text-xs text-stone-600 leading-relaxed">30 sequential units with conversational dialogues, verified vocabulary definitions, grammar rules, and quizzes.</p>
+              <a href="/lessons" class="inline-block text-xs font-bold text-emerald-700 pt-2">Explore 30 Units &rarr;</a>
+            </div>
+            <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm space-y-2">
+              <h2 class="text-xl font-bold text-stone-900"><a href="/grammar" class="hover:text-rose-700">88 Grammar Compendium</a></h2>
+              <p class="text-xs text-stone-600 leading-relaxed">Formula structures, explanations, native examples, and lesson links for every HSK 1, 2, and 3 rule.</p>
+              <a href="/grammar" class="inline-block text-xs font-bold text-rose-700 pt-2">Browse All 88 Rules &rarr;</a>
+            </div>
+            <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm space-y-2">
+              <h2 class="text-xl font-bold text-stone-900"><a href="/guides" class="hover:text-amber-700">18 Academic Masterclasses</a></h2>
+              <p class="text-xs text-stone-600 leading-relaxed">29,000+ words of peer-reviewed study plans, character anatomy breakdowns, and exam strategies.</p>
+              <a href="/guides" class="inline-block text-xs font-bold text-amber-700 pt-2">Read Masterclasses &rarr;</a>
+            </div>
+          </div>
         </div>`
     },
 
@@ -246,6 +263,23 @@ function getCanonicalRoutes(): RouteDefinition[] {
                   ${hsk1Vocab.slice(0, 150).map((v, i) => `<tr><td class="p-3 text-stone-400 font-mono">${i + 1}</td><td class="p-3 font-serif font-black text-base text-stone-900">${v.hanzi}</td><td class="p-3 font-semibold text-rose-700">${v.pinyin}</td><td class="p-3 text-stone-500">${v.pos || 'noun'}</td><td class="p-3 text-stone-800">${v.meaning}</td></tr>`).join('')}
                 </tbody>
               </table>
+            </div>
+          </section>
+          <section class="space-y-4">
+            <h2 class="text-2xl font-bold text-stone-900">Explore Essential Study Tools &amp; Lessons</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+              <a href="/stroke-order" class="p-4 bg-white rounded-2xl border border-stone-200 hover:border-rose-300 block space-y-1">
+                <span class="font-bold text-rose-700 uppercase text-[10px]">Stroke Animator</span>
+                <div class="font-bold text-stone-900">Hanzi Stroke Order Animator</div>
+              </a>
+              <a href="/lessons" class="p-4 bg-white rounded-2xl border border-stone-200 hover:border-emerald-300 block space-y-1">
+                <span class="font-bold text-emerald-700 uppercase text-[10px]">Curriculum</span>
+                <div class="font-bold text-stone-900">30 Interactive Lessons</div>
+              </a>
+              <a href="/grammar" class="p-4 bg-white rounded-2xl border border-stone-200 hover:border-sky-300 block space-y-1">
+                <span class="font-bold text-sky-700 uppercase text-[10px]">Compendium</span>
+                <div class="font-bold text-stone-900">88-Rule Grammar Compendium</div>
+              </a>
             </div>
           </section>
         </div>`
@@ -298,6 +332,23 @@ function getCanonicalRoutes(): RouteDefinition[] {
               </table>
             </div>
           </section>
+          <section class="space-y-4">
+            <h2 class="text-2xl font-bold text-stone-900">Explore Essential Study Tools &amp; Lessons</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+              <a href="/stroke-order" class="p-4 bg-white rounded-2xl border border-stone-200 hover:border-rose-300 block space-y-1">
+                <span class="font-bold text-rose-700 uppercase text-[10px]">Stroke Animator</span>
+                <div class="font-bold text-stone-900">Hanzi Stroke Order Animator</div>
+              </a>
+              <a href="/lessons" class="p-4 bg-white rounded-2xl border border-stone-200 hover:border-emerald-300 block space-y-1">
+                <span class="font-bold text-emerald-700 uppercase text-[10px]">Curriculum</span>
+                <div class="font-bold text-stone-900">30 Interactive Lessons</div>
+              </a>
+              <a href="/grammar" class="p-4 bg-white rounded-2xl border border-stone-200 hover:border-sky-300 block space-y-1">
+                <span class="font-bold text-sky-700 uppercase text-[10px]">Compendium</span>
+                <div class="font-bold text-stone-900">88-Rule Grammar Compendium</div>
+              </a>
+            </div>
+          </section>
         </div>`
     },
 
@@ -347,6 +398,23 @@ function getCanonicalRoutes(): RouteDefinition[] {
                   ${hsk3Vocab.slice(0, 150).map((v, i) => `<tr><td class="p-3 text-stone-400 font-mono">${i + 1}</td><td class="p-3 font-serif font-black text-base text-stone-900">${v.hanzi}</td><td class="p-3 font-semibold text-rose-700">${v.pinyin}</td><td class="p-3 text-stone-500">${v.pos || 'noun'}</td><td class="p-3 text-stone-800">${v.meaning}</td></tr>`).join('')}
                 </tbody>
               </table>
+            </div>
+          </section>
+          <section class="space-y-4">
+            <h2 class="text-2xl font-bold text-stone-900">Explore Essential Study Tools &amp; Lessons</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+              <a href="/stroke-order" class="p-4 bg-white rounded-2xl border border-stone-200 hover:border-rose-300 block space-y-1">
+                <span class="font-bold text-rose-700 uppercase text-[10px]">Stroke Animator</span>
+                <div class="font-bold text-stone-900">Hanzi Stroke Order Animator</div>
+              </a>
+              <a href="/lessons" class="p-4 bg-white rounded-2xl border border-stone-200 hover:border-emerald-300 block space-y-1">
+                <span class="font-bold text-emerald-700 uppercase text-[10px]">Curriculum</span>
+                <div class="font-bold text-stone-900">30 Interactive Lessons</div>
+              </a>
+              <a href="/grammar" class="p-4 bg-white rounded-2xl border border-stone-200 hover:border-sky-300 block space-y-1">
+                <span class="font-bold text-sky-700 uppercase text-[10px]">Compendium</span>
+                <div class="font-bold text-stone-900">88-Rule Grammar Compendium</div>
+              </a>
             </div>
           </section>
         </div>`
@@ -447,6 +515,23 @@ function getCanonicalRoutes(): RouteDefinition[] {
                 <li><strong>Tone Changes for "一" (yī):</strong> Changes to 2nd tone before a 4th tone (<em>yí gè</em> 一个). Changes to 4th tone before 1st, 2nd, or 3rd tones (<em>yì tiān</em> 一天, <em>yì nián</em> 一年, <em>yì qǐ</em> 一起).</li>
                 <li><strong>Tone Changes for "不" (bù):</strong> Changes to 2nd tone before a 4th tone (<em>bú shì</em> 不是, <em>bú duì</em> 不对). Remains 4th tone before other tones (<em>bù gāo</em> 不高).</li>
               </ul>
+            </div>
+          </section>
+          <section class="space-y-4">
+            <h2 class="text-2xl font-bold text-stone-900">Explore Essential Study Tools &amp; Lessons</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+              <a href="/stroke-order" class="p-4 bg-white rounded-2xl border border-stone-200 hover:border-rose-300 block space-y-1">
+                <span class="font-bold text-rose-700 uppercase text-[10px]">Stroke Animator</span>
+                <div class="font-bold text-stone-900">Hanzi Stroke Order Animator</div>
+              </a>
+              <a href="/lessons" class="p-4 bg-white rounded-2xl border border-stone-200 hover:border-emerald-300 block space-y-1">
+                <span class="font-bold text-emerald-700 uppercase text-[10px]">Curriculum</span>
+                <div class="font-bold text-stone-900">30 Interactive Lessons</div>
+              </a>
+              <a href="/grammar" class="p-4 bg-white rounded-2xl border border-stone-200 hover:border-sky-300 block space-y-1">
+                <span class="font-bold text-sky-700 uppercase text-[10px]">Compendium</span>
+                <div class="font-bold text-stone-900">88-Rule Grammar Compendium</div>
+              </a>
             </div>
           </section>
         </div>`
