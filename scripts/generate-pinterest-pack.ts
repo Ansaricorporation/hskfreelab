@@ -1,12 +1,14 @@
 /**
  * scripts/generate-pinterest-pack.ts
  * 
- * Automates Stage 7 Pinterest Organic Traffic Campaign:
- * 1. Generates 60 high-resolution (1000x1500 px) vertical Pinterest study cards as PNGs
- *    (30 essential HSK 1–3 vocabulary words + 30 core grammar rules)
- * 2. Saves PNGs to public/pins/ and pinterest-export/pins/
- * 3. Generates the official Pinterest Bulk Upload CSV (pinterest-export/pinterest-bulk-upload.csv)
- * 4. Generates the official Pinterest RSS 2.0 Auto-Publishing Feed (public/pinterest-feed.xml & dist/pinterest-feed.xml)
+ * Automates Pinterest Organic Traffic Campaign (Batch #1 + Batch #2):
+ * 1. Batch #1: 60 Study Cards (30 Words + 30 Grammar Rules)
+ * 2. Batch #2: 60 Study Cards (30 Next Words + 15 Next Grammar Rules + 15 Confusing Word Comparisons!)
+ * 3. Saves all 120 high-resolution (1000x1500 px) PNG cards to public/pins/ and pinterest-export/pins/
+ * 4. Outputs official CSVs:
+ *    - pinterest-export/pinterest-bulk-upload.csv (Batch 1: 60 pins)
+ *    - pinterest-export/pinterest-bulk-upload-batch2.csv (Batch 2: 60 pins)
+ * 5. Generates the master RSS 2.0 Auto-Publishing Feed with all 120 pins (public/pinterest-feed.xml)
  */
 
 import fs from 'node:fs';
@@ -16,6 +18,7 @@ import { Resvg } from '@resvg/resvg-js';
 
 import { allVocabWithSlugs, getSharedCharacterFamily, type VocabItemWithSlug } from '../src/data/vocab-helpers.ts';
 import { all88GrammarRules, type EnrichedGrammarRule } from '../src/data/grammar-helpers.ts';
+import { comparisonsData, type ComparisonItem } from '../src/data/comparisons.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,9 +76,9 @@ function getToneInfo(pinyin: string): string {
 }
 
 // -------------------------------------------------------------
-// 1. Curate 30 Vocabulary Words & 30 Grammar Rules
+// Curate BATCH #1 (60 Items)
 // -------------------------------------------------------------
-const selectedWordSlugs = [
+const batch1WordSlugs = [
   // HSK 1 (10 words)
   'ai-love', 'xiexie', 'pengyou', 'chi', 'he-drink',
   'beijing', 'zhongguo', 'xuexi', 'pingguo', 'zaijian',
@@ -87,7 +90,7 @@ const selectedWordSlugs = [
   'xiguan', 'tigao', 'yingxiang', 'lishi', 'wenhua'
 ];
 
-const selectedGrammarSlugs = [
+const batch1GrammarSlugs = [
   // HSK 1 (10 rules)
   'question-particle-ma', 'possession-particle-de', 'statement-shi-identity',
   'listing-conjunction-he', 'asking-price-duoshao-qian', 'exclamation-excess-tai-le',
@@ -105,27 +108,42 @@ const selectedGrammarSlugs = [
   'rhetorical-question-bushi-ma'
 ];
 
-const curatedWords: VocabItemWithSlug[] = selectedWordSlugs.map(slug => {
-  const item = allVocabWithSlugs.find(v => v.slug === slug);
-  if (!item) throw new Error(`Word slug not found: ${slug}`);
-  return item;
-});
+// -------------------------------------------------------------
+// Curate BATCH #2 (60 Items: 30 Words + 15 Grammar + 15 Comparisons)
+// -------------------------------------------------------------
+const batch2WordSlugs = [
+  // HSK 1 (10 words)
+  'chuzuche', 'diannao', 'dianshi', 'dianying', 'dongxi',
+  'duibuqi', 'feiji', 'fandian', 'xuexiao', 'laoshi',
+  // HSK 2 (10 words)
+  'feichang', 'pianyi', 'gui', 'kaishi', 'jie-borrow',
+  'chuan', 'dajia', 'deng-wait', 'fangjian', 'gongsi',
+  // HSK 3 (10 words)
+  'bijiao', 'bixu', 'bianhua', 'bingxiang', 'danxin',
+  'fangbian', 'qingchu', 'renzhen', 'jiandan', 'xuanze'
+];
 
-const curatedGrammar: EnrichedGrammarRule[] = selectedGrammarSlugs.map(slug => {
-  const item = all88GrammarRules.find(g => g.slug === slug);
-  if (!item) throw new Error(`Grammar slug not found: ${slug}`);
-  return item;
-});
+const batch2GrammarSlugs = [
+  // HSK 1 (5 rules)
+  'clock-time-structure-dian-fen', 'time-words-preverbal-placement',
+  'polite-request-qing-gei-wo', 'desire-vs-intent-xiang-yao', 'location-question-zai-nar',
+  // HSK 2 (5 rules)
+  'completed-action-verb-le', 'action-duration-time-span',
+  'ability-vs-permission-neng-keyi', 'exclusive-addition-chule-hai', 'resultative-complements-wan-hao',
+  // HSK 3 (5 rules)
+  'ba-with-relocation-dao-zai', 'sufficient-condition-zhiyao-jiu',
+  'purpose-clauses-weile', 'exclusive-scope-chule-yiwai', 'potential-complements-de-liao'
+];
 
 // -------------------------------------------------------------
-// 2. SVG Generator for Vocabulary Study Card (1000x1500)
+// SVG Generator for Vocabulary Study Card (1000x1500)
 // -------------------------------------------------------------
 function generateVocabSvg(word: VocabItemWithSlug): string {
   const isL1 = word.level === 1;
   const isL2 = word.level === 2;
   const badgeColor = isL1 ? '#059669' : (isL2 ? '#0284c7' : '#e11d48');
   const badgeDark = isL1 ? '#047857' : (isL2 ? '#0369a1' : '#be123c');
-  const badgeText = isL1 ? '#ffffff' : '#ffffff';
+  const badgeText = '#ffffff';
   const pillBg = isL1 ? '#ecfdf5' : (isL2 ? '#f0f9ff' : '#fff1f2');
   const pillStroke = isL1 ? '#a7f3d0' : (isL2 ? '#bae6fd' : '#fecdd3');
   const pillText = isL1 ? '#065f46' : (isL2 ? '#075985' : '#9f1239');
@@ -251,7 +269,7 @@ function generateVocabSvg(word: VocabItemWithSlug): string {
 }
 
 // -------------------------------------------------------------
-// 3. SVG Generator for Grammar Study Card (1000x1500)
+// SVG Generator for Grammar Study Card (1000x1500)
 // -------------------------------------------------------------
 function generateGrammarSvg(rule: EnrichedGrammarRule): string {
   const isL1 = rule.level === 1;
@@ -389,92 +407,304 @@ function generateGrammarSvg(rule: EnrichedGrammarRule): string {
 }
 
 // -------------------------------------------------------------
-// 4. Main Execution Routine
+// SVG Generator for Confusing Words Comparison Card (1000x1500)
+// -------------------------------------------------------------
+function generateComparisonSvg(comp: ComparisonItem): string {
+  const titleLines = wrapText(comp.title, 28).slice(0, 2);
+  const summaryLines = wrapText(comp.summary, 46).slice(0, 3);
+  const mistake = comp.mistakes[0] || {
+    incorrectZh: '', incorrectPy: '', correctZh: '', correctPy: '', explanation: ''
+  };
+
+  const wordCount = comp.words.length;
+  const colWidth = wordCount === 3 ? 270 : 420;
+  const colGap = wordCount === 3 ? 20 : 40;
+
+  return `
+<svg width="1000" height="1500" viewBox="0 0 1000 1500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffdfa"/>
+      <stop offset="100%" stop-color="#f5f0e6"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#faf7f2"/>
+    </linearGradient>
+    <linearGradient id="badgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="darkHeader" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1c1917"/>
+      <stop offset="100%" stop-color="#292524"/>
+    </linearGradient>
+    <linearGradient id="snippetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#1c1917" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="1500" fill="url(#bgGrad)"/>
+  <rect x="30" y="30" width="940" height="1440" rx="36" fill="none" stroke="#e7e0d4" stroke-width="2"/>
+
+  <!-- Top Header Bar -->
+  <rect x="60" y="60" width="880" height="90" rx="24" fill="url(#darkHeader)"/>
+  <text x="95" y="116" font-family="'Segoe UI', -apple-system, sans-serif" font-size="24" font-weight="900" fill="#f5f5f4" letter-spacing="2">HSK FREE LAB</text>
+  <text x="300" y="116" font-family="'Segoe UI', -apple-system, sans-serif" font-size="20" font-weight="600" fill="#a8a29e">·  mybwn.com</text>
+  
+  <rect x="640" y="78" width="275" height="54" rx="16" fill="url(#badgeGrad)"/>
+  <text x="777" y="113" font-family="'Segoe UI', -apple-system, sans-serif" font-size="18" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="1">MANDARIN COMPARISON</text>
+
+  <!-- Hero Main Card -->
+  <rect x="60" y="180" width="880" height="470" rx="32" fill="url(#cardGrad)" stroke="#e7e0d4" stroke-width="2" filter="url(#shadow)"/>
+
+  <!-- Title -->
+  ${titleLines.map((line, idx) => `
+  <text x="500" y="${titleLines.length === 1 ? 245 : 225 + (idx * 42)}" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="34" font-weight="900" fill="#1c1917" text-anchor="middle">${escapeXml(line)}</text>
+  `).join('')}
+
+  <!-- Word Contrast Boxes -->
+  <g transform="translate(60, 290)">
+    ${comp.words.map((w, idx) => {
+      const x = idx * (colWidth + colGap);
+      return `
+      <g transform="translate(${x}, 0)">
+        <rect width="${colWidth}" height="320" rx="24" fill="#ffffff" stroke="#e7e0d4" stroke-width="1.5"/>
+        <rect x="16" y="16" width="90" height="32" rx="8" fill="#f5f5f4"/>
+        <text x="61" y="37" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#78716c" text-anchor="middle">${escapeXml(w.partOfSpeech)}</text>
+        <text x="${colWidth / 2}" y="135" font-family="'Microsoft YaHei', 'SimHei', sans-serif" font-size="64" font-weight="900" fill="#1c1917" text-anchor="middle">${escapeXml(w.hanzi)}</text>
+        <text x="${colWidth / 2}" y="185" font-family="'Segoe UI', sans-serif" font-size="28" font-weight="800" fill="#b45309" text-anchor="middle">${escapeXml(w.pinyin)}</text>
+        <text x="${colWidth / 2}" y="225" font-family="'Segoe UI', sans-serif" font-size="17" font-weight="600" fill="#44403c" text-anchor="middle">${escapeXml(w.meaning.slice(0, 22))}</text>
+        <rect x="16" y="250" width="${colWidth - 32}" height="50" rx="10" fill="#fef3c7"/>
+        <text x="${colWidth / 2}" y="280" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#92400e" text-anchor="middle">${escapeXml(w.coreFunction.slice(0, 30))}</text>
+      </g>`;
+    }).join('')}
+  </g>
+
+  <!-- Position #0 Quick Answer / Rule Box -->
+  <rect x="60" y="680" width="880" height="235" rx="28" fill="url(#snippetGrad)" stroke="#fcd34d" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="90" y="705" width="230" height="36" rx="10" fill="#b45309"/>
+  <text x="205" y="729" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="1">⚡ 10-SECOND RULE</text>
+
+  ${summaryLines.map((line, idx) => `
+  <text x="95" y="${780 + (idx * 34)}" font-family="'Segoe UI', sans-serif" font-size="21" font-weight="600" fill="#78350f">${escapeXml(line)}</text>
+  `).join('')}
+
+  <!-- Comparison Criteria Table Box -->
+  <rect x="60" y="940" width="880" height="225" rx="28" fill="#ffffff" stroke="#e7e0d4" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="90" y="965" width="220" height="36" rx="10" fill="#f5f0e6"/>
+  <text x="200" y="989" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="800" fill="#78716c" text-anchor="middle" letter-spacing="1">CRITERIA CONTRAST</text>
+
+  <g transform="translate(90, 1020)">
+    ${comp.table.slice(0, 3).map((row, idx) => `
+      <g transform="translate(0, ${idx * 44})">
+        <rect width="820" height="36" rx="8" fill="${idx % 2 === 0 ? '#faf7f2' : '#ffffff'}"/>
+        <text x="16" y="24" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="700" fill="#1c1917">${escapeXml(row.criteria)}:</text>
+        <text x="320" y="24" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="600" fill="#047857">${escapeXml(row.word1.slice(0, 26))}</text>
+        <text x="580" y="24" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="600" fill="#0284c7">${escapeXml(row.word2.slice(0, 26))}</text>
+      </g>`).join('')}
+  </g>
+
+  <!-- Common Mistake (Correct vs Wrong) -->
+  <rect x="60" y="1190" width="880" height="140" rx="24" fill="#ffffff" stroke="#e7e0d4" stroke-width="2" filter="url(#shadow)"/>
+  <g transform="translate(85, 1205)">
+    <rect x="0" y="0" width="415" height="105" rx="16" fill="#fef2f2" stroke="#fecaca"/>
+    <text x="20" y="32" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="800" fill="#b91c1c">✘ INCORRECT TRAP:</text>
+    <text x="20" y="65" font-family="'Microsoft YaHei', sans-serif" font-size="20" font-weight="800" fill="#991b1b">${escapeXml(mistake.incorrectZh)}</text>
+    <text x="20" y="90" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#dc2626">${escapeXml(mistake.incorrectPy)}</text>
+
+    <rect x="445" y="0" width="415" height="105" rx="16" fill="#f0fdf4" stroke="#bbf7d0"/>
+    <text x="465" y="32" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="800" fill="#15803d">✔ CORRECT SENTENCE:</text>
+    <text x="465" y="65" font-family="'Microsoft YaHei', sans-serif" font-size="20" font-weight="800" fill="#166534">${escapeXml(mistake.correctZh)}</text>
+    <text x="465" y="90" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#16a34a">${escapeXml(mistake.correctPy)}</text>
+  </g>
+
+  <!-- Bottom CTA Footer Bar -->
+  <rect x="60" y="1350" width="880" height="90" rx="24" fill="url(#darkHeader)"/>
+  <text x="100" y="1405" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="700" fill="#f5f5f4">⚖️ Full Contrast Guide &amp; 3-Question Practice Quiz:</text>
+  <text x="900" y="1405" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="800" fill="#fbbf24" text-anchor="end">mybwn.com/compare/${escapeXml(comp.slug)} →</text>
+</svg>
+`;
+}
+
+interface PinItemDefinition {
+  type: 'word' | 'grammar' | 'compare';
+  item: VocabItemWithSlug | EnrichedGrammarRule | ComparisonItem;
+  day: number;
+  batch: 1 | 2;
+  title: string;
+  description: string;
+  board: string;
+  link: string;
+  mediaUrl: string;
+  publishDateIso: string;
+  publishDateRfc: string;
+  publishDateCsv: string;
+  keywords: string;
+}
+
+// -------------------------------------------------------------
+// Main Execution Routine
 // -------------------------------------------------------------
 async function run() {
-  console.log('🚀 [pinterest-pack] Starting 1000x1500 image & feed generation for 60 items...');
+  console.log('🚀 [pinterest-pack] Initializing 120 Pinterest Study Cards (Batch 1 + Batch 2)...');
 
-  const allItems: Array<{
-    type: 'word' | 'grammar';
-    item: VocabItemWithSlug | EnrichedGrammarRule;
-    day: number;
-    title: string;
-    description: string;
-    board: string;
-    link: string;
-    mediaUrl: string;
-    publishDateIso: string;
-    publishDateRfc: string;
-    publishDateCsv: string;
-    keywords: string;
-  }> = [];
+  const allItems: PinItemDefinition[] = [];
 
-  // Generate 30 Word Pins (Morning: 09:00:00 UTC)
-  // Generate 30 Grammar Pins (Evening: 18:00:00 UTC)
+  // ==========================================
+  // BATCH 1: Days 1–30 (60 Pins)
+  // ==========================================
+  const curatedWordsBatch1 = batch1WordSlugs.map(slug => {
+    const item = allVocabWithSlugs.find(v => v.slug === slug);
+    if (!item) throw new Error(`Batch 1 word slug not found: ${slug}`);
+    return item;
+  });
+
+  const curatedGrammarBatch1 = batch1GrammarSlugs.map(slug => {
+    const item = all88GrammarRules.find(g => g.slug === slug);
+    if (!item) throw new Error(`Batch 1 grammar slug not found: ${slug}`);
+    return item;
+  });
+
   for (let i = 0; i < 30; i++) {
     const day = i + 1;
     const dateStr = `2026-11-${String(10 + i).padStart(2, '0')}`;
-    const word = curatedWords[i];
-    const grammar = curatedGrammar[i];
+    const word = curatedWordsBatch1[i];
+    const grammar = curatedGrammarBatch1[i];
 
-    // Word Pin
-    const wordTitle = `How to Learn Chinese Word ${word.hanzi} (${word.pinyin}) | HSK ${word.level} Study Card`;
-    const wordDesc = `Master Chinese character ${word.hanzi} (${word.pinyin}) meaning "${word.meaning}". Includes stroke order animation, pinyin tone breakdown, audio, and free quiz on HSK Free Lab! #HSK${word.level} #LearnChinese #MandarinVocabulary #ChineseCharacters`;
-    const wordBoard = word.level === 1 ? 'HSK 1 Vocabulary & Flashcards' : 'HSK 2 & 3 Chinese Vocabulary';
-    const wordLink = `https://mybwn.com/words/${word.slug}`;
-    const wordMedia = `https://mybwn.com/pins/${word.slug}.png`;
-    const wordPubIso = `${dateStr}T09:00:00Z`;
-    const wordPubCsv = `${dateStr} 09:00:00`;
-    const wordPubRfc = new Date(wordPubIso).toUTCString();
-
+    // Word Pin (Morning 09:00:00 UTC)
     allItems.push({
       type: 'word',
       item: word,
       day,
-      title: wordTitle,
-      description: wordDesc,
-      board: wordBoard,
-      link: wordLink,
-      mediaUrl: wordMedia,
-      publishDateIso: wordPubIso,
-      publishDateRfc: wordPubRfc,
-      publishDateCsv: wordPubCsv,
+      batch: 1,
+      title: `How to Learn Chinese Word ${word.hanzi} (${word.pinyin}) | HSK ${word.level} Study Card`,
+      description: `Master Chinese character ${word.hanzi} (${word.pinyin}) meaning "${word.meaning}". Includes stroke order animation, pinyin tone breakdown, audio, and free quiz on HSK Free Lab! #HSK${word.level} #LearnChinese #MandarinVocabulary #ChineseCharacters`,
+      board: word.level === 1 ? 'HSK 1 Vocabulary & Flashcards' : 'HSK 2 & 3 Chinese Vocabulary',
+      link: `https://mybwn.com/words/${word.slug}`,
+      mediaUrl: `https://mybwn.com/pins/${word.slug}.png`,
+      publishDateIso: `${dateStr}T09:00:00Z`,
+      publishDateRfc: new Date(`${dateStr}T09:00:00Z`).toUTCString(),
+      publishDateCsv: `${dateStr} 09:00:00`,
       keywords: `HSK ${word.level}, learn Chinese, Mandarin vocabulary, Chinese character stroke order, pinyin tones, study Chinese`
     });
 
-    // Grammar Pin
-    const grammarTitle = `${grammar.title} - HSK ${grammar.level} Chinese Grammar Pattern & Quiz`;
-    const grammarDesc = `Master the Chinese grammar formula: ${grammar.pattern}. Free bilingual example sentences, common pitfalls, and interactive quizzes on HSK Free Lab! #ChineseGrammar #HSK${grammar.level} #MandarinChinese #LearnMandarin`;
-    const grammarBoard = 'Mandarin Chinese Grammar Rules';
-    const grammarLink = `https://mybwn.com/grammar/${grammar.slug}`;
-    const grammarMedia = `https://mybwn.com/pins/${grammar.slug}.png`;
-    const grammarPubIso = `${dateStr}T18:00:00Z`;
-    const grammarPubCsv = `${dateStr} 18:00:00`;
-    const grammarPubRfc = new Date(grammarPubIso).toUTCString();
-
+    // Grammar Pin (Evening 18:00:00 UTC)
     allItems.push({
       type: 'grammar',
       item: grammar,
       day,
-      title: grammarTitle,
-      description: grammarDesc,
-      board: grammarBoard,
-      link: grammarLink,
-      mediaUrl: grammarMedia,
-      publishDateIso: grammarPubIso,
-      publishDateRfc: grammarPubRfc,
-      publishDateCsv: grammarPubCsv,
+      batch: 1,
+      title: `${grammar.title} - HSK ${grammar.level} Chinese Grammar Pattern & Quiz`,
+      description: `Master the Chinese grammar formula: ${grammar.pattern}. Free bilingual example sentences, common pitfalls, and interactive quizzes on HSK Free Lab! #ChineseGrammar #HSK${grammar.level} #MandarinChinese #LearnMandarin`,
+      board: 'Mandarin Chinese Grammar Rules',
+      link: `https://mybwn.com/grammar/${grammar.slug}`,
+      mediaUrl: `https://mybwn.com/pins/${grammar.slug}.png`,
+      publishDateIso: `${dateStr}T18:00:00Z`,
+      publishDateRfc: new Date(`${dateStr}T18:00:00Z`).toUTCString(),
+      publishDateCsv: `${dateStr} 18:00:00`,
       keywords: `HSK ${grammar.level} grammar, Chinese grammar formulas, sentence structure, learn Mandarin, Chinese study notes`
     });
   }
 
-  // 1. Render all 60 PNG images
-  console.log('🎨 Rendering 60 PNG study cards (1000x1500) with @resvg/resvg-js...');
+  // ==========================================
+  // BATCH 2: Days 31–60 (60 Pins)
+  // 30 Words (Morning 09:00)
+  // 15 Grammar + 15 Comparisons (Evening 18:00)
+  // ==========================================
+  const curatedWordsBatch2 = batch2WordSlugs.map(slug => {
+    const item = allVocabWithSlugs.find(v => v.slug === slug);
+    if (!item) throw new Error(`Batch 2 word slug not found: ${slug}`);
+    return item;
+  });
+
+  const curatedGrammarBatch2 = batch2GrammarSlugs.map(slug => {
+    const item = all88GrammarRules.find(g => g.slug === slug);
+    if (!item) throw new Error(`Batch 2 grammar slug not found: ${slug}`);
+    return item;
+  });
+
+  const curatedComparisonsBatch2 = comparisonsData;
+
+  for (let i = 0; i < 30; i++) {
+    const day = 31 + i;
+    // Dates from Dec 10, 2026 onwards
+    const pubDate = new Date(Date.UTC(2026, 11, 10 + i));
+    const dateStr = pubDate.toISOString().slice(0, 10);
+    const word = curatedWordsBatch2[i];
+
+    // Morning Pin (09:00:00 UTC) - Vocabulary
+    allItems.push({
+      type: 'word',
+      item: word,
+      day,
+      batch: 2,
+      title: `How to Learn Chinese Word ${word.hanzi} (${word.pinyin}) | HSK ${word.level} Study Card`,
+      description: `Master Chinese character ${word.hanzi} (${word.pinyin}) meaning "${word.meaning}". Includes stroke order animation, pinyin tone breakdown, audio, and free quiz on HSK Free Lab! #HSK${word.level} #LearnChinese #MandarinVocabulary #ChineseCharacters`,
+      board: word.level === 1 ? 'HSK 1 Vocabulary & Flashcards' : 'HSK 2 & 3 Chinese Vocabulary',
+      link: `https://mybwn.com/words/${word.slug}`,
+      mediaUrl: `https://mybwn.com/pins/${word.slug}.png`,
+      publishDateIso: `${dateStr}T09:00:00Z`,
+      publishDateRfc: new Date(`${dateStr}T09:00:00Z`).toUTCString(),
+      publishDateCsv: `${dateStr} 09:00:00`,
+      keywords: `HSK ${word.level}, learn Chinese, Mandarin vocabulary, Chinese character stroke order, pinyin tones, study Chinese`
+    });
+
+    // Evening Pin (18:00:00 UTC) - Alternates between Grammar (first 15) and Confusing Comparisons (next 15)
+    if (i < 15) {
+      const grammar = curatedGrammarBatch2[i];
+      allItems.push({
+        type: 'grammar',
+        item: grammar,
+        day,
+        batch: 2,
+        title: `${grammar.title} - HSK ${grammar.level} Chinese Grammar Pattern & Quiz`,
+        description: `Master the Chinese grammar formula: ${grammar.pattern}. Free bilingual example sentences, common pitfalls, and interactive quizzes on HSK Free Lab! #ChineseGrammar #HSK${grammar.level} #MandarinChinese #LearnMandarin`,
+        board: 'Mandarin Chinese Grammar Rules',
+        link: `https://mybwn.com/grammar/${grammar.slug}`,
+        mediaUrl: `https://mybwn.com/pins/${grammar.slug}.png`,
+        publishDateIso: `${dateStr}T18:00:00Z`,
+        publishDateRfc: new Date(`${dateStr}T18:00:00Z`).toUTCString(),
+        publishDateCsv: `${dateStr} 18:00:00`,
+        keywords: `HSK ${grammar.level} grammar, Chinese grammar formulas, sentence structure, learn Mandarin, Chinese study notes`
+      });
+    } else {
+      const comp = curatedComparisonsBatch2[i - 15];
+      allItems.push({
+        type: 'compare',
+        item: comp,
+        day,
+        batch: 2,
+        title: `${comp.title} | Confusing Chinese Words Chart`,
+        description: `${comp.summary} Full side-by-side comparison tables, common mistakes (✅ vs. ❌), and quiz on HSK Free Lab! #ConfusingChinese #LearnMandarin #ChineseGrammar #HSK`,
+        board: 'Confusing Chinese Words & Grammar Comparisons',
+        link: `https://mybwn.com/compare/${comp.slug}`,
+        mediaUrl: `https://mybwn.com/pins/${comp.slug}.png`,
+        publishDateIso: `${dateStr}T18:00:00Z`,
+        publishDateRfc: new Date(`${dateStr}T18:00:00Z`).toUTCString(),
+        publishDateCsv: `${dateStr} 18:00:00`,
+        keywords: `Chinese words compared, ${comp.shortTitle}, confusing Mandarin, Chinese grammar difference, HSK study tips`
+      });
+    }
+  }
+
+  // 1. Render all 120 PNG images
+  console.log(`🎨 Rendering ${allItems.length} PNG study cards (1000x1500) with @resvg/resvg-js...`);
+  let renderedCount = 0;
   for (const entry of allItems) {
-    const isWord = entry.type === 'word';
-    const svg = isWord 
-      ? generateVocabSvg(entry.item as VocabItemWithSlug)
-      : generateGrammarSvg(entry.item as EnrichedGrammarRule);
+    let svg = '';
+    if (entry.type === 'word') {
+      svg = generateVocabSvg(entry.item as VocabItemWithSlug);
+    } else if (entry.type === 'grammar') {
+      svg = generateGrammarSvg(entry.item as EnrichedGrammarRule);
+    } else {
+      svg = generateComparisonSvg(entry.item as ComparisonItem);
+    }
 
     const resvg = new Resvg(svg, {
       fitTo: { mode: 'width', value: 1000 }
@@ -494,38 +724,48 @@ async function run() {
     if (fs.existsSync(DIST_DIR)) {
       fs.writeFileSync(path.join(DIST_PINS_DIR, fileName), pngBuffer);
     }
+    renderedCount++;
   }
-  console.log(`✅ Saved 60 PNG images to public/pins/ and pinterest-export/pins/!`);
+  console.log(`✅ Saved ${renderedCount} PNG images to public/pins/ and pinterest-export/pins/!`);
 
-  // 2. Generate Official Pinterest Bulk Upload CSV
-  console.log('📄 Generating official Pinterest Bulk Upload CSV...');
+  // 2. Generate Official Pinterest Bulk Upload CSVs
+  console.log('📄 Generating official Pinterest Bulk Upload CSVs (Batch 1 & Batch 2)...');
   const csvHeaders = ['Title', 'Media URL', 'Pinterest board', 'Description', 'Link', 'Publish date', 'Keywords'];
-  const csvRows = allItems.map(row => {
-    return [
-      `"${row.title.replace(/"/g, '""')}"`,
-      `"${row.mediaUrl}"`,
-      `"${row.board}"`,
-      `"${row.description.replace(/"/g, '""')}"`,
-      `"${row.link}"`,
-      `"${row.publishDateCsv}"`,
-      `"${row.keywords.replace(/"/g, '""')}"`
-    ].join(',');
-  });
 
-  const csvContent = [csvHeaders.join(','), ...csvRows].join('\n');
-  fs.writeFileSync(path.join(EXPORT_DIR, 'pinterest-bulk-upload.csv'), csvContent, 'utf8');
-  console.log(`✅ Generated ${EXPORT_DIR}/pinterest-bulk-upload.csv with 60 scheduled pins!`);
+  const makeCsvContent = (items: PinItemDefinition[]) => {
+    const rows = items.map(row => {
+      return [
+        `"${row.title.replace(/"/g, '""')}"`,
+        `"${row.mediaUrl}"`,
+        `"${row.board}"`,
+        `"${row.description.replace(/"/g, '""')}"`,
+        `"${row.link}"`,
+        `"${row.publishDateCsv}"`,
+        `"${row.keywords.replace(/"/g, '""')}"`
+      ].join(',');
+    });
+    return [csvHeaders.join(','), ...rows].join('\n');
+  };
 
-  // 3. Generate Official Pinterest Auto-Publishing RSS 2.0 Feed
-  console.log('📡 Generating Pinterest RSS 2.0 Feed (pinterest-feed.xml)...');
+  const batch1Items = allItems.filter(i => i.batch === 1);
+  const batch2Items = allItems.filter(i => i.batch === 2);
+
+  fs.writeFileSync(path.join(EXPORT_DIR, 'pinterest-bulk-upload.csv'), makeCsvContent(batch1Items), 'utf8');
+  console.log(`✅ Generated ${EXPORT_DIR}/pinterest-bulk-upload.csv with 60 scheduled pins (Batch 1)!`);
+
+  fs.writeFileSync(path.join(EXPORT_DIR, 'pinterest-bulk-upload-batch2.csv'), makeCsvContent(batch2Items), 'utf8');
+  console.log(`✅ Generated ${EXPORT_DIR}/pinterest-bulk-upload-batch2.csv with 60 scheduled pins (Batch 2)!`);
+
+  // 3. Generate Official Pinterest Auto-Publishing RSS 2.0 Feed (All 120 Pins)
+  console.log('📡 Generating master Pinterest RSS 2.0 Feed with 120 items (pinterest-feed.xml)...');
   const feedXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" 
      xmlns:media="http://search.yahoo.com/mrss/" 
      xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>HSK Free Lab - Visual Study Cards &amp; Grammar Formulas</title>
+    <title>HSK Free Lab - Visual Study Cards, Grammar Formulas &amp; Comparisons</title>
     <link>https://mybwn.com/</link>
-    <description>Official daily Mandarin Chinese vocabulary study cards, stroke order animations, and essential grammar formulas for HSK 1, 2, and 3.</description>
+    <description>Official daily Mandarin Chinese vocabulary study cards, stroke order animations, essential grammar formulas, and word comparisons for HSK 1, 2, and 3.</description>
     <language>en-us</language>
     <atom:link href="https://mybwn.com/pinterest-feed.xml" rel="self" type="application/rss+xml" />
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
@@ -548,9 +788,9 @@ ${allItems.map(entry => `    <item>
     fs.writeFileSync(path.join(DIST_DIR, 'pinterest-feed.xml'), feedXml, 'utf8');
   }
   fs.writeFileSync(path.join(EXPORT_DIR, 'pinterest-feed.xml'), feedXml, 'utf8');
-  console.log(`✅ Generated public/pinterest-feed.xml and pinterest-export/pinterest-feed.xml!`);
+  console.log(`✅ Generated public/pinterest-feed.xml with ${allItems.length} total pins!`);
 
-  console.log('🎉 [pinterest-pack] Stage 7 Pinterest Automation Completed Successfully!');
+  console.log('🎉 [pinterest-pack] Stage 8 Pinterest Automation Completed Successfully!');
 }
 
 run().catch(err => {

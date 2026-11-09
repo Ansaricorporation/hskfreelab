@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build && npx tsx scripts/prerender.ts",
     "generate:pins": "tsx scripts/generate-pinterest-pack.ts",
+    "indexnow": "tsx scripts/submit-indexnow.ts",
     "preview": "node preview.js",
     "preview:vite": "vite preview"
   },

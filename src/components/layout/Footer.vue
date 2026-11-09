@@ -38,6 +38,7 @@ import { Sparkles, ShieldCheck, Heart } from 'lucide-vue-next';
             <li><router-link to="/hsk-3" class="hover:text-white transition-colors">HSK 3 (B1 · 600 Vocab)</router-link></li>
             <li><router-link to="/lessons" class="hover:text-white transition-colors">Interactive Lessons</router-link></li>
             <li><router-link to="/grammar" class="hover:text-white transition-colors">Grammar Compendium</router-link></li>
+            <li><router-link to="/compare" class="hover:text-white transition-colors">Confusing Words Guide</router-link></li>
           </ul>
         </div>
 

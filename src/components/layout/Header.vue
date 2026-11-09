@@ -11,6 +11,7 @@ import {
   X, 
   Sparkles, 
   ChevronDown, 
+  GitCompare,
   Sun, 
   Moon, 
   Coffee, 
@@ -108,6 +109,20 @@ function closeMenus() {
               <div>
                 <div class="font-bold text-stone-900 dark:text-stone-100">603 Words Dictionary</div>
                 <div class="text-[11px] text-stone-400">HSK 1-3 vocab with stroke orders</div>
+              </div>
+            </router-link>
+
+            <router-link 
+              to="/compare" 
+              @click="closeMenus" 
+              class="flex items-center gap-3 px-4 py-2.5 text-xs text-stone-700 dark:text-stone-300 hover:bg-amber-50 dark:hover:bg-amber-950/40 hover:text-amber-700 dark:hover:text-amber-400"
+            >
+              <div class="p-2 rounded-lg bg-amber-100/70 dark:bg-amber-950 text-amber-700 dark:text-amber-400">
+                <GitCompare class="w-4 h-4" />
+              </div>
+              <div>
+                <div class="font-bold text-stone-900 dark:text-stone-100">Confusing Words Guide</div>
+                <div class="text-[11px] text-stone-400">不 vs 没, 二 vs 两, 的 / 得 / 地</div>
               </div>
             </router-link>
 
@@ -362,6 +377,15 @@ function closeMenus() {
           class="flex items-center gap-3 px-3 py-2 rounded-xl text-stone-800 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800 font-semibold"
         >
           <span>18 Academic Guides & Masterclasses</span>
+        </router-link>
+
+        <router-link 
+          to="/compare" 
+          @click="closeMenus" 
+          class="flex items-center gap-3 px-3 py-2 rounded-xl text-amber-800 dark:text-amber-300 bg-amber-50/50 dark:bg-amber-950/30 hover:bg-amber-50 dark:hover:bg-amber-950/60 font-semibold"
+        >
+          <GitCompare class="w-4 h-4 text-amber-600" />
+          <span>Confusing Words &amp; Comparisons</span>
         </router-link>
 
         <button 

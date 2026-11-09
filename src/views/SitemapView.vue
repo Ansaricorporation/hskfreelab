@@ -18,11 +18,12 @@ import { blogPostsData } from '../data/blogs';
 import { getLessonUnitNumber } from '../data/lesson-helpers';
 import { allVocabWithSlugs } from '../data/vocab-helpers';
 import { all88GrammarRules } from '../data/grammar-helpers';
+import { comparisonsData } from '../data/comparisons';
 import { updateSeoMeta } from '../utils/seo';
 
 updateSeoMeta({
-  title: 'HTML Sitemap & All-Pages Directory (759 Pages) | HSK Free Lab',
-  description: 'Complete index of all 759 pages on HSK Free Lab: 603 dedicated word study guides, 88 dedicated grammar guides, 30 interactive lessons, 18 study guides, and diagnostic tools.',
+  title: 'HTML Sitemap & All-Pages Directory (775 Pages) | HSK Free Lab',
+  description: 'Complete index of all 775 pages on HSK Free Lab: 603 dedicated word study guides, 88 dedicated grammar guides, 15 confusing words comparisons, 30 interactive lessons, 18 study guides, and diagnostic tools.',
   canonical: 'https://mybwn.com/sitemap',
   type: 'website'
 });
@@ -54,7 +55,7 @@ const sitemapWordTab = ref<1 | 2 | 3>(1);
       
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300 text-xs font-bold">
         <Sparkles class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
-        <span>Complete Index · 759 Canonical Pages</span>
+        <span>Complete Index · 775 Canonical Pages</span>
       </div>
 
       <h1 class="text-3xl sm:text-5xl font-black text-stone-900 dark:text-stone-100 tracking-tight">
@@ -266,6 +267,44 @@ const sitemapWordTab = ref<1 | 2 | 3>(1);
           </div>
           <div class="mt-3 pt-2 border-t border-stone-100 dark:border-stone-800 text-[11px] font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-1">
             <span>Read guide</span> <ArrowRight class="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+          </div>
+        </router-link>
+      </div>
+    </section>
+
+    <!-- SECTION 5.5: 15 High-CTR Confusing Chinese Words Comparisons -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-3">
+        <div class="flex items-center gap-2">
+          <BookOpen class="w-5 h-5 text-amber-600 dark:text-amber-400" />
+          <h2 class="text-xl sm:text-2xl font-black text-stone-900 dark:text-stone-100">15 Confusing Words &amp; Grammar Comparisons</h2>
+        </div>
+        <router-link to="/compare" class="text-xs font-bold text-amber-600 dark:text-amber-400 hover:underline">
+          View All Comparisons &rarr;
+        </router-link>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <router-link 
+          v-for="c in comparisonsData" 
+          :key="c.slug" 
+          :to="'/compare/' + c.slug"
+          class="p-4 bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-amber-400 dark:hover:border-amber-600 group flex flex-col justify-between transition-all shadow-xs"
+        >
+          <div>
+            <div class="flex items-center justify-between text-[10px] text-amber-700 dark:text-amber-400 font-bold uppercase mb-1">
+              <span>{{ c.level }}</span>
+              <span>CEFR {{ c.cefr }}</span>
+            </div>
+            <h3 class="text-xs font-bold text-stone-900 dark:text-stone-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 line-clamp-1">
+              {{ c.title }}
+            </h3>
+            <p class="text-[11px] text-stone-500 dark:text-stone-400 line-clamp-2 mt-1">
+              {{ c.summary }}
+            </p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-stone-100 dark:border-stone-800 text-[11px] font-semibold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+            <span>Compare rules</span> <ArrowRight class="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
           </div>
         </router-link>
       </div>

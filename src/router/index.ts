@@ -3,6 +3,7 @@ import { updateSeoMeta } from '../utils/seo';
 import { getBlogPostBySlug } from '../data/blogs';
 import { getWordBySlug } from '../data/vocab-helpers';
 import { getGrammarRuleBySlug } from '../data/grammar-helpers';
+import { getComparisonBySlug } from '../data/comparisons';
 
 // Lazy-loaded route components for optimal initial paint & code-splitting
 const HomeView = () => import('../views/HomeView.vue');
@@ -17,6 +18,8 @@ const LessonsView = () => import('../views/LessonsView.vue');
 const LessonDetailView = () => import('../views/LessonDetailView.vue');
 const GrammarView = () => import('../views/GrammarView.vue');
 const GrammarDetailView = () => import('../views/GrammarDetailView.vue');
+const CompareListView = () => import('../views/CompareListView.vue');
+const CompareDetailView = () => import('../views/CompareDetailView.vue');
 const BlogListView = () => import('../views/BlogListView.vue');
 const BlogPostView = () => import('../views/BlogPostView.vue');
 const AboutView = () => import('../views/AboutView.vue');
@@ -217,6 +220,25 @@ const routes: RouteRecordRaw[] = [
     }
   },
   { 
+    path: '/compare', 
+    name: 'compare-list', 
+    component: CompareListView,
+    meta: {
+      title: 'Confusing Chinese Words Compared - 15 Essential Mandarin Distinctions | HSK Free Lab',
+      description: 'Master tricky Chinese word pairs with clear side-by-side comparison tables: 不 vs. 没, 二 vs. 两, 的 vs. 得 vs. 地, 会 vs. 能 vs. 可以. Includes correct vs. wrong sentences and quizzes.',
+      canonical: 'https://mybwn.com/compare'
+    }
+  },
+  { 
+    path: '/compare/:slug', 
+    name: 'compare-detail', 
+    component: CompareDetailView,
+    meta: {
+      title: 'Confusing Chinese Words Comparison Guide | HSK Free Lab',
+      description: 'Side-by-side comparison tables, correct vs. wrong examples, native audio pronunciation, and interactive quizzes for confusing Mandarin words.'
+    }
+  },
+  { 
     path: '/about', 
     name: 'about', 
     component: AboutView,
@@ -344,6 +366,14 @@ router.afterEach((to) => {
       description = `Master ${rule.title} for HSK ${rule.level}. Syntax pattern: ${rule.pattern}. Free bilingual examples with native audio, common mistakes, and interactive quiz.`;
       ogType = 'article';
       canonical = `https://mybwn.com/grammar/${rule.slug}`;
+    }
+  } else if (to.name === 'compare-detail' && to.params.slug) {
+    const comp = getComparisonBySlug(to.params.slug as string);
+    if (comp) {
+      title = `${comp.title} | HSK Free Lab`;
+      description = comp.summary;
+      ogType = 'article';
+      canonical = `https://mybwn.com/compare/${comp.slug}`;
     }
   }
 

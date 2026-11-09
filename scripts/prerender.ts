@@ -38,6 +38,11 @@ import {
   all88GrammarRules, 
   type EnrichedGrammarRule 
 } from '../src/data/grammar-helpers.ts';
+import { 
+  comparisonsData, 
+  getAdjacentComparisons,
+  type ComparisonItem 
+} from '../src/data/comparisons.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -95,6 +100,7 @@ function renderStaticHeader(): string {
         <a href="/stroke-order" class="hover:text-rose-700">Stroke Animator</a>
         <a href="/lessons" class="hover:text-emerald-700">Lessons</a>
         <a href="/guides" class="hover:text-rose-700">Guides</a>
+        <a href="/compare" class="hover:text-amber-700">Compare</a>
       </nav>
       <div class="flex items-center gap-2">
         <a href="/about" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-300 text-stone-700 hover:bg-stone-50">About</a>
@@ -123,6 +129,7 @@ function renderStaticFooter(): string {
           <li><a href="/hsk-3" class="hover:text-white">HSK 3 (600 Vocab &amp; Reading)</a></li>
           <li><a href="/lessons" class="hover:text-white">30 Interactive Lessons</a></li>
           <li><a href="/grammar" class="hover:text-white">Grammar Compendium</a></li>
+          <li><a href="/compare" class="hover:text-white">Confusing Words &amp; Comparisons</a></li>
         </ul>
       </div>
       <div>
@@ -419,6 +426,291 @@ function renderGrammarDetailStaticHtml(rule: EnrichedGrammarRule): string {
     </article>
   `;
 }
+
+// Static HTML Generator for Confusing Words Hub (/compare)
+function renderCompareListStaticHtml(): string {
+  return `
+    <div class="max-w-7xl mx-auto py-10 px-4 space-y-12">
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="text-xs text-stone-500">
+        <a href="/" class="hover:underline">Home</a> &gt;
+        <span class="font-bold text-stone-900">Confusing Chinese Words Compared</span>
+      </nav>
+
+      <!-- Header -->
+      <header class="max-w-3xl space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold">
+          <span>⚖️</span>
+          <span>Position #0 Comparison Compendium · 15 High-Search Pairs</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-stone-900 tracking-tight">
+          Confusing Chinese Words &amp; Grammar Compared
+        </h1>
+        <p class="text-base sm:text-lg text-stone-600 leading-relaxed">
+          Clear, side-by-side contrast tables, practical examples, common exam traps (<span class="text-emerald-600 font-bold">✅</span> vs. <span class="text-rose-600 font-bold">❌</span>), and diagnostic quizzes for the 15 most searched Chinese beginner questions.
+        </p>
+      </header>
+
+      <!-- Comparisons Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        ${comparisonsData.map(c => `
+          <article class="p-6 bg-white rounded-3xl border border-stone-200 shadow-sm hover:border-amber-400 hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                  ${c.level} · CEFR ${c.cefr}
+                </span>
+                <span class="text-[11px] font-semibold text-stone-400">15 Guides</span>
+              </div>
+              <div class="flex items-center gap-3 pt-1">
+                ${c.words.map(w => `
+                  <div class="flex-1 p-3 rounded-2xl bg-stone-50 border border-stone-100 text-center">
+                    <div class="text-2xl font-black text-stone-900 font-serif">${w.hanzi}</div>
+                    <div class="text-xs font-bold text-amber-700">${w.pinyin}</div>
+                    <div class="text-[11px] text-stone-500 truncate mt-0.5">${w.meaning}</div>
+                  </div>`).join('')}
+              </div>
+              <h2 class="text-base font-bold text-stone-900 leading-snug">
+                <a href="/compare/${c.slug}" class="hover:text-amber-600">${c.title}</a>
+              </h2>
+              <p class="text-xs text-stone-600 line-clamp-3 leading-relaxed">
+                ${c.summary}
+              </p>
+            </div>
+            <div class="pt-4 border-t border-stone-100 flex items-center justify-between text-xs">
+              <span class="text-stone-400">3-Question Practice Quiz</span>
+              <a href="/compare/${c.slug}" class="font-bold text-amber-700 hover:underline">Compare Rules &rarr;</a>
+            </div>
+          </article>`).join('')}
+      </div>
+
+      <!-- FAQ Section -->
+      <section class="max-w-4xl mx-auto space-y-6 pt-10 border-t border-stone-200">
+        <h2 class="text-2xl font-black text-stone-900">Frequently Asked Questions About Tricky Chinese Words</h2>
+        <div class="space-y-4 text-xs sm:text-sm">
+          <div class="p-5 rounded-2xl bg-white border border-stone-200 space-y-2">
+            <h3 class="font-bold text-stone-900 text-base">Why are these Chinese word pairs so confusing for beginners?</h3>
+            <p class="text-stone-600 leading-relaxed">English often uses a single word (like "can", "know", "again", or "see") where Mandarin Chinese makes precise distinctions based on aspect, result, intentionality, or grammatical category.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-stone-200 space-y-2">
+            <h3 class="font-bold text-stone-900 text-base">Are these distinctions tested on official HSK exams?</h3>
+            <p class="text-stone-600 leading-relaxed">Yes! Examiners deliberately design reading comprehension, sentence completion, and error-identification questions around these exact traps—especially 不 vs. 没, 的 vs. 得 vs. 地, and separable verbs like 帮忙.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+// Static HTML Generator for Individual Comparison Detail (/compare/:slug)
+function renderCompareDetailStaticHtml(item: ComparisonItem): string {
+  const adjacent = getAdjacentComparisons(item.slug);
+
+  return `
+    <article class="max-w-4xl mx-auto py-10 px-4 space-y-10">
+      <!-- Breadcrumb Navigation -->
+      <nav aria-label="Breadcrumb" class="text-xs text-stone-500">
+        <ol class="flex items-center gap-1.5 flex-wrap">
+          <li><a href="/" class="hover:underline">Home</a> &gt;</li>
+          <li><a href="/compare" class="hover:underline">Comparisons</a> &gt;</li>
+          <li class="font-bold text-stone-900">${item.shortTitle}</li>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <header class="space-y-4">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+            ${item.level} · CEFR ${item.cefr}
+          </span>
+          <span class="text-xs font-semibold px-3 py-1 rounded-full bg-stone-100 text-stone-600">
+            Position #0 Featured Snippet Ready
+          </span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-stone-900 tracking-tight leading-tight">
+          ${item.title}
+        </h1>
+        <p class="text-stone-500 text-xs sm:text-sm">
+          Curated by HSK Free Lab Editorial Team · Verified for HSK 1–3 &amp; HSK 3.0 Standard
+        </p>
+      </header>
+
+      <!-- Featured Snippet Box (Position #0) -->
+      <section class="p-6 sm:p-8 rounded-3xl bg-amber-50 border-2 border-amber-300 shadow-sm space-y-3">
+        <div class="flex items-center gap-2 text-amber-800 font-bold text-xs uppercase tracking-wider">
+          <span>✨</span>
+          <span>Quick Answer &amp; Core Distinction (In 10 Seconds)</span>
+        </div>
+        <p class="text-base sm:text-lg text-stone-900 font-medium leading-relaxed">
+          ${item.summary}
+        </p>
+      </section>
+
+      <!-- Side-by-Side Comparison Table -->
+      <section class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+          <span>⚖️</span>
+          <span>Side-by-Side Comparison Table</span>
+        </h2>
+        <div class="overflow-x-auto rounded-2xl border border-stone-200 bg-white shadow-sm">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-stone-100 border-b border-stone-200 text-stone-800">
+                <th class="p-4 font-bold w-1/4">Feature / Context</th>
+                <th class="p-4 font-black text-amber-700">${item.words[0].hanzi} (${item.words[0].pinyin})</th>
+                <th class="p-4 font-black text-sky-700">${item.words[1].hanzi} (${item.words[1].pinyin})</th>
+                ${item.words[2] ? `<th class="p-4 font-black text-emerald-700">${item.words[2].hanzi} (${item.words[2].pinyin})</th>` : ''}
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-100">
+              ${item.table.map(row => `
+                <tr class="hover:bg-stone-50/60">
+                  <td class="p-4 font-bold text-stone-700 bg-stone-50/50">${row.criteria}</td>
+                  <td class="p-4 text-stone-800 leading-relaxed">${row.word1}</td>
+                  <td class="p-4 text-stone-800 leading-relaxed">${row.word2}</td>
+                  ${item.words[2] && row.word3 ? `<td class="p-4 text-stone-800 leading-relaxed">${row.word3}</td>` : ''}
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Lexical Breakdown -->
+      <section class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900">Lexical Breakdown</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 ${item.words.length === 3 ? 'lg:grid-cols-3' : ''} gap-4">
+          ${item.words.map(w => `
+            <div class="p-6 rounded-3xl bg-white border border-stone-200 shadow-sm space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-stone-100 text-stone-600">${w.partOfSpeech}</span>
+              </div>
+              <div class="text-center py-2">
+                <div class="text-5xl font-black text-stone-900 font-serif">${w.hanzi}</div>
+                <div class="text-lg font-bold text-amber-700 mt-1">${w.pinyin}</div>
+                <div class="text-xs font-semibold text-stone-500 mt-1">"${w.meaning}"</div>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-stone-50 text-xs text-stone-600 leading-relaxed">
+                <strong class="text-stone-800">Core Role:</strong> ${w.coreFunction}
+              </div>
+            </div>`).join('')}
+        </div>
+      </section>
+
+      <!-- In-Depth Rules with Examples -->
+      <section class="space-y-6">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+          <span>📖</span>
+          <span>In-Depth Grammar Rules &amp; Usage</span>
+        </h2>
+        <div class="space-y-6">
+          ${item.rules.map(rule => `
+            <div class="p-6 sm:p-8 rounded-3xl bg-white border border-stone-200 shadow-sm space-y-4">
+              <h3 class="text-lg sm:text-xl font-bold text-stone-900">${rule.heading}</h3>
+              <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">${rule.explanation}</p>
+              ${rule.formula ? `
+                <div class="p-4 rounded-2xl bg-stone-900 text-amber-300 font-mono text-xs sm:text-sm">
+                  <div class="text-[10px] uppercase font-bold text-stone-400 mb-1">Sentence Formula</div>
+                  <div>${rule.formula}</div>
+                </div>` : ''}
+              <div class="space-y-3 pt-2">
+                ${rule.examples.map(ex => `
+                  <div class="p-4 rounded-2xl bg-stone-50 border border-stone-100 space-y-1">
+                    <div class="text-base sm:text-lg font-bold text-stone-900">${ex.zh}</div>
+                    <div class="text-xs font-semibold text-amber-700">${ex.py}</div>
+                    <div class="text-xs sm:text-sm text-stone-600">"${ex.en}"</div>
+                    ${ex.note ? `<div class="text-[11px] text-stone-400 italic pt-1">Note: ${ex.note}</div>` : ''}
+                  </div>`).join('')}
+              </div>
+            </div>`).join('')}
+        </div>
+      </section>
+
+      <!-- Common Traps: Correct vs. Wrong Sentences -->
+      <section class="space-y-6">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+          <span>⚠️</span>
+          <span>Common Traps: Correct vs. Wrong Sentences</span>
+        </h2>
+        <div class="space-y-4">
+          ${item.mistakes.map(m => `
+            <div class="p-6 rounded-3xl bg-white border border-stone-200 shadow-sm space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 space-y-1">
+                  <div class="text-xs font-bold text-rose-700 uppercase tracking-wide">✘ Incorrect</div>
+                  <div class="text-base font-bold text-rose-900 line-through">${m.incorrectZh}</div>
+                  <div class="text-xs text-rose-600">${m.incorrectPy}</div>
+                </div>
+                <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-1">
+                  <div class="text-xs font-bold text-emerald-700 uppercase tracking-wide">✔ Correct</div>
+                  <div class="text-base font-bold text-emerald-900">${m.correctZh}</div>
+                  <div class="text-xs text-emerald-600">${m.correctPy}</div>
+                </div>
+              </div>
+              <div class="text-xs sm:text-sm text-stone-600 bg-stone-50 p-4 rounded-2xl">
+                <strong class="text-stone-900">Why?</strong> ${m.explanation}
+              </div>
+            </div>`).join('')}
+        </div>
+      </section>
+
+      <!-- Interactive Practice Quiz -->
+      <section class="p-6 sm:p-8 rounded-3xl bg-white border border-stone-200 shadow-sm space-y-6">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+          <span>✍️</span>
+          <span>Interactive Practice Quiz</span>
+        </h2>
+        <div class="space-y-5">
+          ${item.quiz.map((q, idx) => `
+            <div class="p-5 rounded-2xl bg-stone-50 border border-stone-100 space-y-3">
+              <div class="font-bold text-sm sm:text-base text-stone-900">Question ${idx + 1}: ${q.question}</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                ${q.options.map((opt, optIdx) => `
+                  <div class="p-3 rounded-xl border ${optIdx === q.answer ? 'border-emerald-400 bg-emerald-50 text-emerald-950 font-bold' : 'border-stone-200 bg-white text-stone-700'}">
+                    <span>${String.fromCharCode(65 + optIdx)}. ${opt}</span>
+                    ${optIdx === q.answer ? '<span class="ml-1 text-emerald-700 font-bold">✓ (Correct)</span>' : ''}
+                  </div>`).join('')}
+              </div>
+              <div class="p-3 rounded-xl bg-white border border-stone-200 text-xs text-stone-600 leading-relaxed">
+                <strong>Pedagogical Explanation:</strong> ${q.explanation}
+              </div>
+            </div>`).join('')}
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+          <span>❓</span>
+          <span>Frequently Asked Questions</span>
+        </h2>
+        <div class="space-y-3">
+          ${item.faq.map(faq => `
+            <div class="p-5 rounded-2xl bg-white border border-stone-200 space-y-2">
+              <h3 class="font-bold text-stone-900 text-sm sm:text-base">${faq.q}</h3>
+              <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">${faq.a}</p>
+            </div>`).join('')}
+        </div>
+      </section>
+
+      <!-- Navigation Footer -->
+      <footer class="space-y-6 pt-6 border-t border-stone-200">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          ${adjacent.prev ? `
+            <a href="/compare/${adjacent.prev.slug}" class="p-4 rounded-2xl bg-white border border-stone-200 hover:border-amber-400 block space-y-1">
+              <div class="text-[10px] uppercase font-bold text-stone-400">&larr; Previous Comparison</div>
+              <div class="text-sm font-bold text-stone-900">${adjacent.prev.shortTitle}</div>
+            </a>` : '<div></div>'}
+          ${adjacent.next ? `
+            <a href="/compare/${adjacent.next.slug}" class="p-4 rounded-2xl bg-white border border-stone-200 hover:border-amber-400 block space-y-1 text-right">
+              <div class="text-[10px] uppercase font-bold text-stone-400">Next Comparison &rarr;</div>
+              <div class="text-sm font-bold text-stone-900">${adjacent.next.shortTitle}</div>
+            </a>` : '<div></div>'}
+        </div>
+      </footer>
+    </article>
+  `;
+}
+
 
 // Static HTML Generator for Individual Word Study Guide (/words/:slug)
 function renderWordDetailStaticHtml(word: VocabItemWithSlug): string {
@@ -2333,6 +2625,90 @@ function getCanonicalRoutes(): RouteDefinition[] {
       type: 'article',
       jsonLd,
       renderBody: () => renderGrammarDetailStaticHtml(rule)
+    });
+  }
+
+  // 15 Confusing Chinese Words Comparison Hub (/compare)
+  routes.push({
+    path: '/compare',
+    title: 'Confusing Chinese Words Compared - 15 Essential Mandarin Distinctions | HSK Free Lab',
+    description: 'Master tricky Chinese word pairs with clear side-by-side comparison tables: 不 vs. 没, 二 vs. 两, 的 vs. 得 vs. 地, 会 vs. 能 vs. 可以. Includes correct vs. wrong sentences and quizzes.',
+    priority: 0.9,
+    changefreq: 'weekly',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Confusing Chinese Words & Grammar Comparisons',
+      description: 'Comprehensive 15-pair comparison guide solving the most searched Mandarin distinctions.',
+      url: `${SITE_DOMAIN}/compare`
+    },
+    renderBody: () => renderCompareListStaticHtml()
+  });
+
+  // 15 Dedicated Comparison Detail Guides (/compare/:slug)
+  for (const comp of comparisonsData) {
+    const compTitle = `${comp.title} | HSK Free Lab`;
+    const compDesc = comp.summary;
+    const canonical = `${SITE_DOMAIN}/compare/${comp.slug}`;
+
+    const faqQuestions = comp.faq.map(f => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a
+      }
+    }));
+
+    const jsonLd = [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: comp.title,
+        description: comp.summary,
+        author: {
+          '@type': 'Organization',
+          name: 'HSK Free Lab Editorial Team',
+          url: `${SITE_DOMAIN}/`
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'HSK Free Lab',
+          logo: {
+            '@type': 'ImageObject',
+            url: `${SITE_DOMAIN}/favicon.svg`
+          }
+        },
+        datePublished: '2026-11-09',
+        dateModified: TODAY,
+        mainEntityOfPage: canonical,
+        image: `${SITE_DOMAIN}/pins/${comp.slug}.png`
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_DOMAIN}/` },
+          { '@type': 'ListItem', position: 2, name: 'Comparisons', item: `${SITE_DOMAIN}/compare` },
+          { '@type': 'ListItem', position: 3, name: comp.shortTitle, item: canonical }
+        ]
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqQuestions
+      }
+    ];
+
+    routes.push({
+      path: `/compare/${comp.slug}`,
+      title: compTitle,
+      description: compDesc,
+      priority: 0.8,
+      changefreq: 'monthly',
+      type: 'article',
+      jsonLd,
+      renderBody: () => renderCompareDetailStaticHtml(comp)
     });
   }
 
