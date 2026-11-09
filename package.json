@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build && npx tsx scripts/prerender.ts",
+    "generate:pins": "tsx scripts/generate-pinterest-pack.ts",
     "preview": "node preview.js",
     "preview:vite": "vite preview"
   },
@@ -20,6 +21,7 @@
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/node": "^24.19.2",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vue/tsconfig": "^0.9.1",
