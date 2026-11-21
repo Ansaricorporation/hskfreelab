@@ -214,11 +214,11 @@ const selectedDaily = ref(dailyWords[0]);
     <!-- Three Level Hubs Grid -->
     <section class="w-full max-w-7xl mx-auto">
       <div class="text-center max-w-xl mx-auto mb-10">
-        <h2 class="text-2xl sm:text-3xl font-black text-stone-900 dark:text-stone-100">Choose Your HSK Level</h2>
+        <h2 class="text-2xl sm:text-3xl font-black text-stone-900 dark:text-stone-100">Choose Your HSK Level &amp; Category</h2>
         <p class="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1">Structured vocabulary, lessons, and mock tests for every stage of your journey.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- HSK 1 Card -->
         <div class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 shadow-md hover:shadow-xl transition-all p-7 flex flex-col justify-between group">
@@ -244,7 +244,7 @@ const selectedDaily = ref(dailyWords[0]);
 
           <div class="pt-6">
             <router-link 
-              to="/hsk-1" 
+              to="/hsk-1/" 
               class="w-full py-2.5 px-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-600 hover:text-white text-emerald-800 dark:text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 transition-all"
             >
               <span>Explore HSK 1 Hub</span>
@@ -277,7 +277,7 @@ const selectedDaily = ref(dailyWords[0]);
 
           <div class="pt-6">
             <router-link 
-              to="/hsk-2" 
+              to="/hsk-2/" 
               class="w-full py-2.5 px-4 rounded-xl bg-sky-50 dark:bg-sky-950/60 hover:bg-sky-600 hover:text-white text-sky-800 dark:text-sky-300 font-bold text-xs flex items-center justify-center gap-1.5 transition-all"
             >
               <span>Explore HSK 2 Hub</span>
@@ -310,10 +310,43 @@ const selectedDaily = ref(dailyWords[0]);
 
           <div class="pt-6">
             <router-link 
-              to="/hsk-3" 
+              to="/hsk-3/" 
               class="w-full py-2.5 px-4 rounded-xl bg-rose-50 dark:bg-rose-950/60 hover:bg-rose-600 hover:text-white text-rose-800 dark:text-rose-300 font-bold text-xs flex items-center justify-center gap-1.5 transition-all"
             >
               <span>Explore HSK 3 Hub</span>
+              <ArrowRight class="w-3.5 h-3.5" />
+            </router-link>
+          </div>
+        </div>
+
+        <!-- Confusing Words Hub Card -->
+        <div class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 shadow-md hover:shadow-xl transition-all p-7 flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+                HSK 1–3 Focus
+              </span>
+              <span class="text-xs text-stone-400 dark:text-stone-500">Tricky Pairs</span>
+            </div>
+            <h3 class="text-2xl font-black text-stone-900 dark:text-stone-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+              Confusing Words
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
+              Never confuse 不 vs 没, 二 vs 两, 的 vs 得 vs 地, or 会 vs 能. Side-by-side contrast tables, traps, and quizzes.
+            </p>
+            <div class="space-y-2 pt-2 border-t border-stone-100 dark:border-stone-800 text-xs text-stone-600 dark:text-stone-400">
+              <div class="flex justify-between"><span>Curated Guides:</span> <strong class="text-stone-900 dark:text-stone-100">15 In-Depth Pairs</strong></div>
+              <div class="flex justify-between"><span>Key Format:</span> <strong class="text-stone-900 dark:text-stone-100">✅ vs ❌ Pitfalls</strong></div>
+              <div class="flex justify-between"><span>Practice:</span> <strong class="text-amber-600 dark:text-amber-400">Instant Diagnostic</strong></div>
+            </div>
+          </div>
+
+          <div class="pt-6">
+            <router-link 
+              to="/confusing-words/" 
+              class="w-full py-2.5 px-4 rounded-xl bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-600 hover:text-white text-amber-800 dark:text-amber-300 font-bold text-xs flex items-center justify-center gap-1.5 transition-all"
+            >
+              <span>Explore Confusing Hub</span>
               <ArrowRight class="w-3.5 h-3.5" />
             </router-link>
           </div>

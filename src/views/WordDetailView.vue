@@ -29,6 +29,7 @@ import {
   getWordCorpusAppearances, 
   getWordUsageGuide, 
   getWordPracticeQuiz,
+  getRelatedSiblingWords,
   type VocabItemWithSlug
 } from '../data/vocab-helpers.ts';
 import StrokeAnimator from '../components/tools/StrokeAnimator.vue';
@@ -123,13 +124,17 @@ watch(
   }
 );
 
+const relatedSiblings = computed(() => {
+  return word.value ? getRelatedSiblingWords(word.value, 6) : [];
+});
+
 // SEO Metadata & JSON-LD schema
 watch(
   () => word.value,
   (w) => {
     if (!w) return;
-    const title = `${w.hanzi} (${w.pinyin}) Meaning in English, Stroke Order & HSK ${w.level} Sentences | HSK Free Lab`;
-    const description = `Learn Chinese word ${w.hanzi} (${w.pinyin}): English meaning "${w.meaning}", animated stroke order, HSK ${w.level} audio pronunciation, grammar collocations, and practice quiz.`;
+    const title = `${w.pinyin} (${w.hanzi}) Meaning in English \u2013 HSK ${w.level} Pronunciation & Examples`;
+    const description = `${w.pinyin} (${w.hanzi}) Meaning in English: "${w.meaning}". Master HSK ${w.level} Chinese pronunciation with native audio, stroke order animation, and example sentences.`;
     const canonical = `https://mybwn.com/words/${w.slug}`;
 
     updateSeoMeta({
@@ -302,17 +307,12 @@ function getCefr(level: number): string {
       <!-- Main Word Presentation -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div class="space-y-2">
-          <div class="flex items-baseline gap-4 flex-wrap">
-            <h1 class="font-serif font-black text-5xl sm:text-6xl text-stone-900 dark:text-stone-100 tracking-tight">
-              {{ word.hanzi }}
-            </h1>
-            <span class="text-2xl sm:text-3xl font-black text-rose-600 dark:text-rose-400">
-              {{ word.pinyin }}
+          <h1 class="font-serif font-black text-3xl sm:text-5xl text-stone-900 dark:text-stone-100 tracking-tight leading-tight">
+            <span class="text-rose-600 dark:text-rose-400">{{ word.pinyin }}</span> ({{ word.hanzi }})
+            <span class="block sm:inline font-sans text-xl sm:text-2xl font-bold text-stone-800 dark:text-stone-200">
+              – Meaning in English: "{{ word.meaning }}" (HSK {{ word.level }})
             </span>
-          </div>
-          <div class="text-xl sm:text-2xl font-bold text-stone-800 dark:text-stone-200">
-            {{ word.meaning }}
-          </div>
+          </h1>
         </div>
 
         <!-- Audio controls (Normal 1.0x and Turtle 0.7x) -->
@@ -728,14 +728,79 @@ function getCefr(level: number): string {
       </router-link>
     </nav>
 
+    <!-- Related & Easily Confused HSK Words (Contextual Sibling Internal Links) -->
+    <section class="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/90 dark:border-stone-800 p-6 sm:p-8 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 dark:border-stone-800 pb-4">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-stone-900 dark:text-stone-100">
+            Related &amp; Easily Confused HSK Words
+          </h2>
+          <p class="text-xs text-stone-500 dark:text-stone-400 mt-1">
+            Deterministic sibling vocabulary from the official HSK {{ word.level }} syllabus sharing characters, radicals, or grammatical functions.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <router-link :to="`/hsk-${word.level}/`" class="text-xs font-bold text-rose-600 dark:text-rose-400 hover:underline">
+            HSK {{ word.level }} Hub &rarr;
+          </router-link>
+          <span class="text-stone-300 dark:text-stone-700">·</span>
+          <router-link to="/confusing-words/" class="text-xs font-bold text-amber-600 dark:text-amber-400 hover:underline">
+            Confusing Words &rarr;
+          </router-link>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <router-link
+          v-for="sibling in relatedSiblings"
+          :key="sibling.slug"
+          :to="`/words/${sibling.slug}`"
+          class="p-4 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200/80 dark:border-stone-700 hover:border-rose-400 dark:hover:border-rose-500 hover:bg-rose-50/30 dark:hover:bg-rose-950/20 transition-all block group"
+        >
+          <div class="flex items-center justify-between text-[11px] mb-1.5">
+            <span class="font-bold text-rose-600 dark:text-rose-400 font-mono">{{ sibling.pinyin }}</span>
+            <span class="px-2 py-0.5 rounded-md bg-stone-200/60 dark:bg-stone-700 text-stone-600 dark:text-stone-300 text-[10px] font-bold">HSK {{ sibling.level }}</span>
+          </div>
+          <div class="font-serif font-black text-2xl text-stone-900 dark:text-stone-100 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
+            {{ sibling.hanzi }}
+          </div>
+          <div class="text-xs text-stone-600 dark:text-stone-300 truncate mt-1">
+            {{ sibling.meaning }}
+          </div>
+          <div class="mt-2 text-[10px] font-semibold text-stone-400 group-hover:text-rose-600 dark:group-hover:text-rose-400 flex items-center justify-between">
+            <span class="capitalize">{{ sibling.partOfSpeech }}</span>
+            <span>Study Word &rarr;</span>
+          </div>
+        </router-link>
+      </div>
+
+      <!-- Sibling Hub Backlinks Footer -->
+      <div class="p-4 rounded-2xl bg-stone-50 dark:bg-stone-800/40 border border-stone-100 dark:border-stone-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <span class="text-stone-600 dark:text-stone-400">
+          Want to explore more syllabus categories?
+        </span>
+        <div class="flex items-center gap-3 font-bold">
+          <router-link :to="`/hsk-${word.level}/`" class="text-rose-600 dark:text-rose-400 hover:underline">
+            All HSK {{ word.level }} Words &rarr;
+          </router-link>
+          <router-link to="/confusing-words/" class="text-amber-600 dark:text-amber-400 hover:underline">
+            Curated Confusing Words Hub &rarr;
+          </router-link>
+        </div>
+      </div>
+    </section>
+
     <!-- QUICK CURRICULUM HUBS -->
     <div class="p-6 rounded-3xl bg-stone-100/70 dark:bg-stone-900/60 border border-stone-200/80 dark:border-stone-800 flex flex-wrap items-center justify-between gap-4 text-xs font-bold">
       <div class="text-stone-600 dark:text-stone-300">
         Explore related resources for HSK {{ word.level }}:
       </div>
       <div class="flex items-center gap-3 flex-wrap">
-        <router-link :to="`/hsk-${word.level}`" class="text-rose-600 dark:text-rose-400 hover:underline">
+        <router-link :to="`/hsk-${word.level}/`" class="text-rose-600 dark:text-rose-400 hover:underline">
           HSK {{ word.level }} Level Hub &rarr;
+        </router-link>
+        <router-link to="/confusing-words/" class="text-amber-600 dark:text-amber-400 hover:underline">
+          Confusing Words Hub &rarr;
         </router-link>
         <router-link to="/words" class="text-rose-600 dark:text-rose-400 hover:underline">
           Master 603 Words Directory &rarr;

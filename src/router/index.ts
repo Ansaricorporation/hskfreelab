@@ -41,32 +41,35 @@ const routes: RouteRecordRaw[] = [
   },
   { 
     path: '/hsk-1', 
+    alias: '/hsk-1/',
     name: 'hsk-1', 
     component: LevelHubView,
     meta: {
       title: 'HSK 1 Preparation Hub - 150 Words, Exam Format & Passing Rules | HSK Free Lab',
       description: 'Master all 150 official HSK 1 vocabulary words. Includes tone audio, stroke breakdown, daily grammar patterns, and practice tests.',
-      canonical: 'https://mybwn.com/hsk-1'
+      canonical: 'https://mybwn.com/hsk-1/'
     }
   },
   { 
     path: '/hsk-2', 
+    alias: '/hsk-2/',
     name: 'hsk-2', 
     component: LevelHubView,
     meta: {
       title: 'HSK 2 Preparation Hub - 300 Words & Listening Practice | HSK Free Lab',
       description: 'Transition from beginner to elementary Mandarin. Comprehensive HSK 2 vocabulary lists, listening drills, and passing score guides.',
-      canonical: 'https://mybwn.com/hsk-2'
+      canonical: 'https://mybwn.com/hsk-2/'
     }
   },
   { 
     path: '/hsk-3', 
+    alias: '/hsk-3/',
     name: 'hsk-3', 
     component: LevelHubView,
     meta: {
       title: 'HSK 3 Preparation Hub - 600 Words & Reading Drills | HSK Free Lab',
       description: 'Intermediate Mandarin test preparation. Master 300 additional HSK 3 characters, reading comprehension drills, and full exam prep.',
-      canonical: 'https://mybwn.com/hsk-3'
+      canonical: 'https://mybwn.com/hsk-3/'
     }
   },
   { 
@@ -220,13 +223,14 @@ const routes: RouteRecordRaw[] = [
     }
   },
   { 
-    path: '/compare', 
-    name: 'compare-list', 
+    path: '/confusing-words', 
+    alias: ['/confusing-words/', '/compare', '/compare/'],
+    name: 'confusing-words', 
     component: CompareListView,
     meta: {
-      title: 'Confusing Chinese Words Compared - 15 Essential Mandarin Distinctions | HSK Free Lab',
+      title: 'Confusing Chinese Words Hub - HSK 1-3 Tricky Word Pairs Compared | HSK Free Lab',
       description: 'Master tricky Chinese word pairs with clear side-by-side comparison tables: 不 vs. 没, 二 vs. 两, 的 vs. 得 vs. 地, 会 vs. 能 vs. 可以. Includes correct vs. wrong sentences and quizzes.',
-      canonical: 'https://mybwn.com/compare'
+      canonical: 'https://mybwn.com/confusing-words/'
     }
   },
   { 
@@ -354,8 +358,8 @@ router.afterEach((to) => {
   } else if (to.name === 'word-detail' && to.params.slug) {
     const word = getWordBySlug(to.params.slug as string);
     if (word) {
-      title = `${word.hanzi} (${word.pinyin}) Meaning in English, Stroke Order & HSK ${word.level} Sentences | HSK Free Lab`;
-      description = `Learn Chinese word ${word.hanzi} (${word.pinyin}): English meaning "${word.meaning}", animated stroke order, HSK ${word.level} audio pronunciation, grammar collocations, and practice quiz.`;
+      title = `${word.pinyin} (${word.hanzi}) Meaning in English \u2013 HSK ${word.level} Pronunciation & Examples`;
+      description = `${word.pinyin} (${word.hanzi}) Meaning in English: "${word.meaning}". Master HSK ${word.level} Chinese pronunciation with native audio, stroke order animation, and example sentences.`;
       ogType = 'article';
       canonical = `https://mybwn.com/words/${word.slug}`;
     }

@@ -12,14 +12,20 @@ import {
   Compass
 } from 'lucide-vue-next';
 import { comparisonsData, type ComparisonItem } from '../data/comparisons';
+import { allVocabWithSlugs } from '../data/vocab-helpers';
 import { updateSeoMeta } from '../utils/seo';
 
 updateSeoMeta({
-  title: 'Confusing Chinese Words Compared - 15 Essential Mandarin Distinctions | HSK Free Lab',
+  title: 'Confusing Chinese Words Hub - HSK 1-3 Tricky Word Pairs Compared | HSK Free Lab',
   description: 'Master tricky Chinese word pairs with clear side-by-side comparison tables: 不 vs. 没, 二 vs. 两, 的 vs. 得 vs. 地, 会 vs. 能 vs. 可以. Includes correct vs. wrong sentences and quizzes.',
-  canonical: 'https://mybwn.com/compare',
+  canonical: 'https://mybwn.com/confusing-words/',
   type: 'website'
 });
+
+function getWordSlug(hanzi: string): string | null {
+  const match = allVocabWithSlugs.find(v => v.hanzi === hanzi);
+  return match ? match.slug : null;
+}
 
 const searchQuery = ref('');
 const selectedLevel = ref<string>('all');
@@ -161,10 +167,9 @@ function toggleFaq(index: number) {
 
     <!-- Comparisons Grid -->
     <div v-if="filteredComparisons.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <router-link 
+      <article 
         v-for="item in filteredComparisons" 
         :key="item.slug"
-        :to="`/compare/${item.slug}`"
         class="group flex flex-col justify-between p-6 bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 hover:border-amber-400 dark:hover:border-amber-600 hover:shadow-lg transition-all duration-200"
       >
         <div class="space-y-4">
@@ -173,33 +178,53 @@ function toggleFaq(index: number) {
             <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
               {{ item.level }} · CEFR {{ item.cefr }}
             </span>
-            <span class="text-[11px] font-semibold text-stone-400 group-hover:text-amber-600 transition-colors flex items-center gap-1">
+            <router-link :to="`/compare/${item.slug}`" class="text-[11px] font-semibold text-stone-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors flex items-center gap-1">
               Read Guide <ArrowRight class="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-            </span>
+            </router-link>
           </div>
 
-          <!-- Hanzi Contrast Centerpiece -->
+          <!-- Hanzi Contrast Centerpiece with Direct Word Links -->
           <div class="flex items-center gap-3 pt-1">
-            <div 
-              v-for="(w, idx) in item.words" 
-              :key="idx"
-              class="flex-1 p-3 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-100 dark:border-stone-800 text-center"
-            >
-              <div class="text-2xl font-black text-stone-900 dark:text-stone-100 font-serif">
-                {{ w.hanzi }}
+            <template v-for="(w, idx) in item.words" :key="idx">
+              <router-link
+                v-if="getWordSlug(w.hanzi)"
+                :to="`/words/${getWordSlug(w.hanzi)}`"
+                class="flex-1 p-3 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-100 dark:border-stone-800 hover:border-amber-400 dark:hover:border-amber-500 hover:bg-amber-50/40 dark:hover:bg-amber-950/30 text-center transition-all block group/word"
+                :title="`Study ${w.hanzi} (${w.pinyin}) full word guide`"
+              >
+                <div class="text-2xl font-black text-stone-900 dark:text-stone-100 font-serif group-hover/word:text-amber-600 dark:group-hover/word:text-amber-400">
+                  {{ w.hanzi }}
+                </div>
+                <div class="text-xs font-bold text-amber-700 dark:text-amber-400">
+                  {{ w.pinyin }}
+                </div>
+                <div class="text-[11px] text-stone-500 dark:text-stone-400 line-clamp-1 mt-0.5">
+                  {{ w.meaning }}
+                </div>
+                <span class="text-[10px] text-stone-400 group-hover/word:text-amber-600 block mt-1">Study Word &rarr;</span>
+              </router-link>
+              <div 
+                v-else
+                class="flex-1 p-3 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-100 dark:border-stone-800 text-center"
+              >
+                <div class="text-2xl font-black text-stone-900 dark:text-stone-100 font-serif">
+                  {{ w.hanzi }}
+                </div>
+                <div class="text-xs font-bold text-amber-700 dark:text-amber-400">
+                  {{ w.pinyin }}
+                </div>
+                <div class="text-[11px] text-stone-500 dark:text-stone-400 line-clamp-1 mt-0.5">
+                  {{ w.meaning }}
+                </div>
               </div>
-              <div class="text-xs font-bold text-amber-700 dark:text-amber-400">
-                {{ w.pinyin }}
-              </div>
-              <div class="text-[11px] text-stone-500 dark:text-stone-400 line-clamp-1 mt-0.5">
-                {{ w.meaning }}
-              </div>
-            </div>
+            </template>
           </div>
 
           <!-- Title -->
-          <h2 class="text-base font-bold text-stone-900 dark:text-stone-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors leading-snug">
-            {{ item.title }}
+          <h2 class="text-base font-bold text-stone-900 dark:text-stone-100 leading-snug">
+            <router-link :to="`/compare/${item.slug}`" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+              {{ item.title }}
+            </router-link>
           </h2>
 
           <!-- Snippet Summary -->
@@ -211,9 +236,11 @@ function toggleFaq(index: number) {
         <!-- Footer Card Meta -->
         <div class="pt-4 mt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs text-stone-400">
           <span>3-Question Practice Quiz</span>
-          <span class="font-bold text-amber-600 dark:text-amber-400 group-hover:underline">Compare Rules &rarr;</span>
+          <router-link :to="`/compare/${item.slug}`" class="font-bold text-amber-600 dark:text-amber-400 hover:underline">
+            Compare Rules &rarr;
+          </router-link>
         </div>
-      </router-link>
+      </article>
     </div>
 
     <!-- Empty Search State -->

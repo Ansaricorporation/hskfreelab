@@ -32,6 +32,7 @@ import {
   getWordCorpusAppearances, 
   getWordUsageGuide, 
   getWordPracticeQuiz,
+  getRelatedSiblingWords,
   type VocabItemWithSlug 
 } from '../src/data/vocab-helpers.ts';
 import { 
@@ -91,16 +92,16 @@ function renderStaticHeader(): string {
         <span>HSK Free Lab</span>
       </a>
       <nav class="hidden md:flex items-center gap-4 text-sm font-semibold text-stone-700">
-        <a href="/hsk-1" class="hover:text-emerald-700">HSK 1</a>
-        <a href="/hsk-2" class="hover:text-sky-700">HSK 2</a>
-        <a href="/hsk-3" class="hover:text-rose-700">HSK 3</a>
+        <a href="/hsk-1/" class="hover:text-emerald-700">HSK 1</a>
+        <a href="/hsk-2/" class="hover:text-sky-700">HSK 2</a>
+        <a href="/hsk-3/" class="hover:text-rose-700">HSK 3</a>
+        <a href="/confusing-words/" class="hover:text-amber-700">Confusing Words</a>
         <a href="/calculator" class="hover:text-amber-700">Calculator</a>
         <a href="/pinyin-trainer" class="hover:text-blue-700">Pinyin Trainer</a>
         <a href="/mock-tests" class="hover:text-purple-700">Mock Tests</a>
         <a href="/stroke-order" class="hover:text-rose-700">Stroke Animator</a>
         <a href="/lessons" class="hover:text-emerald-700">Lessons</a>
         <a href="/guides" class="hover:text-rose-700">Guides</a>
-        <a href="/compare" class="hover:text-amber-700">Compare</a>
       </nav>
       <div class="flex items-center gap-2">
         <a href="/about" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-300 text-stone-700 hover:bg-stone-50">About</a>
@@ -124,12 +125,12 @@ function renderStaticFooter(): string {
         <h4 class="font-bold text-white mb-3">HSK Syllabus</h4>
         <ul class="space-y-2 text-xs text-stone-400">
           <li><a href="/words" class="hover:text-white">603 Words Dictionary</a></li>
-          <li><a href="/hsk-1" class="hover:text-white">HSK 1 (150 Vocab &amp; Audio)</a></li>
-          <li><a href="/hsk-2" class="hover:text-white">HSK 2 (300 Vocab &amp; Grammar)</a></li>
-          <li><a href="/hsk-3" class="hover:text-white">HSK 3 (600 Vocab &amp; Reading)</a></li>
+          <li><a href="/hsk-1/" class="hover:text-white">HSK 1 (150 Vocab &amp; Audio)</a></li>
+          <li><a href="/hsk-2/" class="hover:text-white">HSK 2 (300 Vocab &amp; Grammar)</a></li>
+          <li><a href="/hsk-3/" class="hover:text-white">HSK 3 (600 Vocab &amp; Reading)</a></li>
+          <li><a href="/confusing-words/" class="hover:text-white">Confusing Words &amp; Comparisons</a></li>
           <li><a href="/lessons" class="hover:text-white">30 Interactive Lessons</a></li>
           <li><a href="/grammar" class="hover:text-white">Grammar Compendium</a></li>
-          <li><a href="/compare" class="hover:text-white">Confusing Words &amp; Comparisons</a></li>
         </ul>
       </div>
       <div>
@@ -463,12 +464,21 @@ function renderCompareListStaticHtml(): string {
                 <span class="text-[11px] font-semibold text-stone-400">15 Guides</span>
               </div>
               <div class="flex items-center gap-3 pt-1">
-                ${c.words.map(w => `
-                  <div class="flex-1 p-3 rounded-2xl bg-stone-50 border border-stone-100 text-center">
-                    <div class="text-2xl font-black text-stone-900 font-serif">${w.hanzi}</div>
-                    <div class="text-xs font-bold text-amber-700">${w.pinyin}</div>
-                    <div class="text-[11px] text-stone-500 truncate mt-0.5">${w.meaning}</div>
-                  </div>`).join('')}
+                ${c.words.map(w => {
+                  const match = allVocabWithSlugs.find(v => v.hanzi === w.hanzi);
+                  return match ? `
+                    <a href="/words/${match.slug}" class="flex-1 p-3 rounded-2xl bg-stone-50 border border-stone-100 text-center hover:border-amber-400 hover:bg-amber-50/50 transition-all block group">
+                      <div class="text-2xl font-black text-stone-900 font-serif group-hover:text-amber-700">${w.hanzi}</div>
+                      <div class="text-xs font-bold text-amber-700">${w.pinyin}</div>
+                      <div class="text-[11px] text-stone-500 truncate mt-0.5">${w.meaning}</div>
+                      <span class="text-[10px] text-stone-400 group-hover:text-amber-600 block mt-1">Study Word &rarr;</span>
+                    </a>` : `
+                    <div class="flex-1 p-3 rounded-2xl bg-stone-50 border border-stone-100 text-center">
+                      <div class="text-2xl font-black text-stone-900 font-serif">${w.hanzi}</div>
+                      <div class="text-xs font-bold text-amber-700">${w.pinyin}</div>
+                      <div class="text-[11px] text-stone-500 truncate mt-0.5">${w.meaning}</div>
+                    </div>`;
+                }).join('')}
               </div>
               <h2 class="text-base font-bold text-stone-900 leading-snug">
                 <a href="/compare/${c.slug}" class="hover:text-amber-600">${c.title}</a>
@@ -730,7 +740,7 @@ function renderWordDetailStaticHtml(word: VocabItemWithSlug): string {
       <nav aria-label="Breadcrumb" class="text-xs text-stone-500">
         <ol class="flex items-center gap-1.5 flex-wrap">
           <li><a href="/" class="hover:underline">Home</a> &gt;</li>
-          <li><a href="/hsk-${word.level}" class="hover:underline">HSK ${word.level} Hub</a> &gt;</li>
+          <li><a href="/hsk-${word.level}/" class="hover:underline">HSK ${word.level} Hub</a> &gt;</li>
           <li><a href="/words" class="hover:underline">Words Directory</a> &gt;</li>
           <li class="font-bold text-stone-900">${word.hanzi} (${word.pinyin})</li>
         </ol>
@@ -745,11 +755,12 @@ function renderWordDetailStaticHtml(word: VocabItemWithSlug): string {
           ${word.radical ? `<span class="px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 font-semibold">Radical: ${word.radical}</span>` : ''}
           ${word.strokeCount ? `<span class="px-2.5 py-1 rounded-full bg-sky-50 text-sky-800 font-semibold">${word.strokeCount} Strokes</span>` : ''}
         </div>
-        <div class="flex items-baseline gap-4 flex-wrap">
-          <h1 class="font-serif font-black text-5xl sm:text-6xl text-stone-900 tracking-tight">${word.hanzi}</h1>
-          <span class="text-2xl sm:text-3xl font-black text-rose-600">${word.pinyin}</span>
-        </div>
-        <p class="text-2xl font-bold text-stone-800">${word.meaning}</p>
+        <h1 class="font-serif font-black text-3xl sm:text-5xl text-stone-900 tracking-tight leading-tight">
+          <span class="text-rose-600">${word.pinyin}</span> (${word.hanzi})
+          <span class="block sm:inline font-sans text-xl sm:text-2xl font-bold text-stone-800">
+            – Meaning in English: "${word.meaning}" (HSK ${word.level})
+          </span>
+        </h1>
         <p class="text-xs sm:text-sm text-stone-600 leading-relaxed border-t border-stone-100 pt-3">
           <strong>Overview:</strong> 「${word.hanzi}」 (${word.pinyin}) is an official <strong>HSK ${word.level}</strong> vocabulary ${word.partOfSpeech} meaning <em>"${word.meaning}"</em>. Below is the comprehensive academic study guide featuring character stroke breakdowns, phonetic tone pitch analysis, grammatical collocations, and practice exam questions.
         </p>
@@ -894,6 +905,44 @@ function renderWordDetailStaticHtml(word: VocabItemWithSlug): string {
         </div>
       </section>
 
+      <!-- Section: Related & Easily Confused HSK Words (Contextual Sibling Links) -->
+      <section class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 pb-4">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-black text-stone-900">Related &amp; Easily Confused HSK Words</h2>
+            <p class="text-xs text-stone-500 mt-1">Deterministic sibling vocabulary from the official HSK ${word.level} syllabus sharing characters, radicals, or grammatical functions.</p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <a href="/hsk-${word.level}/" class="text-xs font-bold text-rose-600 hover:underline">HSK ${word.level} Hub &rarr;</a>
+            <span class="text-stone-300">·</span>
+            <a href="/confusing-words/" class="text-xs font-bold text-amber-600 hover:underline">Confusing Words &rarr;</a>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${getRelatedSiblingWords(word, 6).map(s => `
+            <a href="/words/${s.slug}" class="p-4 rounded-2xl bg-stone-50 border border-stone-200 hover:border-rose-400 hover:bg-rose-50/30 transition-all block group">
+              <div class="flex items-center justify-between text-[11px] mb-1.5">
+                <span class="font-bold text-rose-600 font-mono">${s.pinyin}</span>
+                <span class="px-2 py-0.5 rounded-md bg-stone-200 text-stone-700 text-[10px] font-bold">HSK ${s.level}</span>
+              </div>
+              <div class="font-serif font-black text-2xl text-stone-900 group-hover:text-rose-600 transition-colors">${s.hanzi}</div>
+              <div class="text-xs text-stone-600 truncate mt-1">${s.meaning}</div>
+              <div class="mt-2 text-[10px] font-semibold text-stone-400 group-hover:text-rose-600 flex items-center justify-between">
+                <span class="capitalize">${s.partOfSpeech}</span>
+                <span>Study Word &rarr;</span>
+              </div>
+            </a>
+          `).join('')}
+        </div>
+        <div class="p-4 rounded-2xl bg-stone-50 border border-stone-100 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <span class="text-stone-600">Explore complete syllabus categories:</span>
+          <div class="flex items-center gap-3 font-bold">
+            <a href="/hsk-${word.level}/" class="text-rose-600 hover:underline">All HSK ${word.level} Words &rarr;</a>
+            <a href="/confusing-words/" class="text-amber-600 hover:underline">Curated Confusing Words Hub &rarr;</a>
+          </div>
+        </div>
+      </section>
+
       <!-- Adjacent Word Navigation Footer -->
       <footer class="pt-6 border-t border-stone-200 space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
@@ -912,7 +961,8 @@ function renderWordDetailStaticHtml(word: VocabItemWithSlug): string {
         <div class="p-5 bg-stone-50 rounded-2xl border border-stone-200 text-xs flex flex-wrap items-center justify-between gap-3">
           <span class="font-bold text-stone-800">More HSK ${word.level} Resources:</span>
           <div class="flex items-center gap-3 flex-wrap">
-            <a href="/hsk-${word.level}" class="font-semibold text-rose-700 hover:underline">HSK ${word.level} Hub &rarr;</a>
+            <a href="/hsk-${word.level}/" class="font-semibold text-rose-700 hover:underline">HSK ${word.level} Hub &rarr;</a>
+            <a href="/confusing-words/" class="font-semibold text-amber-700 hover:underline">Confusing Words Hub &rarr;</a>
             <a href="/words" class="font-semibold text-rose-700 hover:underline">603 Words Directory &rarr;</a>
             <a href="/lessons" class="font-semibold text-rose-700 hover:underline">All Lessons &rarr;</a>
             <a href="/mock-tests" class="font-semibold text-rose-700 hover:underline">Timed Mock Tests &rarr;</a>
@@ -1193,26 +1243,32 @@ function getCanonicalRoutes(): RouteDefinition[] {
             <h1 class="text-4xl sm:text-6xl font-black text-stone-900 tracking-tight">Master HSK 1, 2 &amp; 3 With Complete Confidence</h1>
             <p class="text-base text-stone-700 leading-relaxed">Everything you need to pass official Chinese proficiency exams: interactive stroke order animator, real-time score calculator, Pinyin tone trainer, and 603 verified vocabulary flashcards.</p>
             <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <a href="/hsk-1" class="px-6 py-3 rounded-xl bg-neutral-900 text-white font-bold text-sm hover:bg-neutral-800">Start HSK 1 Free</a>
+              <a href="/hsk-1/" class="px-6 py-3 rounded-xl bg-neutral-900 text-white font-bold text-sm hover:bg-neutral-800">Start HSK 1 Free</a>
+              <a href="/confusing-words/" class="px-6 py-3 rounded-xl bg-amber-50 text-amber-900 font-bold text-sm hover:bg-amber-100 border border-amber-200">Confusing Words Hub</a>
               <a href="/calculator" class="px-6 py-3 rounded-xl bg-stone-100 text-stone-900 font-bold text-sm hover:bg-stone-200 border border-stone-300">Score Calculator</a>
               <a href="/mock-tests" class="px-6 py-3 rounded-xl bg-purple-50 text-purple-900 font-bold text-sm hover:bg-purple-100 border border-purple-200">30 Mock Exam Gates</a>
             </div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm space-y-2">
-              <h2 class="text-xl font-bold text-stone-900"><a href="/hsk-1" class="hover:text-emerald-700">HSK 1 Study Hub</a></h2>
+              <h2 class="text-xl font-bold text-stone-900"><a href="/hsk-1/" class="hover:text-emerald-700">HSK 1 Study Hub</a></h2>
               <p class="text-xs text-stone-600 leading-relaxed">150 foundation words, stroke orders, tone audio, and basic conversational patterns. Perfect for complete beginners.</p>
-              <a href="/hsk-1" class="inline-block text-xs font-bold text-emerald-700 pt-2">Explore 150 Words &rarr;</a>
+              <a href="/hsk-1/" class="inline-block text-xs font-bold text-emerald-700 pt-2">Explore 150 Words &rarr;</a>
             </div>
             <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm space-y-2">
-              <h2 class="text-xl font-bold text-stone-900"><a href="/hsk-2" class="hover:text-sky-700">HSK 2 Study Hub</a></h2>
+              <h2 class="text-xl font-bold text-stone-900"><a href="/hsk-2/" class="hover:text-sky-700">HSK 2 Study Hub</a></h2>
               <p class="text-xs text-stone-600 leading-relaxed">300 total words, elementary listening drills, question particles, and essential sentence structures.</p>
-              <a href="/hsk-2" class="inline-block text-xs font-bold text-sky-700 pt-2">Explore HSK 2 Hub &rarr;</a>
+              <a href="/hsk-2/" class="inline-block text-xs font-bold text-sky-700 pt-2">Explore HSK 2 Hub &rarr;</a>
             </div>
             <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm space-y-2">
-              <h2 class="text-xl font-bold text-stone-900"><a href="/hsk-3" class="hover:text-rose-700">HSK 3 Study Hub</a></h2>
+              <h2 class="text-xl font-bold text-stone-900"><a href="/hsk-3/" class="hover:text-rose-700">HSK 3 Study Hub</a></h2>
               <p class="text-xs text-stone-600 leading-relaxed">600 total words, complex grammar connectives, intermediate reading passages, and official writing section drills.</p>
-              <a href="/hsk-3" class="inline-block text-xs font-bold text-rose-700 pt-2">Explore HSK 3 Hub &rarr;</a>
+              <a href="/hsk-3/" class="inline-block text-xs font-bold text-rose-700 pt-2">Explore HSK 3 Hub &rarr;</a>
+            </div>
+            <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm space-y-2">
+              <h2 class="text-xl font-bold text-stone-900"><a href="/confusing-words/" class="hover:text-amber-700">Confusing Words Hub</a></h2>
+              <p class="text-xs text-stone-600 leading-relaxed">Master tricky pairs: 不 vs. 没, 二 vs. 两, 的 vs. 得 vs. 地, 会 vs. 能. Side-by-side contrast tables &amp; quizzes.</p>
+              <a href="/confusing-words/" class="inline-block text-xs font-bold text-amber-700 pt-2">Explore Tricky Pairs &rarr;</a>
             </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
@@ -1237,7 +1293,7 @@ function getCanonicalRoutes(): RouteDefinition[] {
 
     // 2. HSK 1 Hub
     {
-      path: '/hsk-1',
+      path: '/hsk-1/',
       title: 'HSK 1 Preparation Hub - 150 Words, Exam Format & Passing Rules | HSK Free Lab',
       description: 'Master all 150 official HSK 1 vocabulary words. Includes tone audio, stroke breakdown, daily grammar patterns, and practice tests.',
       priority: 0.9,
@@ -1265,16 +1321,23 @@ function getCanonicalRoutes(): RouteDefinition[] {
           ${renderQuickFactsTableHtml(1)}
           ${renderPrintableSectionHtml('HSK 1', '150 Words')}
           <section class="space-y-4">
-            <h2 class="text-2xl font-bold text-stone-900">Official HSK 1 Vocabulary List (${hsk1Vocab.length} Words)</h2>
+            <h2 class="text-2xl font-bold text-stone-900">Official HSK 1 Vocabulary List (${allVocabWithSlugs.filter(w => w.level === 1).length} Words)</h2>
             <div class="overflow-x-auto bg-white rounded-2xl border border-stone-200 shadow-sm">
               <table class="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr class="bg-stone-100 border-b border-stone-200 font-bold text-stone-700">
-                    <th class="p-3">#</th><th class="p-3">Hanzi</th><th class="p-3">Pinyin</th><th class="p-3">Part of Speech</th><th class="p-3">English Meaning</th>
+                    <th class="p-3">#</th><th class="p-3">Hanzi</th><th class="p-3">Pinyin</th><th class="p-3">Part of Speech</th><th class="p-3">English Meaning</th><th class="p-3 text-right">Study Guide</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-stone-100">
-                  ${hsk1Vocab.slice(0, 150).map((v, i) => `<tr><td class="p-3 text-stone-400 font-mono">${i + 1}</td><td class="p-3 font-serif font-black text-base text-stone-900">${v.hanzi}</td><td class="p-3 font-semibold text-rose-700">${v.pinyin}</td><td class="p-3 text-stone-500">${v.pos || 'noun'}</td><td class="p-3 text-stone-800">${v.meaning}</td></tr>`).join('')}
+                  ${allVocabWithSlugs.filter(w => w.level === 1).map((v, i) => `<tr>
+                    <td class="p-3 text-stone-400 font-mono">${i + 1}</td>
+                    <td class="p-3 font-serif font-black text-base text-stone-900"><a href="/words/${v.slug}" class="hover:text-emerald-700 hover:underline">${v.hanzi}</a></td>
+                    <td class="p-3 font-semibold text-rose-700">${v.pinyin}</td>
+                    <td class="p-3 text-stone-500">${v.partOfSpeech || 'noun'}</td>
+                    <td class="p-3 text-stone-800">${v.meaning}</td>
+                    <td class="p-3 text-right"><a href="/words/${v.slug}" class="font-bold text-emerald-700 hover:underline">Study Word &rarr;</a></td>
+                  </tr>`).join('')}
                 </tbody>
               </table>
             </div>
@@ -1302,7 +1365,7 @@ function getCanonicalRoutes(): RouteDefinition[] {
 
     // 3. HSK 2 Hub
     {
-      path: '/hsk-2',
+      path: '/hsk-2/',
       title: 'HSK 2 Preparation Hub - 300 Words & Listening Practice | HSK Free Lab',
       description: 'Transition from beginner to elementary Mandarin. Comprehensive HSK 2 vocabulary lists, listening drills, and passing score guides.',
       priority: 0.9,
@@ -1330,16 +1393,23 @@ function getCanonicalRoutes(): RouteDefinition[] {
           ${renderQuickFactsTableHtml(2)}
           ${renderPrintableSectionHtml('HSK 2', '300 Words')}
           <section class="space-y-4">
-            <h2 class="text-2xl font-bold text-stone-900">Official HSK 2 Vocabulary List (${hsk2Vocab.length} New Words)</h2>
+            <h2 class="text-2xl font-bold text-stone-900">Official HSK 2 Vocabulary List (${allVocabWithSlugs.filter(w => w.level === 2).length} Words)</h2>
             <div class="overflow-x-auto bg-white rounded-2xl border border-stone-200 shadow-sm">
               <table class="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr class="bg-stone-100 border-b border-stone-200 font-bold text-stone-700">
-                    <th class="p-3">#</th><th class="p-3">Hanzi</th><th class="p-3">Pinyin</th><th class="p-3">Part of Speech</th><th class="p-3">English Meaning</th>
+                    <th class="p-3">#</th><th class="p-3">Hanzi</th><th class="p-3">Pinyin</th><th class="p-3">Part of Speech</th><th class="p-3">English Meaning</th><th class="p-3 text-right">Study Guide</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-stone-100">
-                  ${hsk2Vocab.map((v, i) => `<tr><td class="p-3 text-stone-400 font-mono">${i + 1}</td><td class="p-3 font-serif font-black text-base text-stone-900">${v.hanzi}</td><td class="p-3 font-semibold text-sky-700">${v.pinyin}</td><td class="p-3 text-stone-500">${v.pos || 'noun'}</td><td class="p-3 text-stone-800">${v.meaning}</td></tr>`).join('')}
+                  ${allVocabWithSlugs.filter(w => w.level === 2).map((v, i) => `<tr>
+                    <td class="p-3 text-stone-400 font-mono">${i + 1}</td>
+                    <td class="p-3 font-serif font-black text-base text-stone-900"><a href="/words/${v.slug}" class="hover:text-sky-700 hover:underline">${v.hanzi}</a></td>
+                    <td class="p-3 font-semibold text-sky-700">${v.pinyin}</td>
+                    <td class="p-3 text-stone-500">${v.partOfSpeech || 'noun'}</td>
+                    <td class="p-3 text-stone-800">${v.meaning}</td>
+                    <td class="p-3 text-right"><a href="/words/${v.slug}" class="font-bold text-sky-700 hover:underline">Study Word &rarr;</a></td>
+                  </tr>`).join('')}
                 </tbody>
               </table>
             </div>
@@ -1367,7 +1437,7 @@ function getCanonicalRoutes(): RouteDefinition[] {
 
     // 4. HSK 3 Hub
     {
-      path: '/hsk-3',
+      path: '/hsk-3/',
       title: 'HSK 3 Preparation Hub - 600 Words & Reading Drills | HSK Free Lab',
       description: 'Intermediate Mandarin test preparation. Master 300 additional HSK 3 characters, reading comprehension drills, and full exam prep.',
       priority: 0.9,
@@ -1395,16 +1465,23 @@ function getCanonicalRoutes(): RouteDefinition[] {
           ${renderQuickFactsTableHtml(3)}
           ${renderPrintableSectionHtml('HSK 3', '600 Words')}
           <section class="space-y-4">
-            <h2 class="text-2xl font-bold text-stone-900">Official HSK 3 Vocabulary List (${hsk3Vocab.length} New Words)</h2>
+            <h2 class="text-2xl font-bold text-stone-900">Official HSK 3 Vocabulary List (${allVocabWithSlugs.filter(w => w.level === 3).length} Words)</h2>
             <div class="overflow-x-auto bg-white rounded-2xl border border-stone-200 shadow-sm">
               <table class="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr class="bg-stone-100 border-b border-stone-200 font-bold text-stone-700">
-                    <th class="p-3">#</th><th class="p-3">Hanzi</th><th class="p-3">Pinyin</th><th class="p-3">Part of Speech</th><th class="p-3">English Meaning</th>
+                    <th class="p-3">#</th><th class="p-3">Hanzi</th><th class="p-3">Pinyin</th><th class="p-3">Part of Speech</th><th class="p-3">English Meaning</th><th class="p-3 text-right">Study Guide</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-stone-100">
-                  ${hsk3Vocab.map((v, i) => `<tr><td class="p-3 text-stone-400 font-mono">${i + 1}</td><td class="p-3 font-serif font-black text-base text-stone-900">${v.hanzi}</td><td class="p-3 font-semibold text-rose-700">${v.pinyin}</td><td class="p-3 text-stone-500">${v.pos || 'noun'}</td><td class="p-3 text-stone-800">${v.meaning}</td></tr>`).join('')}
+                  ${allVocabWithSlugs.filter(w => w.level === 3).map((v, i) => `<tr>
+                    <td class="p-3 text-stone-400 font-mono">${i + 1}</td>
+                    <td class="p-3 font-serif font-black text-base text-stone-900"><a href="/words/${v.slug}" class="hover:text-rose-700 hover:underline">${v.hanzi}</a></td>
+                    <td class="p-3 font-semibold text-rose-700">${v.pinyin}</td>
+                    <td class="p-3 text-stone-500">${v.partOfSpeech || 'noun'}</td>
+                    <td class="p-3 text-stone-800">${v.meaning}</td>
+                    <td class="p-3 text-right"><a href="/words/${v.slug}" class="font-bold text-rose-700 hover:underline">Study Word &rarr;</a></td>
+                  </tr>`).join('')}
                 </tbody>
               </table>
             </div>
@@ -2488,8 +2565,8 @@ function getCanonicalRoutes(): RouteDefinition[] {
 
   // 603 Dedicated Individual Word Study Pages (/words/:slug)
   for (const word of allVocabWithSlugs) {
-    const wordTitle = `${word.hanzi} (${word.pinyin}) Meaning in English, Stroke Order & HSK ${word.level} Sentences | HSK Free Lab`;
-    const wordDesc = `Learn Chinese word ${word.hanzi} (${word.pinyin}): English meaning "${word.meaning}", animated stroke order, HSK ${word.level} audio pronunciation, grammar collocations, and practice quiz.`;
+    const wordTitle = `${word.pinyin} (${word.hanzi}) Meaning in English \u2013 HSK ${word.level} Pronunciation & Examples`;
+    const wordDesc = `${word.pinyin} (${word.hanzi}) Meaning in English: "${word.meaning}". Master HSK ${word.level} Chinese pronunciation with native audio, stroke order animation, and example sentences.`;
     const canonical = `${SITE_DOMAIN}/words/${word.slug}`;
 
     const jsonLd = [
@@ -2503,7 +2580,7 @@ function getCanonicalRoutes(): RouteDefinition[] {
         inDefinedTermSet: {
           '@type': 'DefinedTermSet',
           name: `HSK Level ${word.level} Vocabulary Syllabus`,
-          url: `${SITE_DOMAIN}/hsk-${word.level}`
+          url: `${SITE_DOMAIN}/hsk-${word.level}/`
         }
       },
       {
@@ -2536,7 +2613,7 @@ function getCanonicalRoutes(): RouteDefinition[] {
             '@type': 'ListItem',
             position: 2,
             name: `HSK ${word.level} Hub`,
-            item: `${SITE_DOMAIN}/hsk-${word.level}`
+            item: `${SITE_DOMAIN}/hsk-${word.level}/`
           },
           {
             '@type': 'ListItem',
@@ -2628,12 +2705,29 @@ function getCanonicalRoutes(): RouteDefinition[] {
     });
   }
 
-  // 15 Confusing Chinese Words Comparison Hub (/compare)
+  // Confusing Chinese Words Category Hub (/confusing-words/)
+  routes.push({
+    path: '/confusing-words/',
+    title: 'Confusing Chinese Words Hub - HSK 1-3 Tricky Word Pairs Compared | HSK Free Lab',
+    description: 'Master tricky Chinese word pairs with clear side-by-side comparison tables: 不 vs. 没, 二 vs. 两, 的 vs. 得 vs. 地, 会 vs. 能 vs. 可以. Includes correct vs. wrong sentences and quizzes.',
+    priority: 0.9,
+    changefreq: 'weekly',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Confusing Chinese Words & Grammar Comparisons',
+      description: 'Comprehensive 15-pair comparison guide solving the most searched Mandarin distinctions.',
+      url: `${SITE_DOMAIN}/confusing-words/`
+    },
+    renderBody: () => renderCompareListStaticHtml()
+  });
+
+  // Alias /compare for backward compatibility
   routes.push({
     path: '/compare',
     title: 'Confusing Chinese Words Compared - 15 Essential Mandarin Distinctions | HSK Free Lab',
     description: 'Master tricky Chinese word pairs with clear side-by-side comparison tables: 不 vs. 没, 二 vs. 两, 的 vs. 得 vs. 地, 会 vs. 能 vs. 可以. Includes correct vs. wrong sentences and quizzes.',
-    priority: 0.9,
+    priority: 0.8,
     changefreq: 'weekly',
     jsonLd: {
       '@context': 'https://schema.org',
@@ -2822,7 +2916,7 @@ async function prerender() {
     if (route.path === '/') {
       fs.writeFileSync(baseHtmlPath, routeHtml, 'utf8');
     } else {
-      const cleanPath = route.path.replace(/^\//, '');
+      const cleanPath = route.path.replace(/^\/+|\/+$/g, '');
 
       // 1. Output clean extensionless file: dist/<cleanPath>.html
       // Enables GitHub Pages to serve clean canonical URLs (e.g. /hsk-1, /guides/hsk-1-study-plan, /lessons/greetings-and-introductions)
@@ -2839,6 +2933,17 @@ async function prerender() {
       fs.writeFileSync(dirIndexPath, routeHtml, 'utf8');
     }
     successCount++;
+  }
+
+  // Ensure public/pinterest-batch is mirrored in dist/pinterest-batch
+  const publicBatch = path.join(ROOT_DIR, 'public', 'pinterest-batch');
+  const distBatch = path.join(DIST_DIR, 'pinterest-batch');
+  if (fs.existsSync(publicBatch)) {
+    fs.mkdirSync(distBatch, { recursive: true });
+    for (const f of fs.readdirSync(publicBatch)) {
+      fs.copyFileSync(path.join(publicBatch, f), path.join(distBatch, f));
+    }
+    console.log(`📦 [prerender] Synced pinterest-batch to dist/pinterest-batch/`);
   }
 
   console.log(`🎉 [prerender] Successfully generated ${successCount} static HTML route pages in dist/!`);

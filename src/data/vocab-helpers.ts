@@ -507,3 +507,37 @@ export function getWordPracticeQuiz(word: VocabItemWithSlug): WordQuizQuestion[]
     }
   ];
 }
+
+/**
+ * Returns 6 deterministic related sibling words in the same HSK level.
+ * Prioritizes words sharing characters, radicals, and parts of speech.
+ */
+export function getRelatedSiblingWords(word: VocabItemWithSlug, count: number = 6): VocabItemWithSlug[] {
+  const sameLevel = allVocabWithSlugs.filter(w => w.level === word.level && w.slug !== word.slug);
+  const scored: Array<{ word: VocabItemWithSlug; score: number }> = [];
+
+  for (const other of sameLevel) {
+    let score = 0;
+    // Shared character?
+    for (const char of word.hanzi) {
+      if (other.hanzi.includes(char)) score += 10;
+    }
+    // Shared radical?
+    if (word.radical && other.radical && word.radical === other.radical) {
+      score += 5;
+    }
+    // Same part of speech?
+    if (word.partOfSpeech && other.partOfSpeech && word.partOfSpeech === other.partOfSpeech) {
+      score += 3;
+    }
+    // Proximity in list?
+    const dist = Math.abs(Number(other.id) - Number(word.id));
+    if (dist < 10) score += 2;
+    else if (dist < 25) score += 1;
+
+    scored.push({ word: other, score });
+  }
+
+  scored.sort((a, b) => b.score - a.score || Number(a.word.id) - Number(b.word.id));
+  return scored.slice(0, count).map(s => s.word);
+}
