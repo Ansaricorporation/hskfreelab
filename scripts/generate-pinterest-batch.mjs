@@ -510,15 +510,7 @@ async function generateBatch() {
     const filename = `${slugName}.png`;
     const outputPath = path.join(PUBLIC_BATCH_DIR, filename);
 
-    // 1. Generate SVG
-    const svg = buildPinSvg(pair, i);
-
-    // 2. Render to 1000x1500 PNG using sharp
-    await sharp(Buffer.from(svg))
-      .png({ quality: 95, compressionLevel: 8 })
-      .toFile(outputPath);
-
-    // 3. Compute scheduled publish date (5 pins per day starting tomorrow in UTC)
+    // 1. Compute scheduled publish date (5 pins per day starting tomorrow in UTC)
     const dayOffset = Math.floor(i / 5);
     const timeSlot = i % 5;
     const pinDate = new Date(startDate.getTime());
@@ -526,11 +518,22 @@ async function generateBatch() {
     pinDate.setUTCHours(scheduleHours[timeSlot], 0, 0, 0);
     const publishDateStr = pinDate.toISOString().replace(/\.\d{3}Z$/, ''); // YYYY-MM-DDTHH:MM:SS
 
-    // 4. Construct Pinterest CSV row
+    // 2. Generate PNG only if not already present
+    if (!fs.existsSync(outputPath)) {
+      const svg = buildPinSvg(pair, i);
+      await sharp(Buffer.from(svg))
+        .png({ quality: 95, compressionLevel: 8 })
+        .toFile(outputPath);
+      console.log(`   ✅ [${i + 1}/30] Rendered ${filename} (${publishDateStr})`);
+    } else {
+      console.log(`   ⚡ [${i + 1}/30] Reusing existing ${filename} (${publishDateStr})`);
+    }
+
+    // 3. Construct Pinterest CSV row (8 columns with empty thumbnail and EXACT_BOARD_NAME_HERE)
     const title = `${pair.w1} (${v1.pinyin}) vs ${pair.w2} (${v2.pinyin}) Meaning in English – ${pair.level}`.slice(0, 99);
     const mediaUrl = `https://mybwn.com/pinterest-batch/${filename}`;
-    const board = 'YOUR_PINTEREST_BOARD_NAME';
-    const thumbnail = '';
+    const board = 'EXACT_BOARD_NAME_HERE';
+    const thumbnail = '""';
     const description = `Stop confusing ${pair.w1} (${v1.pinyin}) and ${pair.w2} (${v2.pinyin})! ${pair.distinction}. Practice native audio, animated stroke order, and test your retention with 100% free quizzes on HSK Free Lab.`.slice(0, 499);
     const link = `https://mybwn.com/words/${v1.slug}`;
     const keywords = pair.keywords;
@@ -545,15 +548,13 @@ async function generateBatch() {
       publishDateStr,
       `"${keywords.replace(/"/g, '""')}"`
     ]);
-
-    console.log(`   ✅ [${i + 1}/30] Generated ${filename} (${publishDateStr})`);
   }
 
-  // 5. Output pins.csv into public/pinterest-batch/
-  const csvContent = csvRows.map(row => row.join(',')).join('\n');
+  // 5. Output pins.csv into public/pinterest-batch/ with UTF-8 BOM
+  const csvContent = '\uFEFF' + csvRows.map(row => row.join(',')).join('\n');
   const csvPublicPath = path.join(PUBLIC_BATCH_DIR, 'pins.csv');
   fs.writeFileSync(csvPublicPath, csvContent, 'utf8');
-  console.log(`\n📄 [pinterest-batch] Successfully exported Pinterest bulk upload CSV to ${csvPublicPath}`);
+  console.log(`\n📄 [pinterest-batch] Successfully exported Pinterest bulk upload CSV with UTF-8 BOM to ${csvPublicPath}`);
 
   // 6. Sync to dist/pinterest-batch if dist exists
   if (fs.existsSync(path.join(ROOT_DIR, 'dist'))) {
